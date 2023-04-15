@@ -1,16 +1,13 @@
-### Hi there 👋
+### Hi there <𝚌𝚘𝚍𝚎𝚛𝚜/>!
 
-<!--
-**NicoTomasin/NicoTomasin** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+## I am Nico 
+![space](https://svs.gsfc.nasa.gov/vis/a010000/a013300/a013326/BH_AccretionDisk_Sim_Banner_360.gif)
 
-Here are some ideas to get you started:
+<div align="centre">
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+[![Linkedin Badge](https://img.shields.io/badge/-Nicolas%20Tomasin-blue?style=social&logo=Linkedin&logoColor=blue&link=https://www.linkedin.com/in/nicolas-tomasin-838201153/)](https://www.linkedin.com/in/nicolas-tomasin-838201153/) [![Twitter Badge](http://img.shields.io/badge/-@%20Nicolas%20Tomasin-1ca0f1?style=social&logo=twitter&logoColor=blue&link=https://twitter.com/NicolasTomasin)](https://twitter.com/NicolasTomasin) [![GitHub followers](https://img.shields.io/github/followers/NicoTomasin?label=Follow&style=social)](https://github.com/NicoTomasin?tab=follow)
+
+
+</div>
+
+![skills](https://github.com/NicoTomasin/NicoTomasin/blob/main/Assets/code.png?raw=true)
