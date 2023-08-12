@@ -5,14 +5,14 @@ export default function Hero() {
     <div className="mx-auto max-w-screen-lg px-3">
       <div className="flex flex-col items-center md:flex-row md:justify-between md:gap-x-24">
         <div>
-          <h1 className="text-3xl font-bold">
+          <h1 className="text-3xl font-bold animate-fade-up animate-duration-1000 animate-ease-out">
             ¡Hola! Soy{" "}
             <span className="text-blue-650 bg-clip-text text-transparent">
               Nico
             </span>{" "}
             👋
           </h1>
-          <p className="mt-6 text-xl leading-9">
+          <p className="mt-6 text-xl leading-9 animate-fade-up animate-duration-1000 animate-delay-500 animate-ease-out">
             Desarrollador web fullstack cofundador de{" "}
             <a
               className="text-green-500 hover:underline"
@@ -38,7 +38,7 @@ export default function Hero() {
           </p>
           <div className="mt-3 flex gap-4">
             <a
-              className="h-12 w-12"
+              className="h-12 w-12 animate-fade-up animate-duration-1000 animate-delay-700 animate-ease-out"
               href="https://www.linkedin.com/in/nicotomasin/"
               target="blank"
             >
@@ -47,7 +47,7 @@ export default function Hero() {
               </button>
             </a>
             <a
-              className="h-12 w-12"
+              className="h-12 w-12 animate-fade-up animate-duration-1000 animate-delay-[900ms] animate-ease-out"
               href="https://www.github.com/NicoTomasin"
               target="blank"
             >
@@ -56,7 +56,7 @@ export default function Hero() {
               </button>
             </a>
             <a
-              className="h-12 w-12"
+              className="h-12 w-12 animate-fade-up animate-duration-1000 animate-delay-[1100ms] animate-ease-out"
               href="https://twitter.com/NicolasTomasin"
               target="blank"
             >
@@ -72,9 +72,7 @@ export default function Hero() {
             alt="Nico Tomasin"
             width={400}
             height={400}
-            style={{
-              filter: "drop-shadow(0 0 0.75rem rgba(0,0,0,0.25))",
-            }}
+            className="hover:scale-105 transition animate-fade-up animate-duration-1000 animate-delay-[1300ms] animate-ease-out"
           />
         </div>
       </div>

@@ -33,7 +33,7 @@ export default function Cryptonotify() {
         height={186}
       />
       <Image
-        src="/touch.png"
+        src="/toque.png"
         data-atropos-offset="30"
         data-atropos-opacity="0.8;-10"
         alt="touch"

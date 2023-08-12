@@ -13,7 +13,7 @@ export default function ProjectCard({
 }) {
   return (
     <div
-      className="flex flex-col items-center gap-x-8 rounded-md p-3 md:flex-row bg-gradient-to-b md:bg-gradient-to-r from-blue-850 to-blue-950"
+      className="hover:scale-105 transition flex flex-col items-center gap-x-8 rounded-md p-3 md:flex-row bg-gradient-to-b md:bg-gradient-to-r from-blue-850 to-blue-950 "
       style={{
         backdropFilter: "blur(20px)",
         WebkitBackdropFilter: "blur(20px)",
@@ -33,7 +33,7 @@ export default function ProjectCard({
             {stack.map((item) => (
               <div
                 key={item.name}
-                className={`rounded-md px-2 py-1 text-xs font-semibold ${item.properties}`}
+                className={`hover:scale-105 transition rounded-md px-2 py-1 text-xs font-semibold ${item.properties}`}
               >
                 {item.name}
               </div>

@@ -12,19 +12,18 @@ export default function Navbar() {
           </div>
         </a>
         <nav>
-          {/*  <ul className="flex gap-x-3 font-medium text-gray-200">
+          <ul className="flex gap-x-3 font-medium text-gray-200">
             <li className="hover:text-white">
-              <a href="https://github.com/NicoTomasin" target="_blank">
-                GitHub
-              </a>
+              <a href="#Proyectos">Proyectos</a>
             </li>
+            {/*
             <li className="hover:text-white">
               <a href="https://x.com/NicolasTomasin" target="_blank">
                 Twitter
               </a>
             </li>
-            
-          </ul>*/}
+            */}
+          </ul>
         </nav>
       </div>
     </div>

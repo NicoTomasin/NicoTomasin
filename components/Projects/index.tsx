@@ -55,7 +55,10 @@ export default function Projects() {
     },
   ];
   return (
-    <div className="mx-auto max-w-screen-lg px-3 py-6">
+    <div
+      id="proyectos"
+      className="mx-auto max-w-screen-lg px-3 py-6 animate-fade-up animate-duration-1000 animate-delay-[1700ms] animate-ease-out"
+    >
       <div className="mb-6 text-2xl font-bold">
         Proyectos{" "}
         <span className="bg-gradient-to-br from-sky-500 to-cyan-400 bg-clip-text text-transparent">
