@@ -2,7 +2,7 @@ import { FaGithub, FaLinkedinIn, FaTwitter } from "react-icons/fa";
 import Image from "next/image";
 export default function Hero() {
   return (
-    <div className="mx-auto max-w-screen-lg px-3 py-6">
+    <div className="mx-auto max-w-screen-lg px-3">
       <div className="flex flex-col items-center md:flex-row md:justify-between md:gap-x-24">
         <div>
           <h1 className="text-3xl font-bold">

@@ -1,4 +1,5 @@
 import Cryptonotify from "./Cryptonotify";
+import InformateConEve from "./InformateConEve";
 import ProjectCard from "./ProjectCard";
 export default function Projects() {
   const projects = [
@@ -26,6 +27,31 @@ export default function Projects() {
         },
       ],
       children: <Cryptonotify />,
+    },
+    {
+      title: "Infórmate con Eve",
+      description:
+        "Infórmate con Eve es un blog de uso personal. Fue desarrollado tratando de seguir las buenas prácticas de SEO ademas de ser un blog rápido y accesible. También es una PWA, por lo que se puede instalar en cualquier dispositivo.",
+      href: "https://www.informateconeve.com.ar/",
+      stack: [
+        {
+          name: "Astro",
+          properties: "bg-orange-400 text-orange-900",
+        },
+        {
+          name: "Typescript",
+          properties: "bg-blue-400 text-blue-900",
+        },
+        {
+          name: "TailwindCSS",
+          properties: "bg-cyan-400 text-cyan-900",
+        },
+        {
+          name: "TinaCMS",
+          properties: "bg-rose-400 text-rose-900",
+        },
+      ],
+      children: <InformateConEve />,
     },
   ];
   return (
