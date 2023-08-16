@@ -1,0 +1,25 @@
+{
+  "name": "Portfolio Nicolas Tomasin",
+  "short_name": "NicoTomasin",
+  "description": "Bienvenid@ a mi portfolio personal, espero que te guste! 🚀",
+  "start_url": "https://www.nicotomasin.com.ar/",
+  "lang": "es",
+  "display": "fullscreen",
+  "theme_color": "#1a5a7a",
+  "background_color": "#1a5a7a",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "dir": "auto",
+  "categories": ["technology"]
+}

@@ -1,3 +1,4 @@
+import Link from "next/link";
 export default function Navbar() {
   return (
     <div className="mx-auto max-w-screen-lg px-3 py-6">
@@ -14,15 +15,11 @@ export default function Navbar() {
         <nav>
           <ul className="flex gap-x-3 font-medium text-gray-200">
             <li className="hover:text-white">
-              <a href="#Proyectos">Proyectos</a>
+              <Link href="/#projects">Proyectos</Link>
             </li>
-            {/*
             <li className="hover:text-white">
-              <a href="https://x.com/NicolasTomasin" target="_blank">
-                Twitter
-              </a>
+              <Link href="/posts">Posts</Link>
             </li>
-            */}
           </ul>
         </nav>
       </div>

@@ -56,8 +56,8 @@ export default function Projects() {
   ];
   return (
     <div
-      id="proyectos"
-      className="mx-auto max-w-screen-lg px-3 py-6 animate-fade-up animate-duration-1000 animate-delay-[1700ms] animate-ease-out"
+      id="projects"
+      className="mx-auto max-w-screen-lg px-3 py-6 animate-fade-up animate-duration-600    animate-ease-out"
     >
       <div className="mb-6 text-2xl font-bold">
         Proyectos{" "}

@@ -20,8 +20,7 @@
 body {
   font-family: "Poppins", sans-serif;
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(to top, transparent, rgb(27, 40, 54))
-    rgb(var(--background-start-rgb));
+  background: linear-gradient(to top, transparent, rgb(27, 40, 54)) rgb(0, 0, 0);
 }
 
 * {
@@ -353,7 +352,7 @@ button:hover {
   box-shadow: none;
 }
 
-.atropos-banner img {
+.atroposImage {
   position: absolute;
   display: block;
   border-radius: 10px;
@@ -426,4 +425,57 @@ button:hover {
   60% {
     transform: translateY(-15px);
   }
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: 0.5rem 0;
+  color: #66ccff;
+}
+strong {
+  color: #66ccff;
+}
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  display: unset;
+}
+p {
+  padding: 1rem 0;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(1, 109, 163, 0.477);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 170, 255, 0.546);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(20, 79, 108, 0.546);
+  border-radius: 10px;
+}
+::-webkit-scrollbar {
+  width: 0.4rem;
+  height: 100%;
+}
+
+pre {
+  background: rgba(3, 33, 48, 0.546);
+  color: #66ccff;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #1a5a7a;
+  box-shadow: 0 0 10px #1a5a7a;
+  font-family: "Courier New";
+  letter-spacing: 0.5px;
+  font-size: 11pt;
+  height: 20rem;
+  overflow: auto;
 }
