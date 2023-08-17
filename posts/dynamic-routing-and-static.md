@@ -3,7 +3,7 @@ title: "Dynamic Routing and Static Generation"
 description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Praesent elementum facilisis leo vel fringilla est ullamcorper eget. At imperdiet dui accumsan sit amet nulla facilities morbi tempus."
 coverImage: "/ogImage.png"
 alt: "openImage"
-date: 19/08/2023
+date: 16/01/2023
 ogImage: "/ogImage.png"
 ---
 

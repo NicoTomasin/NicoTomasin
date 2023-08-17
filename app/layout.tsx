@@ -21,7 +21,7 @@ export default function RootLayout({
     </html>
   );
 }
-export const metadata = {
+export const metadata: Metadata = {
   title: {
     template: "%s | NicoTomasin",
     default: "Portfolio | NicoTomasin",

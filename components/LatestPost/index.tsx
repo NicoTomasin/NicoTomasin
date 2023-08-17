@@ -3,6 +3,18 @@ import getPostMetadata from "../../helpers/getPostMetadata";
 
 export default function LatestPost() {
   const posts = getPostMetadata();
+  const recentPosts = posts
+    .sort((a, b) => {
+      const dateA: any = new Date(
+        a.date.split("/").reverse().join("-") // Convertir a formato aaaa-mm-dd
+      );
+      const dateB: any = new Date(
+        b.date.split("/").reverse().join("-") // Convertir a formato aaaa-mm-dd
+      );
+      return dateB - dateA;
+    })
+    .slice(0, 3)
+    .map((post) => <PostCard key={post.slug} post={post} />);
   return (
     <div
       id="latestPost"
@@ -22,10 +34,13 @@ export default function LatestPost() {
         </div>
       </div>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-        {posts.slice(0, 3).map((post, index) => (
-          // post.slug post.coverImage post.alt post.title post.date post.description
-          <PostCard key={index} post={post} />
-        ))}
+        {posts.length === 0 ? (
+          <div className="col-span-3 text-center text-gray-500">
+            No hay posts aún
+          </div>
+        ) : (
+          recentPosts
+        )}
       </div>
     </div>
   );

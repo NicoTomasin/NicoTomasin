@@ -22,10 +22,9 @@ type Params = {
     slug: string;
   };
 };
-const imageRendered = (props: any) => {
+const imageRendered = (props: { alt: string; src: string }) => {
   return (
     <Image
-      {...props}
       alt={props.alt}
       src={props.src}
       width={1000}
@@ -96,7 +95,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
       title: post.data.title,
       description: post.data.description,
       creator: "@NicolasTomasin",
-      images: ["https://nicotomasin.com.ar" + post.data.ogImage],
+      images: "https://nicotomasin.com.ar" + post.data.ogImage,
     },
   };
 }
