@@ -28,9 +28,15 @@ export default function posts() {
         id="allPosts"
         className="mx-auto max-w-screen-lg px-3 py-6 animate-fade-up animate-duration-600    animate-ease-out"
       >
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          {sortedPosts}
-        </div>
+        {posts.length === 0 ? (
+          <div className="text-xl col-span-3 text-center text-gray-500">
+            No hay posts todavía 😢
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            {sortedPosts}
+          </div>
+        )}
       </div>
     </main>
   );
