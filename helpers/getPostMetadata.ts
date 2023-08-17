@@ -4,6 +4,9 @@ import { PostMetadata } from "./PostMetadata";
 
 const getPostMetadata = (): PostMetadata[] => {
   const folder = "/posts";
+  if (!fs.existsSync(folder)) {
+    return [];
+  }
   const files = fs.readdirSync(folder);
   const markdownPosts = files.filter((file) => file.endsWith(".md"));
 
