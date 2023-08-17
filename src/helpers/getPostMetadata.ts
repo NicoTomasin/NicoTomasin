@@ -3,7 +3,7 @@ import matter from "gray-matter";
 import { PostMetadata } from "./PostMetadata";
 
 const getPostMetadata = (): PostMetadata[] => {
-  const folder = "/posts";
+  const folder = "./posts";
   if (!fs.existsSync(folder)) {
     return [];
   }
@@ -12,7 +12,7 @@ const getPostMetadata = (): PostMetadata[] => {
 
   // Get gray-matter data from each file.
   const posts = markdownPosts.map((fileName) => {
-    const fileContents = fs.readFileSync(`posts/${fileName}`, "utf8");
+    const fileContents = fs.readFileSync(`./posts/${fileName}`, "utf8");
     const matterResult = matter(fileContents);
     return {
       title: matterResult.data.title,

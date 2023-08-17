@@ -1,5 +1,5 @@
-import PostCard from "../PostCard";
-import getPostMetadata from "../../helpers/getPostMetadata";
+import PostCard from "@/components/PostCard";
+import getPostMetadata from "@/helpers/getPostMetadata";
 
 export default function LatestPost() {
   const posts = getPostMetadata();

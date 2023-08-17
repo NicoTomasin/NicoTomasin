@@ -1,6 +1,6 @@
-import Cryptonotify from "./Cryptonotify";
-import InformateConEve from "./InformateConEve";
-import ProjectCard from "./ProjectCard";
+import Cryptonotify from "@/components/Projects/Cryptonotify";
+import InformateConEve from "@/components/Projects/InformateConEve";
+import ProjectCard from "@/components/Projects/ProjectCard";
 export default function Projects() {
   const projects = [
     {

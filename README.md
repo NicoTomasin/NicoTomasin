@@ -10,4 +10,4 @@ I am a full stack programmer and co-founder of <a href="https://www.crypronotify
 
 </div>
 
-![skills](https://github.com/NicoTomasin/NicoTomasin/blob/main/Assets/code.png?raw=true)
+![skills](https://nicotomasin.com.ar/code.png)

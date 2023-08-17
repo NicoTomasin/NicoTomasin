@@ -6,7 +6,7 @@ export default function Cryptonotify() {
     <Atropos className="my-atropos atropos-banner" shadowScale={1.05}>
       <Image
         className="atroposImage"
-        src="/cryptonotify/bg.png"
+        src="/projectsCardsImages/cryptonotify/bg.png"
         data-atropos-offset="0"
         alt="cryptonotify-bg"
         width={330}
@@ -14,7 +14,7 @@ export default function Cryptonotify() {
       />
       <Image
         className="atroposImage"
-        src="/cryptonotify/logo.png"
+        src="/projectsCardsImages/cryptonotify/logo.png"
         data-atropos-offset="10"
         alt="cryptonotify-logo"
         width={330}
@@ -22,7 +22,7 @@ export default function Cryptonotify() {
       />
       <Image
         className="atroposImage"
-        src="/cryptonotify/text1.png"
+        src="/projectsCardsImages/cryptonotify/text1.png"
         data-atropos-offset="10"
         alt="The Ultimate Cryptocurrency Alert Service"
         width={330}
@@ -30,7 +30,7 @@ export default function Cryptonotify() {
       />
       <Image
         className="atroposImage"
-        src="/cryptonotify/text2.png"
+        src="/projectsCardsImages/cryptonotify/text2.png"
         data-atropos-offset="8"
         alt="Stay ahead of the market with custom alerts for any market-moving event"
         width={330}
@@ -38,7 +38,7 @@ export default function Cryptonotify() {
       />
       <Image
         className="atroposImage bounce"
-        src="/toque.png"
+        src="/projectsCardsImages/toque.png"
         data-atropos-offset="30"
         data-atropos-opacity="0.8;-10"
         alt="touch"

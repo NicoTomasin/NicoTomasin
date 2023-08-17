@@ -1,7 +1,8 @@
 ### TODOs List
 
+- [x] src folder
+- [x] refactor imports
+- [x] refactor public imgs
 - [ ] ogImageAllPosts.png
 - [ ] Newsletter work
 - [ ] first post
-  - [ ] check organization images
-  - [ ] check OGImages ("/title/ogImage.png" on public)
