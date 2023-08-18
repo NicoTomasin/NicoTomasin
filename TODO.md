@@ -3,6 +3,6 @@
 - [x] src folder
 - [x] refactor imports
 - [x] refactor public imgs
-- [ ] ogImageAllPosts.png
+- [x] ogImageAllPosts.png
 - [ ] Newsletter work
 - [ ] first post

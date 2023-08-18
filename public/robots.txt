@@ -10,5 +10,5 @@ Disallow: /license.txt
 Disallow: /wp-
 Disallow: /trackback/
 Disallow: /xmlrpc.php
-
+Allow: /api/og/*
 Sitemap: http://nicotomasin.com.ar/sitemap.xml

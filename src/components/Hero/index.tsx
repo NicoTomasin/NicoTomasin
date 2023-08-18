@@ -13,54 +13,65 @@ export default function Hero() {
             👋
           </h1>
           <p className="mt-6 text-xl leading-9 animate-fade-up animate-duration-600 animate-ease-out">
-            Desarrollador web fullstack cofundador de{" "}
+            Desarrollador web fullstack y cofundador de{" "}
             <a
               className="text-green-500 hover:underline"
-              href="/demo/astro-boilerplate"
+              target="_blank"
+              href="https://cryptonotify.me"
             >
               CryptoNotify.me
             </a>{" "}
             especializado en tecnologías como{" "}
             <a
               className="text-cyan-400 hover:underline"
-              href="/demo/astro-boilerplate"
+              target="_blank"
+              href="https://react.dev/"
             >
               React
+            </a>
+            ,{" "}
+            <a
+              className="text-green-500 hover:underline"
+              target="_blank"
+              href="https://nodejs.org/"
+            >
+              Node
             </a>{" "}
             y{" "}
             <a
-              className="text-green-500 hover:underline"
-              href="/demo/astro-boilerplate"
+              className="text-gray-400 hover:underline"
+              target="_blank"
+              href="https://nextjs.org/"
             >
-              Node
+              NextJs
             </a>
             . Bienvenid@ a mi portfolio personal, espero que te guste! 🚀
           </p>
-          <div className="mt-3 flex gap-4">
+          <div className="mt-3 flex gap-5">
             <a
-              className="h-12 w-12 animate-fade-up animate-duration-600    animate-ease-out"
+              className="animate-fade-up animate-duration-600 animate-ease-out"
               href="https://www.linkedin.com/in/nicotomasin/"
               target="blank"
             >
-              <button>
+              <button className="w-16">
                 <FaLinkedinIn />
               </button>
             </a>
             <a
-              className="h-12 w-12 animate-fade-up animate-duration-600    animate-ease-out"
+              className=" animate-fade-up animate-duration-600 animate-ease-out"
               href="https://www.github.com/NicoTomasin"
               target="blank"
             >
-              <button className="bg-slate-500">
+              <button className="bg-slate-500 w-16">
                 <FaGithub />
               </button>
             </a>
             <a
-              className="h-12 w-12 animate-fade-up animate-duration-600    animate-ease-out"
+              className="animate-fade-up animate-duration-600 animate-ease-out"
               href="https://twitter.com/NicolasTomasin"
               target="blank"
             >
-              <button className="bg-cyan-400">
+              <button className="bg-cyan-400 w-16">
                 <FaTwitter />
               </button>
             </a>
@@ -72,7 +83,7 @@ export default function Hero() {
             alt="Nico Tomasin"
             width={400}
             height={400}
-            className="hover:scale-105 transition animate-fade-up animate-duration-600    animate-ease-out"
+            className="hover:scale-105 transition animate-fade-up animate-duration-600 animate-ease-out"
           />
         </div>
       </div>

@@ -4,6 +4,7 @@ import getPostMetadata from "../../../helpers/getPostMetadata";
 import matter from "gray-matter";
 import Image from "next/image";
 import { Metadata } from "next";
+import ErrorPage from "next/error";
 const getPostContent = (slug: string) => {
   const folder = "posts/";
   const file = `${folder}${slug}.md`;
@@ -88,14 +89,14 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
       title: post.data.title,
       description: post.data.description,
       url: "https://nicotomasin.com.ar/posts/" + slug,
-      images: "https://nicotomasin.com.ar" + post.data.ogImage,
+      images: "https://nicotomasin.com.ar/api/og?title=" + slug,
     },
     twitter: {
       card: "summary_large_image",
       title: post.data.title,
       description: post.data.description,
       creator: "@NicolasTomasin",
-      images: "https://nicotomasin.com.ar" + post.data.ogImage,
+      images: "https://nicotomasin.com.ar/api/og?title=" + slug,
     },
   };
 }

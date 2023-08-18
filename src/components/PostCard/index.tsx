@@ -22,7 +22,7 @@ export default function PostCard({ post }: { post: PostMetadata }) {
         <div className="px-3 pt-4 pb-6 text-center">
           <h2 className="text-xl font-semibold">{post.title}</h2>
           <div className="mt-1 text-xs text-gray-400">{post.date}</div>
-          <div className="mt-2 text-sm">{post.description}</div>
+          <div className="mt-2 text-sm text-white">{post.description}</div>
         </div>
       </div>
     </a>

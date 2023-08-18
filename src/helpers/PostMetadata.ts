@@ -3,7 +3,6 @@ export interface PostMetadata {
   description: string;
   coverImage: string;
   date: string;
-  ogImage: string;
   alt: string;
   slug: string;
 }
