@@ -5,7 +5,7 @@ export default function Navbar() {
       <div className="flex flex-col gap-y-3 sm:flex-row sm:items-center sm:justify-between">
         <a
           className="text-cyan-400 hover:underline"
-          href="https://www.nicotomasin.com.ar/"
+          href="https://www.nicotomasin.com.ar"
           rel="canonical"
         >
           <div className="flex items-center text-blue-650 bg-clip-text text-xl font-bold text-transparent">

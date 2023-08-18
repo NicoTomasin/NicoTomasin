@@ -4,7 +4,6 @@ import { Inter } from "next/font/google";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import type { Metadata } from "next";
-import Sw from "@/components/Sw";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({
@@ -13,9 +12,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="es">
       <body className={inter.className}>
-        <Sw />
         <Navbar />
         {children}
         <Footer />
@@ -28,9 +26,9 @@ export const metadata: Metadata = {
     template: "%s | NicoTomasin",
     default: "Portfolio | NicoTomasin",
   },
-  metadataBase: new URL("https://nicotomasin.com.ar"),
+  metadataBase: new URL("https://www.nicotomasin.com.ar"),
   alternates: {
-    canonical: "/",
+    canonical: "https://www.nicotomasin.com.ar",
     languages: {
       "es-ES": "es-ES",
     },
@@ -38,9 +36,9 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Portfolio | NicoTomasin",
     description: "Bienvenid@ a mi portfolio personal, espero que te guste! 🚀",
-    url: "https://nicotomasin.com.ar",
+    url: "https://www.nicotomasin.com.ar",
     siteName: "NicoTomasin",
-    images: "https://nicotomasin.com.ar/ogImage.png",
+    images: "https://www.nicotomasin.com.ar/ogImage.png",
     locale: "es_ES",
     type: "website",
   },
@@ -58,7 +56,7 @@ export const metadata: Metadata = {
     },
   },
   themeColor: "black",
-  manifest: "https://nicotomasin.com.ar/manifest.json",
+  manifest: "https://www.nicotomasin.com.ar/manifest.json",
   category: "technology",
   icons: {
     icon: "/favicon.ico",
@@ -70,7 +68,7 @@ export const metadata: Metadata = {
     title: "Portfolio | NicoTomasin",
     description: "Bienvenid@ a mi portfolio personal, espero que te guste! 🚀",
     creator: "@NicolasTomasin",
-    images: ["https://nicotomasin.com.ar/ogImage.png"],
+    images: ["https://www.nicotomasin.com.ar/ogImage.png"],
   },
   viewport: {
     width: "device-width",
@@ -82,7 +80,10 @@ export const metadata: Metadata = {
     yandex: "yandex",
     yahoo: "yahoo",
     other: {
-      nicoTomasin: ["hola@nicotomasin.com.ar", "https://nicotomasin.com.ar"],
+      nicoTomasin: [
+        "hola@nicotomasin.com.ar",
+        "https://www.nicotomasin.com.ar",
+      ],
     },
   },
 };
