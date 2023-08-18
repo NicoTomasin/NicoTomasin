@@ -267,3 +267,28 @@ table thead th:first-child {
 table tfoot td {
   font-size: 12px;
 }
+
+.title404 {
+  color: transparent;
+  font-size: 220px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 600;
+  background: url("https://media1.giphy.com/media/TVcccqTf6qFDMpj7Xo/giphy.gif?cid=ecf05e47djo3e02rkpmitmu7vcwsh5hkp38sysotpbx3crm2&ep=v1_gifs_related&rid=giphy.gif&ct=g");
+  background-position: center;
+
+  filter: drop-shadow(0 0 0.2rem #0077ff);
+  -webkit-animation-c: text;
+  -webkit-background-clip: text;
+}
+.subtitle404 {
+  color: white;
+  font-size: 30px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 100;
+}
+.redirect404 {
+  color: white;
+  font-size: 25px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 100;
+}

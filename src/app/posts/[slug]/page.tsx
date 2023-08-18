@@ -4,10 +4,13 @@ import getPostMetadata from "../../../helpers/getPostMetadata";
 import matter from "gray-matter";
 import Image from "next/image";
 import { Metadata } from "next";
-import ErrorPage from "next/error";
+import { notFound } from "next/navigation";
 const getPostContent = (slug: string) => {
   const folder = "posts/";
   const file = `${folder}${slug}.md`;
+  if (!fs.existsSync(file)) {
+    notFound();
+  }
   const content = fs.readFileSync(file, "utf8");
   const matterResult = matter(content);
   return matterResult;
