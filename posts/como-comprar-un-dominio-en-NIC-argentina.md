@@ -2,7 +2,7 @@
 title: "Como comprar un dominio en NIC argentina"
 description: "Paso a paso para adquirir tu propio dominio web usando NIC argentina e iniciar el tramite en AFIP"
 coverImage: "/comprar-dominio-nic/coverImage.png"
-date: "24/8/2023"
+date: "23/8/2023"
 alt: "Como comprar un dominio en NIC argentina"
 ---
 
