@@ -48,7 +48,7 @@ Vamos a evitar por el momento esa documentación e ir directamente al dashboard 
 
 ![Dashboard](/deployar-en-Vercel-usando-un-dominio-propio/Dashboard.png)
 
-Si bien hay muchas opciones interesantes aquí, si queres explorarlo a fondo queda por tu cuenta, sin miedo al exito!
+Si bien hay muchas opciones interesantes aquí, si queres explorarlo a fondo queda por tu cuenta, sin miedo al éxito!
 
 ## Asignación de dominio
 
@@ -64,11 +64,11 @@ Vamos a elegir la opcion por Nameservers y vamos a darle a enable DNS para ver a
 
 ![Nameservers](/deployar-en-Vercel-usando-un-dominio-propio/NameServers.png)
 
-Ahora es hora de utilizar esos Nameservers en la pagina de [AFIP](https://tramitesadistancia.gob.ar/tramitesadistancia/pretramite;idTipoTramite=425)en donde vamos a elegir la opcion de delegar
+Es hora de utilizar esos Nameservers en la pagina de [AFIP](https://tramitesadistancia.gob.ar/tramitesadistancia/pretramite;idTipoTramite=425) en donde vamos a elegir la opción de delegar
 
 ![AFIP Delegar](/deployar-en-Vercel-usando-un-dominio-propio/AfipDelegar.png)
 
-ahora vamos a agregar una nueva delegación y vamos a poner los Nameservers que nos dios Vercel
+Ahora vamos a agregar una nueva delegación y vamos a poner los Nameservers que nos dios Vercel
 
 ```
 ns1.vercel-dns.com
