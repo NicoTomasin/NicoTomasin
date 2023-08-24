@@ -1,4 +1,4 @@
-import { FaGithub, FaLinkedinIn, FaTwitter } from "react-icons/fa";
+import { FaGithub, FaLinkedinIn } from "react-icons/fa";
 import Image from "next/image";
 export default function Hero() {
   return (
@@ -68,12 +68,10 @@ export default function Hero() {
             </a>
             <a
               className="animate-fade-up animate-duration-600 animate-ease-out"
-              href="https://twitter.com/NicolasTomasin"
+              href="https://x.com/NicolasTomasin"
               target="blank"
             >
-              <button className="bg-cyan-400 w-16">
-                <FaTwitter />
-              </button>
+              <button className="bg-black w-16">𝕏</button>
             </a>
           </div>
         </div>
