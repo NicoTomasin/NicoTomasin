@@ -32,4 +32,6 @@ Estos son los valores de cada tipo de dominio al dia de la fecha:
 | .com.ar | $855.00  |
 | .net.ar | $855.00  |
 
-Para pagar hay un pequeño truco, si seleccionas tarjeta de crédito pero usas una de debito VISA el pago se realiza con éxito de todas maneras
+Para pagar hay un pequeño truco, si seleccionas tarjeta de crédito pero usas una de débito VISA el pago se realiza con éxito de todas maneras
+
+En un proximo post vamos a ver como utilizar este dominio en nuestro proyecto deployado en Vercel y como crear un email con este dominio
