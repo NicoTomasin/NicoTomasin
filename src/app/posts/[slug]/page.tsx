@@ -29,6 +29,7 @@ type Params = {
 const imageRendered = (props: { alt: string; src: string }) => {
   return (
     <Image
+      className="rounded-md hover:shadow-lg transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105"
       alt={props.alt}
       src={props.src}
       width={1000}
