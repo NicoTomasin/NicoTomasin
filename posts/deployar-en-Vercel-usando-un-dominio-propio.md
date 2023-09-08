@@ -5,7 +5,7 @@ description: "Guia paso a paso para deployar en Vercel y delegar un dominio comp
 
 coverImage: "/deployar-en-Vercel-usando-un-dominio-propio/coverImage.png"
 
-date: "24/8/2023"
+date: "24/08/2023"
 
 alt: "Deployar en Vercel usando un dominio propio"
 ---

@@ -2,7 +2,7 @@
 title: "Como comprar un dominio en NIC argentina"
 description: "Paso a paso para adquirir tu propio dominio web usando NIC argentina e iniciar el tramite en AFIP"
 coverImage: "/comprar-dominio-nic/coverImage.png"
-date: "23/8/2023"
+date: "23/08/2023"
 alt: "Como comprar un dominio en NIC argentina"
 ---
 
@@ -34,4 +34,4 @@ Estos son los valores de cada tipo de dominio al dia de la fecha:
 
 Para pagar hay un pequeño truco, si seleccionas tarjeta de crédito pero usas una de débito VISA el pago se realiza con éxito de todas maneras
 
-En un proximo post vamos a ver como utilizar este dominio en un proyecto deployado en Vercel y como crear un email con este dominio
+En un proximo post vamos a ver como utilizar este dominio en un proyecto [deployado en Vercel](https://www.nicotomasin.com.ar/posts/deployar-en-Vercel-usando-un-dominio-propio) y como crear un [mail con este dominio](https://www.nicotomasin.com.ar/posts/mail-con-tu-dominio-usando-Vercel-y-Zoho-Mail)
