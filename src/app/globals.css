@@ -19,8 +19,8 @@
 
 body {
   font-family: "Poppins", sans-serif;
-  color: #fafafa;
-  background: linear-gradient(to top, #000000, #233446);
+  color: hsl(0, 0%, 98%);
+  background: linear-gradient(to top, hsl(0, 0%, 0%), hsl(211, 33%, 21%));
 }
 
 * {
@@ -60,8 +60,8 @@ button {
   border-radius: 15px;
   outline: none;
   border: none;
-  background: #0046d4;
-  color: #fff;
+  background: hsl(220, 100%, 42%);
+  color: hsl(0, 0%, 98%);
   font-size: 1.3rem;
   cursor: pointer;
 }
@@ -75,18 +75,18 @@ button:hover {
     box-shadow: 0 0 0 0 transparent;
   }
   100% {
-    box-shadow: 0 0 20px 0 #66ccff42;
+    box-shadow: 0 0 20px 0 hsla(200, 100%, 70%, 0.259);
   }
 }
 .text-blue-650 {
-  color: #66ccff;
+  color: hsl(200, 100%, 70%);
 }
 .my-atropos {
   width: 330px;
   height: 186px;
   border-radius: 10px;
-  border: 1px solid #66ccff;
-  box-shadow: 0 0 10px #66ccff;
+  border: 1px solid hsl(200, 100%, 70%);
+  box-shadow: 0 0 10px hsl(200, 100%, 70%);
 }
 .my-atropos:hover {
   border-radius: 0px;
@@ -173,10 +173,10 @@ h2 {
   font-size: 1.5rem;
   font-weight: 700;
   padding: 0.5rem 0;
-  color: #66ccff;
+  color: hsl(200, 100%, 70%);
 }
 strong {
-  color: #66ccff;
+  color: hsl(200, 100%, 70%);
 }
 img,
 svg,
@@ -192,11 +192,11 @@ p {
   padding: 1rem 0;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(1, 109, 163, 0.477);
+  background: hsla(200, 99%, 32%, 0.477);
   border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 170, 255, 0.546);
+  background: hsla(200, 100%, 50%, 0.546);
   border-radius: 10px;
 }
 ::-webkit-scrollbar-track {
