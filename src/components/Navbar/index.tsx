@@ -20,6 +20,9 @@ export default function Navbar() {
             <li className="hover:text-white">
               <Link href="/posts">Posts</Link>
             </li>
+            <li className="hover:text-white">
+              <Link href="/#educacion">Educación</Link>
+            </li>
           </ul>
         </nav>
       </div>
