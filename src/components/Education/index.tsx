@@ -2,7 +2,7 @@ import EducationCard from "@/components/Education/EducationCard";
 export default function Education() {
   const Education = [
     {
-      title: "Tecticatura en Desarrollo Web",
+      title: "Tecnicatura en Desarrollo Web",
       description:
         "Cuento con el 65% de la carrera aprobada y soy alumno regular, la inicie en 2019 y espero finalizarla en 2024.",
       href: "https://www.unlam.edu.ar/index.php?seccion=3&idArticulo=399",
