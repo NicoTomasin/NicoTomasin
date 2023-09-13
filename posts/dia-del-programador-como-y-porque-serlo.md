@@ -1,7 +1,7 @@
 ---
 title: "Día del programador: Como y por que serlo"
 description: En el día del programador me gustaría contarte cómo me adentré en la programación y por qué creo que todos pueden programar.
-coverImage: /dia-del-programador-como-porque-serlo/coverImage.png
+coverImage: /dia-del-programador-como-y-porque-serlo/coverImage.png
 date: 13/09/2023
 alt: "Día del programador: Como y por que serlo"
 ---
@@ -29,7 +29,7 @@ La programación **esta en todos lados**, ya sea en un control remoto, una web, 
 
 Por esto y probablemente por mucho mas es que **yo elegí** ser programador, tampoco quiero idealizar el concepto y decir que la programación es lo mejor que hay pero si me me gustaría que abraces el concepto de que para mi la programación es una herramienta, no un trabajo ni una carrera, básicamente que la podes usar para todo lo que quieras, cuando quieras y como quieras.
 
-![Lenguajes de programacion](/dia-del-programador-como-porque-serlo/Lenguajes.png)
+![Lenguajes de programacion](/dia-del-programador-como-y-porque-serlo/Lenguajes.png)
 #### Actualmente hay mas de **8000** lenguajes de programación diferentes.
 <br>
 <br>
@@ -54,7 +54,7 @@ Pienso que en **internet** podes aprender el **99%** de las cosas que se explica
 Ahora, si lo que estas buscando son links y no te gusto tanto el "*Elegí tu propio camino*", podría recomendarte empezar a ver **HTML**, **CSS** y **JavaScript** ya que son lenguajes medianamente simples al principio y una vez que le agarres la mano a JS literalmente podrías disparar para cualquier lado como desarrollo web, de aplicaciones o inclusive programas de escritorio. De todas formas, si esto no te termina de gustar, vas a tener las bases para agarrar cualquier otro lenguaje y aprenderlo mas rápido.
 Algunas paginas que podes chusmear son [FreeCodeCamp](https://www.freecodecamp.org/) para aprender y [CodeWars](https://www.codewars.com/) para hacer ejercicios, ademas algunos creadores de contenido relevantes que te puedo recomendar son [MiduDev](https://www.youtube.com/@midulive) y [Goncy Pozzo](https://www.youtube.com/@goncypozzo). Por ultimo algunas de las plataformas de cursos mas populares son [Platzi](https://platzi.com/), [CoderHouse](https://www.coderhouse.com/) [entre otras](https://www.hostinger.com.ar/tutoriales/mejores-sitios-para-aprender-a-programar-gratis).
 
-![Comunidad de cada lenguaje](/dia-del-programador-como-porque-serlo/TIOBE.png)
+![Comunidad de cada lenguaje](/dia-del-programador-como-y-porque-serlo/TIOBE.png)
 ### **Fuente:** [TIOBE](https://www.tiobe.com/tiobe-index/)
 <br>
 <br>
