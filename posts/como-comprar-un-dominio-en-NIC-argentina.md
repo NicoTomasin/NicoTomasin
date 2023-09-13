@@ -8,21 +8,21 @@ alt: "Como comprar un dominio en NIC argentina"
 
 ## Requisitos previos
 
-Si sos residente argentino vas a necesitar tener una cuenta en AFIP y tramitar la clave fiscal nivel 2 como mínimo además de tarjeta de contar con una tarjeta de crédito para pagar el tramite
+Si sos residente argentino vas a necesitar tener una cuenta en AFIP y tramitar la clave fiscal nivel 2 como mínimo además de contar con una tarjeta de crédito para pagar el tramite
 
 ## Verificar disponibilidad
 
-Nos vamos a dirigir a la web oficial de NIC argentina para usar su herramienta para verificar dominios [NIC - Verificar Dominio](https://nic.ar/verificar-dominio/ "NIC Argentina")
+Te vas a dirigir a la web oficial de NIC argentina y vas a usar su herramienta para verificar dominios [NIC - Verificar Dominio](https://nic.ar/verificar-dominio/ "NIC Argentina")
 
 ![Verificador de dominios](/comprar-dominio-nic/ConsultaDominio.png)
 
-Ahora utilizando esta herramienta podemos verificar si el dominio que esperamos comprar esta disponible o si alguna persona ya lo registro, en este caso vemos que el dominio "dominiopropio.com.ar" esta disponible para la compra
+Ahora utilizando esta herramienta podes verificar si el dominio que queres comprar esta disponible o si alguna persona ya lo registro, en este caso veo que el dominio "dominiopropio.com.ar" esta disponible para la compra
 
 ![Dominio Disponible](/comprar-dominio-nic/EstaDisponible.png)
 
-Ahora podemos iniciar el tramite usando el botón de la pagina o a través de [Tramites a distancia](https://tramitesadistancia.gob.ar/tramitesadistancia/nic?idTramite=0&dominio=dominiopropio&zona=.com.ar&accion=ALTA) iniciando sesión en AFIP
+Ahora podes iniciar el tramite usando el botón de la pagina o a través de [Tramites a distancia](https://tramitesadistancia.gob.ar/tramitesadistancia/nic?idTramite=0&dominio=dominiopropio&zona=.com.ar&accion=ALTA) iniciando sesión en AFIP
 
-Una vez dentro de AFIP deberíamos volver a validar la disponibilidad del dominio y solicitarlo
+Una vez dentro de AFIP deberías volver a validar la disponibilidad del dominio y solicitarlo
 
 Estos son los valores de cada tipo de dominio al dia de la fecha:
 
@@ -34,4 +34,4 @@ Estos son los valores de cada tipo de dominio al dia de la fecha:
 
 Para pagar hay un pequeño truco, si seleccionas tarjeta de crédito pero usas una de débito VISA el pago se realiza con éxito de todas maneras
 
-En un proximo post vamos a ver como utilizar este dominio en un proyecto [deployado en Vercel](https://www.nicotomasin.com.ar/posts/deployar-en-Vercel-usando-un-dominio-propio) y como crear un [mail con este dominio](https://www.nicotomasin.com.ar/posts/mail-con-tu-dominio-usando-Vercel-y-Zoho-Mail)
+En un proximo post voy a mostrar como utilizar este dominio en un proyecto [desplegado en Vercel](https://www.nicotomasin.com.ar/posts/despliegue-vercel-dominio-personalizado) y como crear un [mail con este dominio](https://www.nicotomasin.com.ar/posts/mail-con-tu-dominio-usando-Vercel-y-Zoho-Mail)

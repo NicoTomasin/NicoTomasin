@@ -3,18 +3,21 @@ import getPostMetadata from "@/helpers/getPostMetadata";
 
 export default function LatestPost() {
   const posts = getPostMetadata();
+  const today = new Date(); // Obtener la fecha actual
+
   const recentPosts = posts
+    .filter((post) => {
+      const postDate = new Date(post.date.split("/").reverse().join("-"));
+      return postDate <= today; // Filtrar solo los posts con fecha menor o igual a hoy
+    })
     .sort((a, b) => {
-      const dateA: any = new Date(
-        a.date.split("/").reverse().join("-") // Convertir a formato aaaa-mm-dd
-      );
-      const dateB: any = new Date(
-        b.date.split("/").reverse().join("-") // Convertir a formato aaaa-mm-dd
-      );
-      return dateB - dateA;
+      const dateA = new Date(a.date.split("/").reverse().join("-"));
+      const dateB = new Date(b.date.split("/").reverse().join("-"));
+      return dateB - dateA; // Ordenar de más nuevo a más antiguo
     })
     .slice(0, 3)
     .map((post) => <PostCard key={post.slug} post={post} />);
+
   return (
     <div
       id="latestPost"
