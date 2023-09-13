@@ -11,8 +11,8 @@ export default function LatestPost() {
       return postDate <= today; // Filtrar solo los posts con fecha menor o igual a hoy
     })
     .sort((a, b) => {
-      const dateA = new Date(a.date.split("/").reverse().join("-"));
-      const dateB = new Date(b.date.split("/").reverse().join("-"));
+      const dateA: any = new Date(a.date.split("/").reverse().join("-"));
+      const dateB: any = new Date(b.date.split("/").reverse().join("-"));
       return dateB - dateA; // Ordenar de más nuevo a más antiguo
     })
     .slice(0, 3)
