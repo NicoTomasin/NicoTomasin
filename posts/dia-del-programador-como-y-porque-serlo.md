@@ -66,11 +66,11 @@ La verdad que recuerdo pocos aspectos técnicos de **VB** pero lo que si visuali
 Al terminar el secundario me anote en **ingeniería informática**, donde me tope por primera vez con el **síndrome del impostor** llevándome a pensar que no servia para esto. Afortunadamente pude salir de esos malos pensamientos pero con una idea clara, dejar la ingeniería de lado para enfocarme en **aprender a programar** y posponer la **matemática** un tiempo. Gracias a el apoyo de mis **familiares** me anote en la **Universidad Nacional de La Matanza** para estudiar **desarrollo web**. Este fue mi evento canónico 🕷️ de donde se desprenderían muchísimas anécdotas, amistades y experiencias que siguen en proceso y que son para otro post.
 Paralelo a todo este **aprendizaje tradicional** vivo buscando contenido en **internet**, pero sobre todo me gusta aprender con contenido **audiovisual** ya que descubrí que de esa manera retengo mejor la información.
 
-En fin, ahora que te di mis **concejos** y te conte mi **experiencia** queda un detalle fundamental, tenes que **aprender a aprender**. Busca conocerte mejor para encontrar la mejor manera de **organizarte** y **optimizar** el proceso de aprendizaje para llevarlo otro nivel.
+En fin, ahora que te di mis **consejos** y te conte mi **experiencia** queda un detalle fundamental, tenes que **aprender a aprender**. Busca conocerte mejor para encontrar la mejor manera de **organizarte** y **optimizar** el proceso de aprendizaje para llevarlo otro nivel.
 
 ## Ideas finales
 
-Para cerrar el post me gustaría darte algunos concejos mas bien personales y no tan relacionados a la programación, de igual manera creo que si reemplazas la palabra *"programación"* en todo el articulo, podes quedarte con ideas interesantes aplicables a casi cualquier cosa.
+Para cerrar el post me gustaría darte algunos consejos mas bien personales y no tan relacionados a la programación, de igual manera creo que si reemplazas la palabra *"programación"* en todo el articulo, podes quedarte con ideas interesantes aplicables a casi cualquier cosa.
 
 - **Se feliz:** No estudies ni aprendas algo por dinero o por presión, se que la plata es algo muy importante hoy en día, pero si elegís algo que te va a acompañar toda tu vida, mejor que te guste y no sea un padecimiento diario.
 
