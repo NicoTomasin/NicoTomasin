@@ -2,7 +2,7 @@
 
 ## I am Nico
 
-I am a full stack programmer and co-founder of <a href="https://www.crypronotify.me">Crypronotify.me</a>, currently living in Argentina while pursuing a degree at university. Technology and innovation are my passions, and they drive my work in the programming industry. With a keen eye for detail and a deep understanding of various programming languages and tools, I consider myself a rising star in the field. In my free time, I love to keep up with the latest tech trends and explore new technologies to stay ahead of the curve. I am excited to make waves in the tech industry in the years to come, and I can't wait to see where my programming journey takes me
+I am a full stack programmer and co-founder of <a href="https://www.crypronotify.me">Crypronotify.me</a>, currently living in Argentina while pursuing a degree at university. Technology and innovation are my passions, and they drive my work in the programming industry. With a keen eye for detail and a deep understanding of various programming languages and tools, I consider myself a rising star in the field. In my free time, I love to keep up with the latest tech trends and explore new technologies to stay ahead of the curve. I am excited to make waves in the tech industry in the years to come, and I can't wait to see where my programming journey takes me.
 
 <div align="centre">
 
