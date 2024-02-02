@@ -34,4 +34,4 @@ Estos son los valores de cada tipo de dominio al dia de la fecha:
 
 Para pagar hay un pequeño truco, si seleccionas tarjeta de crédito pero usas una de débito VISA el pago se realiza con éxito de todas maneras
 
-En un proximo post voy a mostrar como utilizar este dominio en un proyecto [desplegado en Vercel](https://www.nicotomasin.com.ar/posts/despliegue-vercel-dominio-personalizado) y como crear un [mail con este dominio](https://www.nicotomasin.com.ar/posts/mail-con-tu-dominio-usando-Vercel-y-Zoho-Mail)
+En un proximo post voy a mostrar como utilizar este dominio en un proyecto [desplegado en Vercel](https://www.nicotomasin.com.ar/blog/despliegue-vercel-dominio-personalizado) y como crear un [mail con este dominio](https://www.nicotomasin.com.ar/blog/mail-con-tu-dominio-usando-Vercel-y-Zoho-Mail)

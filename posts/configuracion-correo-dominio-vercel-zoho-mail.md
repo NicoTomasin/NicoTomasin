@@ -10,8 +10,8 @@ alt: Configuración sencilla de correo con tu dominio en Vercel y Zoho Mail
 
 Si no tenes un proyecto deployado en Vercel o no tenes un dominio propio, podes leer los siguientes posts:
 
-- [Deployar en Vercel](https://www.nicotomasin.com.ar/posts/despliegue-vercel-dominio-personalizado)
-- [Comprar un dominio en NIC argentina](https://www.nicotomasin.com.ar/posts/como-comprar-un-dominio-en-NIC-argentina)
+- [Deployar en Vercel](https://www.nicotomasin.com.ar/blog/despliegue-vercel-dominio-personalizado)
+- [Comprar un dominio en NIC argentina](https://www.nicotomasin.com.ar/blog/como-comprar-un-dominio-en-NIC-argentina)
 
 ## Crear cuenta en Zoho Mail
 
@@ -36,7 +36,7 @@ Con esos valores que se muestran voy a ir al panel de usuario en Vercel donde se
 
 ![Panel de vercel](/configuracion-correo-dominio-vercel-zoho-mail/domains.png)
 
-Accedo al dominio que quiero para el mail, que debería ser el mismo que declare anteriormente en Zoho. Si no tenes un dominio propio en tu proyecto de Vercel te recomiendo que veas [este post](https://www.nicotomasin.com.ar/posts/despliegue-vercel-dominio-personalizado).
+Accedo al dominio que quiero para el mail, que debería ser el mismo que declare anteriormente en Zoho. Si no tenes un dominio propio en tu proyecto de Vercel te recomiendo que veas [este post](https://www.nicotomasin.com.ar/blog/despliegue-vercel-dominio-personalizado).
 
 Ahora agrego el Record CNAME con la information que me dio Zoho
 

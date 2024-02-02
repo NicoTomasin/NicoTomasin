@@ -1,90 +1,62 @@
-import { FaGithub, FaLinkedinIn } from "react-icons/fa";
-import Image from "next/image";
+"use client";
+import { useRef } from "react";
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+gsap.registerPlugin(ScrollTrigger);
 export default function Hero() {
+  const heroRef = useRef(null);
+  const h1Ref = useRef(null);
+  const h2Ref = useRef(null);
+  const tl = gsap.timeline();
+
+  useGSAP(
+    () => {
+      tl.from(h1Ref.current, {
+        opacity: 0,
+        duration: 0.5,
+        y: -100,
+      })
+        .from(h2Ref.current, {
+          opacity: 0,
+          duration: 0.5,
+          y: -100,
+        })
+        .to(h1Ref.current, {
+          scrollTrigger: {
+            trigger: heroRef.current,
+            start: "top top",
+            end: "center top",
+            scrub: true,
+          },
+          top: 10,
+          left: 10,
+          fontSize: 20,
+        })
+        .to(h2Ref.current, {
+          scrollTrigger: {
+            trigger: heroRef.current,
+            start: "top top",
+            end: "center top",
+            scrub: true,
+          },
+          fontSize: 0,
+        });
+    },
+    { scope: heroRef, dependencies: [ScrollTrigger] }
+  );
+
   return (
-    <div className="mx-auto max-w-screen-lg px-3">
-      <div className="flex flex-col items-center md:flex-row md:justify-between md:gap-x-24">
-        <div>
-          <h1 className="text-3xl font-bold animate-fade-up animate-duration-600 animate-ease-out">
-            ¡Hola! Soy{" "}
-            <span className="text-blue-650 bg-clip-text text-transparent">
-              Nico
-            </span>{" "}
-            👋
-          </h1>
-          <p className="mt-6 text-xl leading-9 animate-fade-up animate-duration-600 animate-ease-out">
-            Desarrollador web fullstack y cofundador de{" "}
-            <a
-              className="text-green-500 hover:underline"
-              target="_blank"
-              href="https://cryptonotify.me"
-            >
-              CryptoNotify.me
-            </a>{" "}
-            especializado en tecnologías como{" "}
-            <a
-              className="text-cyan-400 hover:underline"
-              target="_blank"
-              href="https://react.dev/"
-            >
-              React
-            </a>
-            ,{" "}
-            <a
-              className="text-green-500 hover:underline"
-              target="_blank"
-              href="https://nodejs.org/"
-            >
-              Node
-            </a>{" "}
-            y{" "}
-            <a
-              className="text-gray-400 hover:underline"
-              target="_blank"
-              href="https://nextjs.org/"
-            >
-              NextJs
-            </a>
-            . Bienvenid@ a mi portfolio personal, espero que te guste! 🚀
-          </p>
-          <div className="mt-3 flex gap-5">
-            <a
-              className="animate-fade-up animate-duration-600 animate-ease-out"
-              href="https://www.linkedin.com/in/nicotomasin/"
-              target="blank"
-            >
-              <button className="w-16">
-                <FaLinkedinIn />
-              </button>
-            </a>
-            <a
-              className=" animate-fade-up animate-duration-600 animate-ease-out"
-              href="https://www.github.com/NicoTomasin"
-              target="blank"
-            >
-              <button className="bg-slate-500 w-16">
-                <FaGithub />
-              </button>
-            </a>
-            <a
-              className="animate-fade-up animate-duration-600 animate-ease-out"
-              href="https://x.com/NicolasTomasin"
-              target="blank"
-            >
-              <button className="bg-black w-16">𝕏</button>
-            </a>
-          </div>
-        </div>
-        <div className="shrink-0">
-          <Image
-            src="/avatar.svg"
-            alt="Nico Tomasin"
-            width={400}
-            height={400}
-            className="hover:scale-105 transition animate-fade-up animate-duration-600 animate-ease-out"
-          />
-        </div>
-      </div>
+    <div
+      ref={heroRef}
+      className="flex flex-col items-center justify-center text-white w-screen h-screen p-8 text-center"
+    >
+      <h1 ref={h1Ref} className="title fixed text-5xl p-4 z-10">
+        NICO TOMASIN
+      </h1>
+      <h2 ref={h2Ref} className=" subtitlebox text-3xl mt-32 text-cyan-400">
+        DESARROLLADOR WEB
+      </h2>
     </div>
   );
 }

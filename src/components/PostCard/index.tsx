@@ -2,7 +2,7 @@ import { PostMetadata } from "@/helpers/PostMetadata";
 import Image from "next/image";
 export default function PostCard({ post }: { post: PostMetadata }) {
   return (
-    <a className="hover:scale-105 transition" href={`/posts/${post.slug}`}>
+    <a className="hover:scale-105 transition" href={`/blog/${post.slug}`}>
       <div className="overflow-hidden rounded-md bg-slate-800">
         <div className="aspect-w-3 aspect-h-2">
           <Image

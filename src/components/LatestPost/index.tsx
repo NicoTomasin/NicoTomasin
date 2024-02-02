@@ -36,7 +36,7 @@ export default function LatestPost() {
                 </span>
               </div>
               <div className="text-sm hover:text-cyan-400 transition">
-                <a href="/posts">Ver todos los posts →</a>
+                <a href="/blog">Ver todos los posts →</a>
               </div>
             </div>
           </div>

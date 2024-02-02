@@ -1,98 +1,69 @@
-import EducationCard from "@/components/Education/EducationCard";
-export default function Education() {
-  const Education = [
-    {
-      title: "Tecnicatura en Desarrollo Web",
-      description:
-        "Cuento con el 65% de la carrera aprobada y soy alumno regular, la inicie en 2019 y espero finalizarla en 2024.",
-      href: "https://www.unlam.edu.ar/index.php?seccion=3&idArticulo=399",
-      stack: [
-        {
-          name: "UNLaM",
-          properties: "bg-green-600 text-emerald-50",
+"use client";
+import { useRef } from "react";
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+import ExperienceCard from "../ExperienceCard";
+
+gsap.registerPlugin(ScrollTrigger);
+export default function Experience() {
+  const experienceRef = useRef(null);
+  const tl = gsap.timeline();
+  useGSAP(
+    () => {
+      tl.from(".experienceTitle", {
+        scrollTrigger: {
+          trigger: experienceRef.current,
+          start: "top bottom",
+          end: "bottom center",
+          scrub: true,
         },
-        {
-          name: "Pre-Grado",
-          properties: "bg-pink-400 text-pink-900",
-        },
-        {
-          name: "En curso",
-          properties: "bg-orange-400 text-orange-900",
-        },
-      ],
+        x: "-=100",
+        opacity: 0,
+      })
+        .from(".experienceSubtitle", {
+          scrollTrigger: {
+            trigger: experienceRef.current,
+            start: "top bottom",
+            end: "bottom center",
+            scrub: true,
+          },
+          x: "+=100",
+          opacity: 0,
+        })
+        .from(".experienceParagraph", {
+          scrollTrigger: {
+            trigger: experienceRef.current,
+            start: "top bottom",
+            end: "bottom center",
+            scrub: true,
+          },
+          x: "-=100",
+          opacity: 0,
+        });
     },
-    {
-      title: "Responsive Web Design",
-      description:
-        "Certificación de FreeCodeCamp focalizada en el desarrollo de sitios web responsivos con HTML, CSS y Flexbox. 2023",
-      href: "https://www.freecodecamp.org/certification/NicoTomasin/responsive-web-design",
-      stack: [
-        {
-          name: "FreeCodeCamp",
-          properties: "bg-stone-400 text-stone-900",
-        },
-        {
-          name: "Certificado",
-          properties: "bg-amber-400 text-amber-900",
-        },
-        {
-          name: "Terminado",
-          properties: "bg-rose-400 text-rose-900",
-        },
-      ],
-    },
-    {
-      title: "JavaScript Algorithms and Data Structures",
-      description:
-        "Certificación de FreeCodeCamp donde se aprenden algoritmos en JavaScript y estructuras de datos como variables, matrices, objetos, bucles y funciones. 2023",
-      href: "https://www.freecodecamp.org/certification/NicoTomasin/javascript-algorithms-and-data-structures",
-      stack: [
-        {
-          name: "FreeCodeCamp",
-          properties: "bg-stone-400 text-stone-900",
-        },
-        {
-          name: "Certificado",
-          properties: "bg-amber-400 text-amber-900",
-        },
-        {
-          name: "Terminado",
-          properties: "bg-rose-400 text-rose-900",
-        },
-      ],
-    },
-    {
-      title: "Taller de Robótica, Automatización y Control Industrial",
-      description:
-        "Taller presencial de robótica, automatización y control industrial en el Polo de Innovación Tecnológica dictado por el partido de Ituzaingo. 2018.",
-      href: "https://laciudadweb.com.ar/taller-gratuito-de-robotica-en-el-polo-de-innovacion-tecnologica-de-ituzaingo/",
-      stack: [
-        {
-          name: "Ituzaingo",
-          properties: "bg-green-600 text-emerald-50",
-        },
-        {
-          name: "Curso",
-          properties: "bg-cyan-400 text-cyan-900",
-        },
-        {
-          name: "Terminado",
-          properties: "bg-rose-400 text-rose-900",
-        },
-      ],
-    },
-  ];
+    { scope: experienceRef, dependencies: [ScrollTrigger] }
+  );
+
   return (
     <div
-      id="educacion"
-      className="mx-auto max-w-screen-lg px-3 py-6 animate-fade-up animate-duration-600    animate-ease-out"
+      ref={experienceRef}
+      className="overflow-hidden max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center text-white w-screen h-screen p-8 text-center"
     >
-      <div className="mb-6 text-2xl font-bold ">Educación</div>
-      <div className="flex flex-col gap-6">
-        {Education.map((Education) => (
-          <EducationCard key={Education.title} {...Education} />
-        ))}
+      <div className="text-center">
+        <h2 className="experienceTitle text-base font-semibold tracking-wide uppercase">
+          Educación
+        </h2>
+        <p className="experienceSubtitle mt-1 text-4xl font-extrabold text-blue-400 sm:text-5xl sm:tracking-tight lg:text-6xl">
+          ¿En que me capacite?
+        </p>
+        <p className="experienceParagraph max-w-xl mt-5 mx-auto text-xl text-gray-300">
+          Principalmente en el desarrollo de software, pero también cuento con
+          conocimientos en el área de las automatización industriales y la
+          domotica.
+        </p>
       </div>
+      <div className="grid lg:grid-cols-2 gap-4 sm:grid-cols-1 mt-24"></div>
     </div>
   );
 }

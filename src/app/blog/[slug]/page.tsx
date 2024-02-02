@@ -92,7 +92,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     openGraph: {
       title: post.data.title,
       description: post.data.description,
-      url: "https://nicotomasin.com.ar/posts/" + slug,
+      url: "https://nicotomasin.com.ar/blog/" + slug,
       images: "https://nicotomasin.com.ar/api/og?title=" + slug,
     },
     twitter: {

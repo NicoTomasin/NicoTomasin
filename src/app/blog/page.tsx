@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Todos mis posts",
     description: "Lista completa de todos mis posts",
-    url: "https://nicotomasin.com.ar/posts",
+    url: "https://nicotomasin.com.ar/blog",
     images: "https://nicotomasin.com.ar/ogImageAllPosts.png",
   },
   twitter: {

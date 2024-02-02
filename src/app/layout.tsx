@@ -1,12 +1,7 @@
 import "./globals.css";
-import "atropos/atropos.css";
-import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
 import type { Metadata } from "next";
-const inter = Inter({ subsets: ["latin"] });
-
+import Image from "next/image";
 export default function RootLayout({
   children,
 }: {
@@ -14,11 +9,49 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
-      <body className={inter.className}>
-        <Navbar />
+      <body>
+        <div className="fixed top-0 right-5 p-4">
+          <div className="mb-4">
+            <a
+              href="/blog"
+              rel="noopener noreferrer"
+              className="text-2xl text-white"
+            >
+              Blog
+            </a>
+          </div>
+        </div>
         {children}
         <Analytics />
-        <Footer />
+        <div className="fixed bottom-0 left-0 p-4">
+          <div className="mb-4">
+            <Image
+              src="/icons/github.svg"
+              alt="Nico Tomasin github"
+              width={25}
+              height={25}
+              className="hover:scale-105 transition animate-fade-up animate-duration-600 animate-ease-out"
+            />
+          </div>
+          <div className="mb-4">
+            <Image
+              src="/icons/instagram.svg"
+              alt="Nico Tomasin instagram"
+              width={25}
+              height={25}
+              className="hover:scale-105 transition animate-fade-up animate-duration-600 animate-ease-out"
+            />
+          </div>
+          <div>
+            <Image
+              src="/icons/x.svg"
+              alt="Nico Tomasin twitter"
+              width={25}
+              height={25}
+              className="hover:scale-105 transition animate-fade-up animate-duration-600 animate-ease-out"
+            />
+          </div>
+        </div>
       </body>
     </html>
   );

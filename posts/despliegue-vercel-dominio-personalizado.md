@@ -52,7 +52,7 @@ Si bien hay muchas opciones interesantes aca, si queres explorarlo a fondo queda
 
 ## Asignación de dominio
 
-Ahora me voy a enfocar en la sección de "Domains" en donde voy a escribir el dominio que compramos. Para este ejemplo voy a simular un que fue comprado en [NIC argentina](https://www.nicotomasin.com.ar/posts/como-comprar-un-dominio-en-NIC-argentina)
+Ahora me voy a enfocar en la sección de "Domains" en donde voy a escribir el dominio que compramos. Para este ejemplo voy a simular un que fue comprado en [NIC argentina](https://www.nicotomasin.com.ar/blog/como-comprar-un-dominio-en-NIC-argentina)
 
 ![Domains](/despliegue-vercel-dominio-personalizado/Domains.png)
 
