@@ -8,6 +8,7 @@ import ExperienceCard from "../ExperienceCard";
 gsap.registerPlugin(ScrollTrigger);
 export default function Experience() {
   const experienceRef = useRef(null);
+  const cardsRef = useRef([]);
   const tl = gsap.timeline();
   const Experience = [
     {
@@ -59,7 +60,7 @@ export default function Experience() {
       ],
     },
   ];
-  const cardsRef = useRef([]);
+
   useGSAP(
     () => {
       tl.from(".experienceTitle", {
@@ -136,7 +137,12 @@ export default function Experience() {
         {Experience.map((experience, index) => (
           <Fragment key={experience.title}>
             <div
-              ref={(el) => (cardsRef.current[index] = el)}
+              ref={(el) => {
+                if (cardsRef && el !== null) {
+                  // @ts-ignore
+                  cardsRef.current[index] = el!;
+                }
+              }}
               className={`card z-50 mb-4 ${index > 0 ? "mt-4" : ""}`}
             >
               <ExperienceCard {...experience} />
