@@ -59,13 +59,14 @@ export default function Experience() {
       ],
     },
   ];
+  const cardsRef = useRef([]);
   useGSAP(
     () => {
       tl.from(".experienceTitle", {
         scrollTrigger: {
           trigger: experienceRef.current,
           start: "top bottom",
-          end: "bottom center",
+          end: "top top",
           scrub: true,
         },
         x: "-=100",
@@ -75,7 +76,7 @@ export default function Experience() {
           scrollTrigger: {
             trigger: experienceRef.current,
             start: "top bottom",
-            end: "bottom center",
+            end: "top top",
             scrub: true,
           },
           x: "+=100",
@@ -85,12 +86,30 @@ export default function Experience() {
           scrollTrigger: {
             trigger: experienceRef.current,
             start: "top bottom",
-            end: "bottom center",
+            end: "top top",
             scrub: true,
           },
           x: "-=100",
           opacity: 0,
         });
+      Experience.forEach((experience, index) => {
+        const card = cardsRef.current[index];
+
+        // Ajusta la animación según tus necesidades
+        gsap.from(card, {
+          scrollTrigger: {
+            trigger: experienceRef.current,
+            start: "top bottom",
+            end: "bottom center",
+            scrub: true,
+          },
+          x: index % 2 === 0 ? -400 : 400, // Alterna entre -100 y 100 según el índice
+          opacity: 0,
+          duration: 1,
+          delay: 0.2 * index,
+          ease: "power3.out",
+        });
+      });
     },
     { scope: experienceRef, dependencies: [ScrollTrigger] }
   );
@@ -98,7 +117,7 @@ export default function Experience() {
   return (
     <div
       ref={experienceRef}
-      className="overflow-hidden max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center text-white w-screen h-screen p-8 text-center"
+      className="overflow-x-hidden mx-auto py-16 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center text-white w-screen  p-8 text-center"
     >
       <div className="text-center">
         <h2 className="experienceTitle text-base font-semibold tracking-wide uppercase">
@@ -113,10 +132,13 @@ export default function Experience() {
           equipo y compartir conocimientos.
         </p>
       </div>
-      <div className="grid lg:grid-cols-2 gap-4 sm:grid-cols-1 mt-24">
+      <div className="overflow-visible grid lg:grid-cols-2 gap-4 sm:grid-cols-1 mt-24 h-auto p-4">
         {Experience.map((experience, index) => (
           <Fragment key={experience.title}>
-            <div className={`mb-4 ${index > 0 ? "mt-4" : ""}`}>
+            <div
+              ref={(el) => (cardsRef.current[index] = el)}
+              className={`card z-50 mb-4 ${index > 0 ? "mt-4" : ""}`}
+            >
               <ExperienceCard {...experience} />
             </div>
             {index < Experience.length - 1 && (

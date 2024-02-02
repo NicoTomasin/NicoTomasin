@@ -48,7 +48,7 @@ export default function Experience() {
   return (
     <div
       ref={experienceRef}
-      className="overflow-hidden max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center text-white w-screen h-screen p-8 text-center"
+      className="overflow-x-hidden max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center text-white w-screen h-screen p-8 text-center"
     >
       <div className="text-center">
         <h2 className="experienceTitle text-base font-semibold tracking-wide uppercase">

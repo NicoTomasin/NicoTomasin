@@ -59,7 +59,7 @@ export default function ProjectCard({
       href={href}
       target="_blank"
     >
-      <div className="neon-sign flex flex-col items-center p-4 border-2 rounded-xl border-cyan-400">
+      <div className="neon-sign max-w-xl flex flex-col items-center p-4 border-2 rounded-xl border-cyan-400">
         <div className="text-3xl font-semibold mt-5 md:mt-0">
           <h3>{title}</h3>
         </div>

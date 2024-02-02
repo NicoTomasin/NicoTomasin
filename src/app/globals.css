@@ -14,29 +14,16 @@ body {
   background: linear-gradient(90deg, var(--black) 20px, transparent 1%) 50%,
     linear-gradient(var(--black) 20px, transparent 1%) 50%, #222;
   background-size: 22px 22px;
-  overflow-x: hidden;
   background-attachment: fixed;
   color: #fff;
   font-family: "Barlow Semi Condensed", sans-serif;
   font-family: var(--font1);
-}
-@media (max-width: 600px) {
-  body {
-    overflow-x: auto;
-  }
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-
-.container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 
 .gif {
@@ -211,7 +198,6 @@ pre {
   letter-spacing: 0.5px;
   font-size: 11pt;
   height: auto;
-  overflow: auto;
 }
 a {
   color: #02abff;
