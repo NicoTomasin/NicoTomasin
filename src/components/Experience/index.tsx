@@ -95,8 +95,6 @@ export default function Experience() {
         });
       Experience.forEach((experience, index) => {
         const card = cardsRef.current[index];
-
-        // Ajusta la animación según tus necesidades
         gsap.from(card, {
           scrollTrigger: {
             trigger: experienceRef.current,
@@ -104,7 +102,7 @@ export default function Experience() {
             end: "bottom center",
             scrub: true,
           },
-          x: index % 2 === 0 ? -400 : 400, // Alterna entre -100 y 100 según el índice
+          x: index % 2 === 0 ? -400 : 400,
           opacity: 0,
           duration: 1,
           delay: 0.2 * index,
@@ -129,8 +127,7 @@ export default function Experience() {
         </p>
         <p className="experienceParagraph max-w-xl mt-5 mx-auto text-xl text-white">
           Soy una persona que se adapta a los cambios, me gusta aprender cosas
-          nuevas y siempre estoy en constante crecimiento. Me gusta trabajar en
-          equipo y compartir conocimientos.
+          nuevas y siempre estoy en constante crecimiento.
         </p>
       </div>
       <div className="overflow-visible grid lg:grid-cols-2 gap-4 sm:grid-cols-1 mt-24 h-auto p-4">
