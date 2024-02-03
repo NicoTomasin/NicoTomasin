@@ -57,7 +57,7 @@ export default function RootLayout({
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="icon icon-tabler icon-tabler-brand-linkedin transition animate-fade-up animate-duration-600 animate-ease-out hover:text-cyan-400 cursor-pointer"
+                className="icon icon-tabler icon-tabler-brand-linkedin transition animate-fade-up animate-duration-600 animate-ease-out hover:text-cyan-400 cursor-pointer"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
