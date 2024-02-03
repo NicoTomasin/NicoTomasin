@@ -18,12 +18,12 @@ export default function Experience() {
       href: "https://www.block-builders.tech/",
       stack: [
         {
-          name: "Frontend Developer",
-          properties: "bg-blue-600 text-emerald-50",
+          name: "Frontend",
+          properties: "text-green-400",
         },
         {
           name: "Actualidad",
-          properties: "bg-green-400 text-emerald-900",
+          properties: "text-yellow-500",
         },
       ],
     },
@@ -34,12 +34,12 @@ export default function Experience() {
       href: "https://www.nicotomasin.com.ar/",
       stack: [
         {
-          name: "Fullstack Developer",
-          properties: "bg-blue-600 text-emerald-50",
+          name: "Fullstack",
+          properties: "text-green-400",
         },
         {
           name: "Actualidad",
-          properties: "bg-green-400 text-emerald-900",
+          properties: "text-yellow-500",
         },
       ],
     },
@@ -51,11 +51,11 @@ export default function Experience() {
       stack: [
         {
           name: "Co-Founder",
-          properties: "bg-blue-600 text-emerald-50",
+          properties: "text-green-400",
         },
         {
           name: "jul. 2021 - sep. 2023",
-          properties: "bg-rose-400 text-rose-900",
+          properties: "text-red-400",
         },
       ],
     },
@@ -116,7 +116,7 @@ export default function Experience() {
   return (
     <div
       ref={experienceRef}
-      className="overflow-x-hidden mx-auto py-16 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center text-white w-screen  p-8 text-center"
+      className="overflow-x-hidden mx-auto py-16 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center text-white w-screen p-8 text-center"
     >
       <div className="text-center">
         <h2 className="experienceTitle text-base font-semibold tracking-wide uppercase">

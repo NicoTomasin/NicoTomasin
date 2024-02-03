@@ -1,14 +1,104 @@
 "use client";
-import { useRef } from "react";
+import { Fragment, useRef } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-
+import ProjectCard from "../ProjectsCard";
 gsap.registerPlugin(ScrollTrigger);
 export default function Projects() {
   const projectsRef = useRef(null);
   const projectTitle = useRef();
   const tl = gsap.timeline();
+  const Projects = [
+    {
+      title: "Block Builders Landing Page",
+      description:
+        "Cree la landing page de Block Builders, una empresa de desarrollo de software y blockchain, Ademas integre Mercado Pago para la gestión de pagos.",
+      href: "https://www.block-builders.tech/",
+      image: "/projects/blockBuilders.png",
+      stack: [
+        {
+          name: "Astro",
+          properties: "bg-red-400 text-red-900",
+        },
+        {
+          name: "Mercado Pago",
+          properties: "bg-yellow-300 text-yellow-800",
+        },
+        {
+          name: "Tailwind",
+          properties: "bg-blue-400 text-blue-900",
+        },
+      ],
+    },
+    {
+      title: "Cynthia Castro Blog",
+      description:
+        "Ademas de la creación de la lading page, hice la integración con Sanity CMS para la gestión de los posts y multiples idiomas aprovechando la funcionalidad de i18n de NextJs",
+      href: "https://dra.cynthiacastro.com/es",
+      image: "/projects/cynthia.png",
+      stack: [
+        {
+          name: "NextJs",
+          properties: "bg-gray-300 text-black",
+        },
+        {
+          name: "Sanity",
+          properties: "bg-neutral-800 text-neutral-300",
+        },
+        {
+          name: "Tailwind",
+          properties: "bg-blue-400 text-blue-900",
+        },
+      ],
+    },
+    {
+      title: "CryptoNotify",
+      description:
+        "CryptoNotify es el proyecto mas grande en el que trabaje, Cree la mayoría del frontend ademas de participar en el despliegue usando AWS e integrando pagos con Stripe",
+      href: "https://www.cryptonotify.me/",
+      image: "/projects/Cryptonotify.png",
+      stack: [
+        {
+          name: "NextJs",
+          properties: "bg-gray-300 text-black",
+        },
+        {
+          name: "Stripe",
+          properties: "bg-purple-300 text-purple-800",
+        },
+        {
+          name: "Material-UI",
+          properties: "bg-blue-400 text-blue-900",
+        },
+        {
+          name: "AWS",
+          properties: "bg-orange-300 text-orange-800",
+        },
+      ],
+    },
+    {
+      title: "All Project",
+      description:
+        "Es un proyecto de Block Builders el cual quedo en espera pero me dio la posibilidad de trabajar con .Net y PostgreSQL en el backend y con ReactJs y redux RTK en el frontend.",
+      href: "https://www.all-project.tech/",
+      image: "/projects/AllProject.png",
+      stack: [
+        {
+          name: ".Net",
+          properties: "bg-purple-600 text-white",
+        },
+        {
+          name: "React",
+          properties: "bg-blue-400 text-blue-900",
+        },
+        {
+          name: "Redux RTK",
+          properties: "bg-purple-400 text-purple-800",
+        },
+      ],
+    },
+  ];
   useGSAP(
     () => {
       tl.from(".letter", {
@@ -41,7 +131,7 @@ export default function Projects() {
   return (
     <div
       ref={projectsRef}
-      className="overflow-x-hidden max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8 flex flex-col items-center text-white w-screen h-screen p-8 text-center"
+      className="overflow-x-hidden mx-auto px-4 lg:px-36 flex flex-col items-center text-white w-screen h-screen text-center"
     >
       <div className="text-center">
         <h2 className="projectTitle font-extrabold text-cyan-400 sm:text-5xl sm:tracking-tight lg:text-6xl flex justify-center align-middle">
@@ -56,11 +146,14 @@ export default function Projects() {
           <p className="letter text-6xl ">s</p>
         </h2>
         <p className="projectParagraph max-w-xl mt-5 mx-auto text-2xl text-white">
-          Estos son los diferentes proyectos que participe ya sea durante un
-          trabajo o como freelance.
+          Estos son algunos proyectos en los que participe.
         </p>
       </div>
-      <div className="grid lg:grid-cols-2 gap-4 sm:grid-cols-1 mt-24"></div>
+      <div className="grid lg:grid-cols-4 gap-8 sm:grid-cols-1 mt-24 h-auto p-4">
+        {Projects.map((projects, index) => (
+          <ProjectCard key={index} {...projects} />
+        ))}
+      </div>
     </div>
   );
 }

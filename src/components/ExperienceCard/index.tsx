@@ -1,7 +1,6 @@
-import { useEffect } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
-export default function ProjectCard({
+export default function ExperienceCard({
   title,
   description,
   href,
@@ -65,7 +64,7 @@ export default function ProjectCard({
         </div>
         <div className="flex justify-center items-center mt-3">
           <div className="flex flex-col items-center gap-y-2 md:flex-row">
-            <div className="ml-3 flex gap-2">
+            <div className="flex gap-2">
               {stack.map((item) => (
                 <div
                   key={item.name}

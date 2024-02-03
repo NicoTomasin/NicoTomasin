@@ -171,15 +171,15 @@ p {
   padding: 1rem 0;
 }
 ::-webkit-scrollbar-thumb {
-  background: hsla(200, 99%, 32%, 0.477);
+  background: #00eaff;
   border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: hsla(200, 100%, 50%, 0.546);
+  background: #02abff;
   border-radius: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(20, 79, 108, 0.546);
+  background: #2a2a2a;
   border-radius: 10px;
 }
 ::-webkit-scrollbar {
@@ -269,4 +269,7 @@ table tfoot td {
   font-size: 25px;
   font-family: "Roboto", sans-serif;
   font-weight: 100;
+}
+.projectCard {
+  min-height: 31rem;
 }
