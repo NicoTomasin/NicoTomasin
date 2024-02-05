@@ -1,97 +1,178 @@
-import EducationCard from "@/components/Education/EducationCard";
+"use client";
+import { Fragment, useRef } from "react";
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+import { VictoryLabel, VictoryPie } from "victory";
+import Course from "../Course";
+gsap.registerPlugin(ScrollTrigger);
 export default function Education() {
-  const Education = [
-    {
-      title: "Tecnicatura en Desarrollo Web",
-      description:
-        "Cuento con el 65% de la carrera aprobada y soy alumno regular, la inicie en 2019 y espero finalizarla en 2024.",
-      href: "https://www.unlam.edu.ar/index.php?seccion=3&idArticulo=399",
-      stack: [
-        {
-          name: "UNLaM",
-          properties: "bg-green-600 text-emerald-50",
-        },
-        {
-          name: "Pre-Grado",
-          properties: "bg-pink-400 text-pink-900",
-        },
-        {
-          name: "En curso",
-          properties: "bg-orange-400 text-orange-900",
-        },
-      ],
-    },
-    {
-      title: "Responsive Web Design",
-      description:
-        "Certificación de FreeCodeCamp focalizada en el desarrollo de sitios web responsivos con HTML, CSS y Flexbox. 2023",
-      href: "https://www.freecodecamp.org/certification/NicoTomasin/responsive-web-design",
-      stack: [
-        {
-          name: "FreeCodeCamp",
-          properties: "bg-stone-400 text-stone-900",
-        },
-        {
-          name: "Certificado",
-          properties: "bg-amber-400 text-amber-900",
-        },
-        {
-          name: "Terminado",
-          properties: "bg-rose-400 text-rose-900",
-        },
-      ],
-    },
-    {
-      title: "JavaScript Algorithms and Data Structures",
-      description:
-        "Certificación de FreeCodeCamp donde se aprenden algoritmos en JavaScript y estructuras de datos como variables, matrices, objetos, bucles y funciones. 2023",
-      href: "https://www.freecodecamp.org/certification/NicoTomasin/javascript-algorithms-and-data-structures",
-      stack: [
-        {
-          name: "FreeCodeCamp",
-          properties: "bg-stone-400 text-stone-900",
-        },
-        {
-          name: "Certificado",
-          properties: "bg-amber-400 text-amber-900",
-        },
-        {
-          name: "Terminado",
-          properties: "bg-rose-400 text-rose-900",
-        },
-      ],
-    },
-    {
-      title: "Taller de Robótica, Automatización y Control Industrial",
-      description:
-        "Taller presencial de robótica, automatización y control industrial en el Polo de Innovación Tecnológica dictado por el partido de Ituzaingo. 2018.",
-      href: "https://laciudadweb.com.ar/taller-gratuito-de-robotica-en-el-polo-de-innovacion-tecnologica-de-ituzaingo/",
-      stack: [
-        {
-          name: "Ituzaingo",
-          properties: "bg-green-600 text-emerald-50",
-        },
-        {
-          name: "Curso",
-          properties: "bg-cyan-400 text-cyan-900",
-        },
-        {
-          name: "Terminado",
-          properties: "bg-rose-400 text-rose-900",
-        },
-      ],
-    },
+  const projectsRef = useRef(null);
+  const projectTitle = useRef();
+  const tl = gsap.timeline();
+  const data = [
+    { x: "3 Materias", y: 3, label: "En Curso | 15%" },
+    { x: "2 Materias", y: 2, label: "Pendientes | 10%" },
+    { x: "15 Materias", y: 15, label: "Aprobadas | 75%" },
   ];
+
+  useGSAP(
+    () => {
+      tl.from(".title", {
+        scrollTrigger: {
+          trigger: projectsRef.current,
+          start: "+=200 bottom",
+          end: "top bottom",
+          scrub: 3,
+        },
+        rotationY: 36,
+        opacity: 0,
+        duration: 0.5,
+        yPercent: -100,
+        stagger: 0.1,
+        ease: "expo.inOut",
+      })
+        .from(".projectParagraph", {
+          scrollTrigger: {
+            trigger: projectsRef.current,
+            start: "top bottom",
+            end: "top top",
+            scrub: true,
+          },
+          scale: "0.5",
+          opacity: 0,
+        })
+        .from(".grafico", {
+          scrollTrigger: {
+            trigger: projectsRef.current,
+            start: "+=500 bottom",
+            end: "top bottom",
+            scrub: 3,
+          },
+          rotationY: 36,
+          opacity: 0,
+          duration: 0.5,
+          yPercent: -100,
+          stagger: 0.1,
+          ease: "expo.inOut",
+        })
+        .from(".course", {
+          scrollTrigger: {
+            trigger: projectsRef.current,
+            start: "+=500 bottom",
+            end: "top bottom",
+            scrub: 3,
+          },
+          rotationY: 36,
+          opacity: 0,
+          duration: 0.5,
+          yPercent: -100,
+          stagger: 0.1,
+          ease: "expo.inOut",
+        });
+    },
+    { scope: projectsRef, dependencies: [ScrollTrigger] }
+  );
+
   return (
     <div
-      id="educacion"
-      className="mx-auto max-w-screen-lg px-3 py-6 animate-fade-up animate-duration-600    animate-ease-out"
+      ref={projectsRef}
+      className="overflow-hidden mx-auto px-4 lg:px-36 flex flex-col items-center text-white w-screen text-center mt-28"
     >
-      <div className="mb-6 text-2xl font-bold ">Educación</div>
-      <div className="flex flex-col gap-6">
-        {Education.map((Education) => (
-          <EducationCard key={Education.title} {...Education} />
-        ))}
+      <div className="text-center">
+        <h2 className="projectTitle font-semibold text-cyan-400 sm:text-5xl sm:tracking-tight lg:text-6xl flex justify-center align-middle">
+          <p className="title text-6xl">Educación</p>
+        </h2>
+        <p className="projectParagraph max-w-xl mt-5 mx-auto text-2xl text-white">
+          Mi avance y aprendizaje continuo certificado por alguna entidad.
+        </p>
+      </div>
+      <div className="grid lg:grid-cols-2 gap-8 sm:grid-cols-1 mt-24 h-auto p-4">
+        <div className="grafico">
+          <h2 className="projectTitle font-semibold text-cyan-400 sm:text-5xl sm:tracking-tight lg:text-6xl flex justify-center ">
+            <p className="title text-2xl">Desarrollo Web | UNLaM</p>
+          </h2>
+          <VictoryPie
+            height={350}
+            width={500}
+            data={data}
+            colorScale={["#fef08a", "#fb7185", "#34d399"]}
+            labelComponent={<VictoryLabel />}
+            style={{
+              labels: {
+                fill: "white",
+                fontSize: 10,
+                fontWeight: "bold",
+              },
+            }}
+            events={[
+              {
+                target: "data",
+                eventHandlers: {
+                  onMouseOver: () => {
+                    return [
+                      {
+                        target: "data",
+                        mutation: ({ style }) => {
+                          return style.fill === "#22d3ee"
+                            ? null
+                            : { style: { fill: "#22d3ee" } };
+                        },
+                      },
+                      {
+                        target: "labels",
+                        mutation: ({ text, datum }) => {
+                          return text === datum.xName
+                            ? null
+                            : { text: datum.xName };
+                        },
+                      },
+                    ];
+                  },
+                  onMouseOut: () => {
+                    return [
+                      {
+                        target: "data",
+                        mutation: ({ style }) => {
+                          return style.fill === "#22d3ee"
+                            ? null
+                            : { style: { fill: "#22d3ee" } };
+                        },
+                      },
+                      {
+                        target: "labels",
+                        mutation: ({ text, datum }) => {
+                          return text === datum.xName
+                            ? null
+                            : { text: datum.xName };
+                        },
+                      },
+                    ];
+                  },
+                },
+              },
+            ]}
+          />
+        </div>
+        <div className="flex flex-col items-center">
+          <h2 className="font-semibold text-cyan-400 sm:text-5xl sm:tracking-tight lg:text-6xl flex justify-center">
+            <p className="course text-2xl">Cursos y certificaciones</p>
+          </h2>
+          <div className="course">
+            <Course
+              platform={"Platzi"}
+              color={"bg-green-500"}
+              link={"https://platzi.com/p/NicoTomasin/"}
+            />
+          </div>
+          <div className="course">
+            <Course
+              platform={"FreeCodeCamp"}
+              color={"bg-stone-500"}
+              link={"https://www.freecodecamp.org/NicoTomasin"}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

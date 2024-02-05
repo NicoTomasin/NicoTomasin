@@ -1,39 +1,29 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+  --font1: "Poppins";
+  --font2: "Playfair Display";
+  --black: #1a1a1a;
 }
 
 body {
-  font-family: "Poppins", sans-serif;
-  color: hsl(0, 0%, 98%);
-  background: linear-gradient(to top, hsl(0, 0%, 0%), hsl(211, 33%, 21%));
+  background-color: var(--black);
+  background: linear-gradient(90deg, var(--black) 20px, transparent 1%) 50%,
+    linear-gradient(var(--black) 20px, transparent 1%) 50%, #222;
+  background-size: 22px 22px;
+  background-attachment: fixed;
+  color: #fff;
+  font-family: "Barlow Semi Condensed", sans-serif;
+  font-family: var(--font1);
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-
-.container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 
 .gif {
@@ -78,9 +68,7 @@ button:hover {
     box-shadow: 0 0 20px 0 hsla(200, 100%, 70%, 0.259);
   }
 }
-.text-blue-650 {
-  color: hsl(200, 100%, 70%);
-}
+
 .my-atropos {
   width: 330px;
   height: 186px;
@@ -169,15 +157,6 @@ button:hover {
   }
 }
 
-h2 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  padding: 0.5rem 0;
-  color: hsl(200, 100%, 70%);
-}
-strong {
-  color: hsl(200, 100%, 70%);
-}
 img,
 svg,
 video,
@@ -192,15 +171,15 @@ p {
   padding: 1rem 0;
 }
 ::-webkit-scrollbar-thumb {
-  background: hsla(200, 99%, 32%, 0.477);
+  background: #01bfd0;
   border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: hsla(200, 100%, 50%, 0.546);
+  background: #00eaff;
   border-radius: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(20, 79, 108, 0.546);
+  background: #2a2a2a;
   border-radius: 10px;
 }
 ::-webkit-scrollbar {
@@ -219,7 +198,6 @@ pre {
   letter-spacing: 0.5px;
   font-size: 11pt;
   height: auto;
-  overflow: auto;
 }
 a {
   color: #02abff;
@@ -291,4 +269,7 @@ table tfoot td {
   font-size: 25px;
   font-family: "Roboto", sans-serif;
   font-weight: 100;
+}
+.projectCard {
+  min-height: 31rem;
 }

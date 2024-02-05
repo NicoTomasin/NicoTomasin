@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /api/og/*
-Allow: /posts
+Allow: /blog
 Allow: /
 Sitemap: http://nicotomasin.com.ar/sitemap.xml

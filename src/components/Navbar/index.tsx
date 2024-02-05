@@ -1,31 +1,27 @@
-import Link from "next/link";
+"use client";
+import { usePathname } from "next/navigation";
 export default function Navbar() {
+  const pathname = usePathname();
   return (
-    <div className="mx-auto max-w-screen-lg px-3 py-6">
-      <div className="flex flex-col gap-y-3 sm:flex-row sm:items-center sm:justify-between">
+    <div className="fixed top-0 p-4 w-screen h-20 bg-black rounded-md bg-clip-padding backdrop-filter backdrop-blur-2xl bg-opacity-10 z-50">
+      {pathname === "/blog" ? (
         <a
-          className="text-cyan-400 hover:underline"
-          href="https://www.nicotomasin.com.ar"
-          rel="canonical"
+          href="/"
+          rel="noopener noreferrer"
+          className="text-2xl text-white left-8 fixed"
         >
-          <div className="flex items-center text-blue-650 bg-clip-text text-xl font-bold text-transparent">
-            {"<> "} Nico Tomasin {" </> "}
-          </div>
+          Nico Tomasin
         </a>
-        <nav>
-          <ul className="flex gap-x-3 font-medium text-gray-200">
-            <li className="hover:text-white">
-              <Link href="/#projects">Proyectos</Link>
-            </li>
-            <li className="hover:text-white">
-              <Link href="/posts">Posts</Link>
-            </li>
-            <li className="hover:text-white">
-              <Link href="/#educacion">Educación</Link>
-            </li>
-          </ul>
-        </nav>
-      </div>
+      ) : (
+        ""
+      )}
+      <a
+        href="/blog"
+        rel="noopener noreferrer"
+        className="text-2xl text-white right-8 fixed"
+      >
+        Blog
+      </a>
     </div>
   );
 }
