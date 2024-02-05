@@ -51,7 +51,7 @@ export default function Hero() {
       ref={heroRef}
       className="flex flex-col items-center justify-center  w-screen h-screen p-8 text-center"
     >
-      <h1 ref={h1Ref} className="title fixed text-5xl p-4 z-50">
+      <h1 ref={h1Ref} className="title fixed text-4xl p-4 z-50">
         <a
           href="/"
           rel="noopener noreferrer"
@@ -61,7 +61,7 @@ export default function Hero() {
         </a>
       </h1>
 
-      <h2 ref={h2Ref} className=" subtitlebox text-3xl mt-32 text-cyan-400">
+      <h2 ref={h2Ref} className=" subtitlebox text-2xl mt-32 text-cyan-400">
         DESARROLLADOR WEB
       </h2>
     </div>
