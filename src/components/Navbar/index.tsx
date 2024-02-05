@@ -3,7 +3,7 @@ import { usePathname } from "next/navigation";
 export default function Navbar() {
   const pathname = usePathname();
   return (
-    <div className="fixed top-0 p-4 w-screen h-20 bg-black rounded-md bg-clip-padding backdrop-filter backdrop-blur-2xl bg-opacity-10 z-50">
+    <div className="fixed top-0 p-4 w-screen h-16 bg-black rounded-md bg-clip-padding backdrop-filter backdrop-blur-2xl bg-opacity-10 z-50">
       {pathname === "/blog" ? (
         <a
           href="/"

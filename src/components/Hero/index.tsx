@@ -29,7 +29,7 @@ export default function Hero() {
             end: "center top",
             scrub: true,
           },
-          top: 10,
+          top: 4,
           left: 8,
           fontSize: 20,
         })
@@ -51,7 +51,7 @@ export default function Hero() {
       ref={heroRef}
       className="flex flex-col items-center justify-center  w-screen h-screen p-8 text-center"
     >
-      <h1 ref={h1Ref} className="title fixed text-4xl p-4 z-50">
+      <h1 ref={h1Ref} className="title fixed text-4xl p-2 z-50">
         <a
           href="/"
           rel="noopener noreferrer"
