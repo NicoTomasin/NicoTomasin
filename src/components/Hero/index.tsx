@@ -30,7 +30,7 @@ export default function Hero() {
             scrub: true,
           },
           top: 10,
-          left: 10,
+          left: 8,
           fontSize: 20,
         })
         .to(h2Ref.current, {
@@ -49,11 +49,18 @@ export default function Hero() {
   return (
     <div
       ref={heroRef}
-      className="flex flex-col items-center justify-center text-white w-screen h-screen p-8 text-center"
+      className="flex flex-col items-center justify-center  w-screen h-screen p-8 text-center"
     >
-      <h1 ref={h1Ref} className="title fixed text-5xl p-4 z-10">
-        NICO TOMASIN
+      <h1 ref={h1Ref} className="title fixed text-5xl p-4 z-50">
+        <a
+          href="/"
+          rel="noopener noreferrer"
+          className="hover:text-cyan-400 text-white transition"
+        >
+          NICO TOMASIN
+        </a>
       </h1>
+
       <h2 ref={h2Ref} className=" subtitlebox text-3xl mt-32 text-cyan-400">
         DESARROLLADOR WEB
       </h2>

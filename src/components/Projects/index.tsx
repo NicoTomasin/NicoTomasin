@@ -146,7 +146,7 @@ export default function Projects() {
   return (
     <div
       ref={projectsRef}
-      className="overflow-x-hidden mx-auto px-4 lg:px-36 flex flex-col items-center text-white w-screen  text-center"
+      className="overflow-x-hidden mx-auto px-4 lg:px-36 flex flex-col items-center text-white w-screen  text-center mt-28 "
     >
       <div className="text-center">
         <h2 className="projectTitle font-extrabold text-cyan-400 sm:text-5xl sm:tracking-tight lg:text-6xl flex justify-center align-middle">
@@ -164,7 +164,7 @@ export default function Projects() {
           Estos son algunos proyectos en los que participe.
         </p>
       </div>
-      <div className="grid lg:grid-cols-4 gap-8 sm:grid-cols-1 mt-24 h-auto p-4">
+      <div className="grid xl:grid-cols-4 gap-8 sm:grid-cols-1 lg:grid-cols-2 mt-24 h-auto p-4">
         {Projects.map((projects, index) => (
           <div className="cards" key={index}>
             <ProjectCard {...projects} />

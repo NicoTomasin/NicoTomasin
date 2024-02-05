@@ -16,13 +16,9 @@ export default function posts() {
     })
     .map((post) => <PostCard key={post.slug} post={post} />);
   return (
-    <main className="flex min-h-screen flex-col items-center md:p-24 p-5">
+    <main className="flex min-h-screen flex-col items-center md:p-24 p-5 mt-20">
       <h1 className="text-3xl font-bold animate-fade-up animate-duration-600 animate-ease-out">
-        Todos mis{" "}
-        <span className="text-blue-650 bg-clip-text text-transparent">
-          posts
-        </span>{" "}
-        📄
+        Todos mis <span className="text-cyan-400 bg-clip-text">posts</span> 📄
       </h1>
       <div
         id="allPosts"

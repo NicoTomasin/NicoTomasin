@@ -140,7 +140,7 @@ export default function Experience() {
                   cardsRef.current[index] = el!;
                 }
               }}
-              className={`card z-50 mb-4 ${index > 0 ? "mt-4" : ""}`}
+              className={`card z-40 mb-4 ${index > 0 ? "mt-4" : ""}`}
             >
               <ExperienceCard {...experience} />
             </div>

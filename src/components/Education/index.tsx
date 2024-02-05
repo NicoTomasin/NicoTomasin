@@ -4,6 +4,7 @@ import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { VictoryLabel, VictoryPie } from "victory";
+import Course from "../Course";
 gsap.registerPlugin(ScrollTrigger);
 export default function Education() {
   const projectsRef = useRef(null);
@@ -14,12 +15,13 @@ export default function Education() {
     { x: "2 Materias", y: 2, label: "Pendientes | 10%" },
     { x: "15 Materias", y: 15, label: "Aprobadas | 75%" },
   ];
+
   useGSAP(
     () => {
       tl.from(".title", {
         scrollTrigger: {
           trigger: projectsRef.current,
-          start: "top bottom",
+          start: "+=200 bottom",
           end: "top bottom",
           scrub: 3,
         },
@@ -43,13 +45,30 @@ export default function Education() {
         .from(".grafico", {
           scrollTrigger: {
             trigger: projectsRef.current,
-            start: "top bottom",
-            end: "top top",
-            scrub: true,
+            start: "+=500 bottom",
+            end: "top bottom",
+            scrub: 3,
           },
-
-          rotate: "360deg",
+          rotationY: 36,
           opacity: 0,
+          duration: 0.5,
+          yPercent: -100,
+          stagger: 0.1,
+          ease: "expo.inOut",
+        })
+        .from(".course", {
+          scrollTrigger: {
+            trigger: projectsRef.current,
+            start: "+=500 bottom",
+            end: "top bottom",
+            scrub: 3,
+          },
+          rotationY: 36,
+          opacity: 0,
+          duration: 0.5,
+          yPercent: -100,
+          stagger: 0.1,
+          ease: "expo.inOut",
         });
     },
     { scope: projectsRef, dependencies: [ScrollTrigger] }
@@ -58,10 +77,10 @@ export default function Education() {
   return (
     <div
       ref={projectsRef}
-      className="overflow-x-hidden mx-auto px-4 lg:px-36 flex flex-col items-center text-white w-screen h-screen text-center mt-12"
+      className="overflow-hidden mx-auto px-4 lg:px-36 flex flex-col items-center text-white w-screen text-center mt-28"
     >
       <div className="text-center">
-        <h2 className="projectTitle font-extrabold text-cyan-400 sm:text-5xl sm:tracking-tight lg:text-6xl flex justify-center align-middle">
+        <h2 className="projectTitle font-semibold text-cyan-400 sm:text-5xl sm:tracking-tight lg:text-6xl flex justify-center align-middle">
           <p className="title text-6xl">Educación</p>
         </h2>
         <p className="projectParagraph max-w-xl mt-5 mx-auto text-2xl text-white">
@@ -70,8 +89,8 @@ export default function Education() {
       </div>
       <div className="grid lg:grid-cols-2 gap-8 sm:grid-cols-1 mt-24 h-auto p-4">
         <div className="grafico">
-          <h2 className="projectTitle font-extrabold text-cyan-400 sm:text-5xl sm:tracking-tight lg:text-6xl flex justify-center ">
-            <p className="title text-2xl">Tecnicatura en desarrollo Web</p>
+          <h2 className="projectTitle font-semibold text-cyan-400 sm:text-5xl sm:tracking-tight lg:text-6xl flex justify-center ">
+            <p className="title text-2xl">Desarrollo Web | UNLaM</p>
           </h2>
           <VictoryPie
             height={350}
@@ -135,7 +154,25 @@ export default function Education() {
             ]}
           />
         </div>
-        <div className="">Acordeon</div>
+        <div className="flex flex-col items-center">
+          <h2 className="font-semibold text-cyan-400 sm:text-5xl sm:tracking-tight lg:text-6xl flex justify-center">
+            <p className="course text-2xl">Cursos y certificaciones</p>
+          </h2>
+          <div className="course">
+            <Course
+              platform={"Platzi"}
+              color={"bg-green-500"}
+              link={"https://platzi.com/p/NicoTomasin/"}
+            />
+          </div>
+          <div className="course">
+            <Course
+              platform={"FreeCodeCamp"}
+              color={"bg-stone-500"}
+              link={"https://www.freecodecamp.org/NicoTomasin"}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

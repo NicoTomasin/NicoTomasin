@@ -1,7 +1,7 @@
+import Navbar from "../components/Navbar";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
-import Image from "next/image";
 export default function RootLayout({
   children,
 }: {
@@ -10,20 +10,10 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body>
-        <div className="fixed top-0 right-5 p-4">
-          <div className="mb-4">
-            <a
-              href="/blog"
-              rel="noopener noreferrer"
-              className="text-2xl text-white"
-            >
-              Blog
-            </a>
-          </div>
-        </div>
+        <Navbar />
         {children}
         <Analytics />
-        <div className="fixed bottom-0 left-0 p-4">
+        <div className="fixed bottom-0 left-0 p-4 bg-black rounded-md bg-clip-padding backdrop-filter backdrop-blur-2xl bg-opacity-10 z-50 border border-cyan-400">
           <div className="mb-4">
             <a
               href="https://github.com/NicoTomasin"
@@ -109,7 +99,7 @@ export default function RootLayout({
 export const metadata: Metadata = {
   title: {
     template: "%s | NicoTomasin",
-    default: "Portfolio | NicoTomasin",
+    default: "NicoTomasin",
   },
   metadataBase: new URL("https://www.nicotomasin.com.ar"),
   alternates: {
@@ -119,7 +109,7 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Portfolio | NicoTomasin",
+    title: "NicoTomasin",
     description: "Bienvenid@ a mi portfolio personal, espero que te guste! 🚀",
     url: "https://www.nicotomasin.com.ar",
     siteName: "NicoTomasin",
@@ -150,7 +140,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Portfolio | NicoTomasin",
+    title: "NicoTomasin",
     description: "Bienvenid@ a mi portfolio personal, espero que te guste! 🚀",
     creator: "@NicolasTomasin",
     images: ["https://www.nicotomasin.com.ar/ogImage.png"],
