@@ -22,7 +22,8 @@ export default function ProjectCard({
         <div className="mb-4">
           <Image
             src={image}
-            alt="Arrow"
+            alt={description}
+            title={title}
             className="rounded-xl border-cyan-400 border-2"
             width={1320}
             height={700}

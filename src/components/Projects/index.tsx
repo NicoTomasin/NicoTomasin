@@ -37,7 +37,7 @@ export default function Projects() {
       description:
         "Ademas de la creación de la lading page, hice la integración con Sanity CMS para la gestión de los posts y multiples idiomas aprovechando la funcionalidad de i18n de NextJs",
       href: "https://dra.cynthiacastro.com/es",
-      image: "/projects/cynthia.png",
+      image: "/projects/Cynthia.png",
       stack: [
         {
           name: "NextJs",
