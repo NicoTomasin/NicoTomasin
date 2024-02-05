@@ -9,6 +9,7 @@ export default function Projects() {
   const projectsRef = useRef(null);
   const projectTitle = useRef();
   const tl = gsap.timeline();
+  const tl2 = gsap.timeline();
   const Projects = [
     {
       title: "Block Builders Landing Page",
@@ -104,8 +105,8 @@ export default function Projects() {
       tl.from(".letter", {
         scrollTrigger: {
           trigger: projectsRef.current,
-          start: "center bottom",
-          end: "center bottom",
+          start: "top bottom",
+          end: "=+300 bottom",
           scrub: 5,
         },
         rotationY: 36,
@@ -124,6 +125,20 @@ export default function Projects() {
         scale: "0.5",
         opacity: 0,
       });
+      tl2.from(".cards", {
+        scrollTrigger: {
+          trigger: projectsRef.current,
+          start: "top bottom",
+          end: "=+500 bottom",
+          scrub: 5,
+        },
+        rotationY: 36,
+        opacity: 0,
+        duration: 1,
+        yPercent: -100,
+        stagger: 0.1,
+        ease: "expo.inOut",
+      });
     },
     { scope: projectsRef, dependencies: [ScrollTrigger] }
   );
@@ -131,7 +146,7 @@ export default function Projects() {
   return (
     <div
       ref={projectsRef}
-      className="overflow-x-hidden mx-auto px-4 lg:px-36 flex flex-col items-center text-white w-screen h-screen text-center"
+      className="overflow-x-hidden mx-auto px-4 lg:px-36 flex flex-col items-center text-white w-screen  text-center"
     >
       <div className="text-center">
         <h2 className="projectTitle font-extrabold text-cyan-400 sm:text-5xl sm:tracking-tight lg:text-6xl flex justify-center align-middle">
@@ -151,7 +166,9 @@ export default function Projects() {
       </div>
       <div className="grid lg:grid-cols-4 gap-8 sm:grid-cols-1 mt-24 h-auto p-4">
         {Projects.map((projects, index) => (
-          <ProjectCard key={index} {...projects} />
+          <div className="cards" key={index}>
+            <ProjectCard {...projects} />
+          </div>
         ))}
       </div>
     </div>

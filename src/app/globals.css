@@ -171,11 +171,11 @@ p {
   padding: 1rem 0;
 }
 ::-webkit-scrollbar-thumb {
-  background: #00eaff;
+  background: #01bfd0;
   border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #02abff;
+  background: #00eaff;
   border-radius: 10px;
 }
 ::-webkit-scrollbar-track {
