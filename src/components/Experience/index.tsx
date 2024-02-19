@@ -1,15 +1,10 @@
-"use client";
 import { Fragment, useRef } from "react";
-import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import ExperienceCard from "../ExperienceCard";
 
-gsap.registerPlugin(ScrollTrigger);
-export default function Experience() {
+export default function Experience({ tl }: { tl: GSAPTimeline }) {
   const experienceRef = useRef(null);
   const cardsRef = useRef([]);
-  const tl = gsap.timeline();
   const Experience = [
     {
       title: "Block Builders",
@@ -95,7 +90,7 @@ export default function Experience() {
         });
       Experience.forEach((experience, index) => {
         const card = cardsRef.current[index];
-        gsap.from(card, {
+        tl.from(card, {
           scrollTrigger: {
             trigger: experienceRef.current,
             start: "top bottom",
@@ -110,7 +105,7 @@ export default function Experience() {
         });
       });
     },
-    { scope: experienceRef, dependencies: [ScrollTrigger] }
+    { scope: experienceRef }
   );
 
   return (

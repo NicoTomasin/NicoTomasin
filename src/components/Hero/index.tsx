@@ -1,18 +1,19 @@
-"use client";
 import { useRef } from "react";
-import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-gsap.registerPlugin(ScrollTrigger);
-export default function Hero() {
+export default function Hero({
+  tl,
+  ScrollTrigger,
+}: {
+  tl: GSAPTimeline;
+  ScrollTrigger: any;
+}) {
   const heroRef = useRef(null);
-  const h1Ref = useRef(null);
+  const nameRef = useRef(null);
   const h2Ref = useRef(null);
-  const tl = gsap.timeline();
 
   useGSAP(
     () => {
-      tl.from(h1Ref.current, {
+      tl.from(nameRef.current, {
         opacity: 0,
         duration: 0.5,
         y: -100,
@@ -22,7 +23,7 @@ export default function Hero() {
           duration: 0.5,
           y: -100,
         })
-        .to(h1Ref.current, {
+        .to(nameRef.current, {
           scrollTrigger: {
             trigger: heroRef.current,
             start: "top top",
@@ -51,17 +52,11 @@ export default function Hero() {
       ref={heroRef}
       className="flex flex-col items-center justify-center  w-screen h-screen p-8 text-center"
     >
-      <h1 ref={h1Ref} className="title fixed text-4xl p-2 z-50">
-        <a
-          href="/"
-          rel="noopener noreferrer"
-          className="hover:text-cyan-400 text-white transition"
-        >
-          NICO TOMASIN
-        </a>
+      <h1 ref={nameRef} className="fixed text-4xl p-2 z-50">
+        NICO TOMASIN
       </h1>
 
-      <h2 ref={h2Ref} className=" subtitlebox text-2xl mt-32 text-cyan-400">
+      <h2 ref={h2Ref} className="text-2xl mt-32 text-cyan-400">
         DESARROLLADOR WEB
       </h2>
     </div>

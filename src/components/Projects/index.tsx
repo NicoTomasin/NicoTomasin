@@ -1,15 +1,9 @@
-"use client";
 import { Fragment, useRef } from "react";
-import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import ProjectCard from "../ProjectsCard";
-gsap.registerPlugin(ScrollTrigger);
-export default function Projects() {
+export default function Projects({ tl }: { tl: GSAPTimeline }) {
   const projectsRef = useRef(null);
   const projectTitle = useRef();
-  const tl = gsap.timeline();
-  const tl2 = gsap.timeline();
   const Projects = [
     {
       title: "Block Builders Landing Page",
@@ -115,32 +109,33 @@ export default function Projects() {
         yPercent: -100,
         stagger: 0.1,
         ease: "expo.inOut",
-      }).from(".projectParagraph", {
-        scrollTrigger: {
-          trigger: projectsRef.current,
-          start: "top bottom",
-          end: "top top",
-          scrub: true,
-        },
-        scale: "0.5",
-        opacity: 0,
-      });
-      tl2.from(".cards", {
-        scrollTrigger: {
-          trigger: projectsRef.current,
-          start: "top bottom",
-          end: "=+500 bottom",
-          scrub: 5,
-        },
-        rotationY: 36,
-        opacity: 0,
-        duration: 1,
-        yPercent: -100,
-        stagger: 0.1,
-        ease: "expo.inOut",
-      });
+      })
+        .from(".projectParagraph", {
+          scrollTrigger: {
+            trigger: projectsRef.current,
+            start: "top bottom",
+            end: "top top",
+            scrub: true,
+          },
+          scale: "0.5",
+          opacity: 0,
+        })
+        .from(".cards", {
+          scrollTrigger: {
+            trigger: projectsRef.current,
+            start: "top bottom",
+            end: "=+500 bottom",
+            scrub: 5,
+          },
+          rotationY: 36,
+          opacity: 0,
+          duration: 1,
+          yPercent: -100,
+          stagger: 0.1,
+          ease: "expo.inOut",
+        });
     },
-    { scope: projectsRef, dependencies: [ScrollTrigger] }
+    { scope: projectsRef }
   );
 
   return (

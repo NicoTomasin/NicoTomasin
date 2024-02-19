@@ -1,15 +1,10 @@
-"use client";
 import { Fragment, useRef } from "react";
-import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { VictoryLabel, VictoryPie } from "victory";
 import Course from "../Course";
-gsap.registerPlugin(ScrollTrigger);
-export default function Education() {
+export default function Education({ tl }: { tl: GSAPTimeline }) {
   const projectsRef = useRef(null);
   const projectTitle = useRef();
-  const tl = gsap.timeline();
   const data = [
     { x: "3 Materias", y: 3, label: "En Curso | 15%" },
     { x: "2 Materias", y: 2, label: "Pendientes | 10%" },
@@ -71,7 +66,7 @@ export default function Education() {
           ease: "expo.inOut",
         });
     },
-    { scope: projectsRef, dependencies: [ScrollTrigger] }
+    { scope: projectsRef }
   );
 
   return (
