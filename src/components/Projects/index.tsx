@@ -141,7 +141,7 @@ export default function Projects({ tl }: { tl: GSAPTimeline }) {
   return (
     <div
       ref={projectsRef}
-      className="overflow-x-hidden mx-auto px-4 lg:px-36 flex flex-col items-center text-white w-screen  text-center mt-28 "
+      className="overflow-x-hidden mx-auto px-4 lg:px-4 flex flex-col items-center text-white w-screen  text-center mt-28 "
     >
       <div className="text-center">
         <h2 className="projectTitle font-extrabold text-cyan-400 sm:text-5xl sm:tracking-tight lg:text-6xl flex justify-center align-middle">

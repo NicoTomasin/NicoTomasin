@@ -18,7 +18,7 @@ export default function ProjectCard({
       href={href}
       target="_blank"
     >
-      <div className="projectCard w-96 flex flex-col items-center p-4 border-2 rounded-xl border-cyan-400">
+      <div className="projectCard w-80 flex flex-col items-center p-4 border-2 rounded-xl border-cyan-400">
         <div className="mb-4">
           <Image
             src={image}
