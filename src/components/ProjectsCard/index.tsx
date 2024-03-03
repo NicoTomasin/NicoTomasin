@@ -14,7 +14,7 @@ export default function ProjectCard({
 }) {
   return (
     <a
-      className="text-cyan-400 hover:text-cyan-400 min-h-96"
+      className="text-cyan-400 hover:text-cyan-400"
       href={href}
       target="_blank"
     >
@@ -46,7 +46,7 @@ export default function ProjectCard({
             </div>
           </div>
         </div>
-        <p className="mt-3 text-gray-400 text-lg text-justify	">{description}</p>
+        <p className="mt-3 text-gray-400 text-lg">{description}</p>
       </div>
     </a>
   );

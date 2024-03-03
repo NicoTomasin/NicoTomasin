@@ -7,22 +7,6 @@ export default function Experience({ tl }: { tl: GSAPTimeline }) {
   const cardsRef = useRef([]);
   const Experience = [
     {
-      title: "Block Builders",
-      description:
-        "Block Builders es una consultora de software con una fuerte orientación en el desarrollo blockchain y web",
-      href: "https://www.block-builders.tech/",
-      stack: [
-        {
-          name: "Frontend",
-          properties: "text-green-400",
-        },
-        {
-          name: "Actualidad",
-          properties: "text-yellow-500",
-        },
-      ],
-    },
-    {
       title: "Freelance",
       description:
         "He trabajado como freelance en varios proyectos como automatizaciones, landing pages y blogs",
@@ -35,6 +19,22 @@ export default function Experience({ tl }: { tl: GSAPTimeline }) {
         {
           name: "Actualidad",
           properties: "text-yellow-500",
+        },
+      ],
+    },
+    {
+      title: "Block Builders",
+      description:
+        "Block Builders es una consultora de software con una fuerte orientación en el desarrollo blockchain y web",
+      href: "https://www.block-builders.tech/",
+      stack: [
+        {
+          name: "Frontend",
+          properties: "text-green-400",
+        },
+        {
+          name: "sept. 2023 - feb. 2024 ",
+          properties: "text-red-400",
         },
       ],
     },

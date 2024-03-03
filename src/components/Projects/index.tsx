@@ -55,10 +55,6 @@ export default function Projects({ tl }: { tl: GSAPTimeline }) {
       image: "/projects/Cryptonotify.png",
       stack: [
         {
-          name: "NextJs",
-          properties: "bg-gray-300 text-black",
-        },
-        {
           name: "Stripe",
           properties: "bg-purple-300 text-purple-800",
         },
