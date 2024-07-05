@@ -90,7 +90,7 @@ export default function Education({ tl }: { tl: GSAPTimeline }) {
             height={350}
             width={500}
             data={data}
-            colorScale={["#fef08a", "#fb7185", "#34d399"]}
+            colorScale={["#fef08a", "#34d399"]}
             labelComponent={<VictoryLabel />}
             style={{
               labels: {
