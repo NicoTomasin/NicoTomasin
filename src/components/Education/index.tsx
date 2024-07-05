@@ -6,9 +6,8 @@ export default function Education({ tl }: { tl: GSAPTimeline }) {
   const projectsRef = useRef(null);
   const projectTitle = useRef();
   const data = [
-    { x: "3 Materias", y: 3, label: "En Curso | 15%" },
-    { x: "2 Materias", y: 2, label: "Pendientes | 10%" },
-    { x: "15 Materias", y: 15, label: "Aprobadas | 75%" },
+    { x: "2 Materias", y: 2, label: "En Curso | 10%" },
+    { x: "18 Materias", y: 18, label: "Aprobadas | 90%" },
   ];
 
   useGSAP(
