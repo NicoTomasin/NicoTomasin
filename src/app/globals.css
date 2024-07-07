@@ -10,14 +10,11 @@
 }
 
 body {
-  background: radial-gradient(circle, #e6e6e69c 10%, transparent 11%),
-    radial-gradient(circle at bottom left, #e6e6e6 5%, transparent 6%),
-    radial-gradient(circle at bottom right, #e6e6e6 5%, transparent 6%),
-    radial-gradient(circle at top left, #e6e6e6 5%, transparent 6%),
-    radial-gradient(circle at top right, #e6e6e6 5%, transparent 6%);
-  background-size: 1em 1em;
-  background-color: #1a1a1a;
-  opacity: 1;
+  background-color: var(--black);
+  background: linear-gradient(90deg, var(--black) 20px, transparent 1%) 50%,
+    linear-gradient(var(--black) 20px, transparent 1%) 50%, #222;
+  background-size: 22px 22px;
+  background-attachment: fixed;
   color: #fff;
   font-family: var(--font1);
 }
