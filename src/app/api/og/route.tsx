@@ -1,15 +1,17 @@
-import { ImageResponse } from "next/server";
+import { ImageResponse } from "@vercel/og";
 
 export const runtime = "edge";
+
 const firstLetterToUpperCase = (str: string) => {
   let title = str.replace(/-/g, " ");
   title = title.charAt(0).toUpperCase() + title.slice(1);
   return title;
 };
 
-export async function GET(req: any) {
+export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const title: string | null = searchParams.get("title");
+
   if (!title) {
     return new Response("Missing title", { status: 400 });
   }
