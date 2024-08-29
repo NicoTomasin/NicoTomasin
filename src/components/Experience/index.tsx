@@ -7,6 +7,22 @@ export default function Experience({ tl }: { tl: GSAPTimeline }) {
   const cardsRef = useRef([]);
   const Experience = [
     {
+      title: "G2M",
+      description:
+        "En G2M me desempeño como Programador de Software de escritorio, Actualmente usando Python",
+      href: "https://www.g2mgroup.ar/",
+      stack: [
+        {
+          name: "Software Developer",
+          properties: "text-green-400",
+        },
+        {
+          name: "Actualidad",
+          properties: "text-yellow-500",
+        },
+      ],
+    },
+    {
       title: "Freelance",
       description:
         "He trabajado como freelance en varios proyectos como automatizaciones, landing pages y blogs",
