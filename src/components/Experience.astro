@@ -1,0 +1,108 @@
+---
+import Section from './Section.astro';
+import portfolioData from '../data/portfolio.json';
+
+const { experience } = portfolioData;
+---
+
+<Section>
+  <div class="section-title border-b">
+    <h2>// EXPERIENCIA_LOG</h2>
+  </div>
+  
+  <div class="experience-list">
+    {experience.map((job) => (
+      <div class="job-item border-b">
+        <div class="job-header">
+          <h3 class="role">> {job.role}</h3>
+          <span class="company">@ {job.company}</span>
+        </div>
+        <div class="job-details">
+          <span class="period">[{job.period}]</span>
+          <p class="description">{job.description}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+</Section>
+
+<style>
+  .section-title {
+    padding: 1.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .section-title h2 {
+    font-size: 1.5rem;
+    position: relative;
+    z-index: 1;
+    background-color: var(--color-bg);
+    display: inline-block;
+    padding-right: 1rem;
+  }
+
+  .job-item {
+    display: grid;
+    grid-template-columns: 1fr;
+    transition: background-color 0.3s;
+  }
+
+  .job-item:hover {
+      background-color: rgba(171, 209, 198, 0.05);
+  }
+
+  @media (min-width: 768px) {
+    .job-item {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .job-header, .job-details {
+    padding: 2rem;
+  }
+
+  .job-header {
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  @media (min-width: 768px) {
+    .job-header {
+      border-bottom: none;
+      border-right: 1px solid var(--border-color);
+    }
+  }
+
+  .role {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+  }
+
+  .company {
+    opacity: 0.8;
+    font-size: 0.9rem;
+  }
+
+  .period {
+    display: block;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    font-weight: 400;
+    opacity: 0.9;
+  }
+
+  .period::before {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background-color: var(--color-text);
+      margin-right: 8px;
+      animation: blink 2s infinite;
+  }
+
+  .job-item:last-child {
+    border-bottom: none;
+  }
+</style>

@@ -1,0 +1,109 @@
+---
+import Section from './Section.astro';
+import portfolioData from '../data/portfolio.json';
+
+const { education } = portfolioData;
+---
+
+<Section>
+  <div class="section-title border-b">
+    <h2>// EDUCACION_LOG</h2>
+  </div>
+  
+  <div class="education-list">
+    {education.map((item) => (
+      <div class="edu-item border-b">
+        <div class="edu-content">
+          <div class="edu-header">
+            <h3 class="degree">> {item.degree}</h3>
+            <span class="year">[{item.year}]</span>
+          </div>
+          <span class="institution">@ {item.institution}</span>
+        </div>
+      </div>
+    ))}
+  </div>
+</Section>
+
+<style>
+  .section-title {
+    padding: 1.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .section-title h2 {
+    font-size: 1.5rem;
+    position: relative;
+    z-index: 1;
+    background-color: var(--color-bg);
+    display: inline-block;
+    padding-right: 1rem;
+    transform: none;
+    writing-mode: horizontal-tb;
+  }
+
+  .edu-item {
+    transition: background-color 0.3s;
+  }
+
+  .edu-item:hover {
+    background-color: rgba(171, 209, 198, 0.05);
+  }
+
+  .edu-content {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .edu-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .edu-header {
+      flex-direction: row;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+  }
+
+  .degree {
+    font-size: 1.2rem;
+    color: var(--color-text);
+  }
+
+  .institution {
+    opacity: 0.8;
+    font-size: 0.9rem;
+  }
+
+  .year {
+    font-size: 0.9rem;
+    font-weight: 400;
+    opacity: 0.9;
+  }
+
+  .year::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-text);
+    margin-right: 8px;
+    animation: blink 2s infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .edu-item:last-child {
+    border-bottom: none;
+  }
+</style>

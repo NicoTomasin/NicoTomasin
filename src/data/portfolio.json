@@ -1,0 +1,123 @@
+{
+  "metadata": {
+    "title": "Nico Tomasin | Portfolio",
+    "description": "Nico Tomasin Portfolio",
+    "version": "V2.0.0",
+    "lastUpdate": "2026-01-09"
+  },
+  "hero": {
+    "label": "Nico Tomasin",
+    "title": "FULL STACK DEVELOPER",
+    "description": "Construyendo aplicaciones web modernas y escalables con un enfoque en performance y experiencia de usuario.",
+    "status": "DISPONIBLE PARA PROYECTOS"
+  },
+  "experience": [
+    {
+      "role": "Full Stack Developer",
+      "company": "WABOT",
+      "period": "nov. 2024 - ene. 2026",
+      "description": "En wabot desarrollamos bots de WhatsApp para empresas como PECOM y Unilever"
+    },
+    {
+      "role": "Software Developer",
+      "company": "G2M",
+      "period": "ago. 2024 - nov. 2024",
+      "description": "Desarrollo y mantenimiento del software utilizado para el censo nacional Argentino"
+    },
+    {
+      "role": "Frontend Developer",
+      "company": "Block Builders",
+      "period": "sep. 2023 - feb. 2024",
+      "description": "Creación de sitios web corporativos y landing pages para todo tipo de clientes"
+    }
+  ],
+  "projects": [
+    {
+      "title": "Mi Vidriera",
+      "tech": "Astro, Vercel, CSS, Mercado Pago, PostgreSQL",
+      "description": "Una plataforma con editor WYSIWYG para crear un sitio basico para emprendedores",
+      "link": "https://mividriera.com.ar"
+    },
+    {
+      "title": "Hankook Argentina",
+      "tech": "Wordpress, CSS, PHP, WooCommerce",
+      "description": "Sitio web de la marca de neumaticos Hankook Argentina",
+      "link": "https://hankook.com.ar/"
+    },
+    {
+      "title": "Argenews",
+      "tech": "Astro, CSS, Cloudflare Workers, Hono, PostgreSQL",
+      "description": "Portal de noticias inspirado en hackernews con las principales noticias de Argentina",
+      "link": "https://argenews.ar/"
+    },
+    {
+      "title": "CryptoNotify",
+      "tech": "Next.js, Material UI, AWS, FeathersJS",
+      "description": "Aplicación para reducir la barrera de entrada en la creacion de bots de trading de alta frecuencia",
+      "link": "https://cryptonotify.me/"
+    }
+  ],
+  "education": [
+    {
+      "degree": "Tec. en Desarrollo Web",
+      "institution": "Universidad Nacional de La Matanza",
+      "year": "2020 - 2024"
+    },
+    {
+      "degree": "Programacion Basica con C#",
+      "institution": "Platzi",
+      "year": "2024"
+    }
+  ],
+  "footer": {
+    "email": "hola@nicotomasin.com.ar",
+    "copyright": "Nico Tomasin",
+    "socials": [
+      {
+        "name": "Email",
+        "url": "mailto:hola@nicotomasin.com.ar",
+        "icon": "mail"
+      },
+      {
+        "name": "Instagram",
+        "url": "https://www.instagram.com/nicotomasin_",
+        "icon": "instagram"
+      },
+      {
+        "name": "X",
+        "url": "https://x.com/NicoTomasin_",
+        "icon": "x"
+      },
+      {
+        "name": "YouTube",
+        "url": "https://www.youtube.com/@NicoTomasin",
+        "icon": "youtube"
+      },
+      {
+        "name": "LinkedIn",
+        "url": "https://www.linkedin.com/in/nicotomasin",
+        "icon": "linkedin"
+      },
+      {
+        "name": "Platzi",
+        "url": "https://platzi.com/p/NicoTomasin/",
+        "icon": "platzi"
+      },
+      {
+        "name": "freeCodeCamp",
+        "url": "https://www.freecodecamp.org/NicoTomasin",
+        "icon": "freecodecamp"
+      },
+      {
+        "name": "GitHub",
+        "url": "https://github.com/NicoTomasin",
+        "icon": "github"
+      },
+      {
+        "name": "GitLab",
+        "url": "https://gitlab.com/NicoTomasin",
+        "icon": "gitlab"
+      }
+    ]
+  }
+}
