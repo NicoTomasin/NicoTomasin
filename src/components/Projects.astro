@@ -1,0 +1,156 @@
+---
+import Section from './Section.astro';
+import portfolioData from '../data/portfolio.json';
+
+const { projects } = portfolioData;
+---
+
+<Section>
+  <div class="section-title border-b">
+    <h2>// PROYECTOS_INIT</h2>
+  </div>
+
+  <div class="projects-grid">
+    {projects.map((project) => (
+      <a href={project.link} target="_blank" class="project-card">
+        <div class="card-bg"></div>
+        <div class="project-header">
+            <h3>{project.title}</h3>
+            <span class="tech">[{project.tech}]</span>
+        </div>
+        <div class="project-body">
+            <p>{project.description}</p>
+            <span class="arrow">>>></span>
+        </div>
+      </a>
+    ))}
+  </div>
+</Section>
+
+<style>
+  .section-title {
+    padding: 1.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .section-title h2 {
+    font-size: 1.5rem;
+    position: relative;
+    z-index: 1;
+    background-color: var(--color-bg);
+    display: inline-block;
+    padding-right: 1rem;
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 768px) {
+    .projects-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .project-card:last-child {
+    border-bottom: none;
+  }
+
+  .card-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(180deg, transparent 0%, rgba(171, 209, 198, 0.05) 100%);
+      opacity: 0.5;
+      z-index: 0;
+      pointer-events: none;
+      animation: pulse-opacity 4s infinite;
+  }
+
+  .project-card:hover .card-bg {
+      opacity: 0.8;
+  }
+
+  @media (min-width: 768px) {
+    .project-card {
+      border-right: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    /* Quitar border-right del tercer elemento de cada fila */
+    .project-card:nth-child(3n) {
+      border-right: none;
+    }
+    
+    /* Quitar border-bottom de la última fila */
+    .project-card:nth-last-child(-n+3):nth-child(3n+1),
+    .project-card:nth-last-child(-n+3):nth-child(3n+1) ~ .project-card {
+      border-bottom: none;
+    }
+  }
+
+  .project-header {
+    padding: 2rem;
+    padding-bottom: 1rem;
+    flex-grow: 1;
+    position: relative;
+    z-index: 1;
+  }
+
+  .project-body {
+    padding: 2rem;
+    padding-top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    position: relative;
+    z-index: 1;
+  }
+
+  h3 {
+    font-size: 1.4rem;
+    margin-bottom: 0.8rem;
+    text-transform: uppercase;
+  }
+
+  .tech {
+    font-size: 0.8rem;
+    opacity: 0.8;
+  }
+
+  p {
+    font-size: 0.9rem;
+    margin-right: 1rem;
+    margin-bottom: 0;
+    line-height: 1.4;
+  }
+
+  .arrow {
+    font-size: 1rem;
+    font-weight: 700;
+    animation: arrow-blink 1.2s steps(2, start) infinite;
+  }
+
+  @keyframes arrow-blink {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+</style>

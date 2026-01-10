@@ -1,0 +1,188 @@
+---
+import Section from './Section.astro';
+import portfolioData from '../data/portfolio.json';
+
+const { hero } = portfolioData;
+---
+
+<Section>
+  <div class="hero-content">
+    <div class="header-line">
+      <span class="label">[{hero.label}]</span>
+      <span class="date">>> {new Date().toLocaleDateString('es-AR', { year: 'numeric', month: 'long' })}</span>
+    </div>
+    
+    <div class="title-container">
+      <h1 class="title">
+        <span class="title-line">FULL STACK</span>
+        <span class="title-line selected">DEVELOPER</span>
+      </h1>
+    </div>
+
+    <div class="description-container">
+      <p class="description">
+        <span class="prompt">&gt;</span>
+        <span class="typewriter" data-text={hero.description}></span><span class="cursor">_</span>
+      </p>
+      
+      <div class="status-box">
+        <span class="status-indicator"></span>
+        <span class="status-text">{hero.status}</span>
+      </div>
+    </div>
+  </div>
+</Section>
+
+<style>
+  .hero-content {
+    padding: 3rem 2rem;
+    position: relative;
+    overflow: hidden;
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .header-line {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    margin-bottom: 3rem;
+    opacity: 0.7;
+    font-family: var(--font-mono);
+  }
+
+  .title-container {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .title {
+    font-size: clamp(3.5rem, 12vw, 10rem);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    font-weight: 400;
+    text-shadow: 0 0 60px rgba(160, 200, 180, 0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .title-line {
+    display: block;
+  }
+
+  .title-line.selected {
+    background-color: var(--color-text);
+    color: var(--color-bg);
+    padding: 0 0.15em;
+  }
+
+  .description-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+    text-align: center;
+  }
+
+  .description {
+    font-size: 1.15rem;
+    max-width: 650px;
+    line-height: 1.7;
+    opacity: 0.85;
+    min-height: 3.4em;
+  }
+
+  .prompt {
+    color: var(--color-text);
+    opacity: 0.7;
+    margin-right: 0.3rem;
+  }
+
+  .typewriter {
+    display: inline;
+  }
+
+  .cursor {
+    display: inline;
+    animation: cursor-blink 0.7s steps(2, start) infinite;
+    font-weight: 400;
+  }
+
+  @keyframes cursor-blink {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  .status-box {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    border: 1px solid var(--border-color);
+    padding: 0.8rem 1.5rem;
+    font-size: 0.9rem;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(4px);
+  }
+
+  .status-indicator {
+    width: 10px;
+    height: 10px;
+    background-color: var(--color-text);
+    box-shadow: 0 0 12px var(--color-text);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  .status-text {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.8rem;
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+      box-shadow: 0 0 12px var(--color-text);
+    }
+    50% {
+      opacity: 0.5;
+      box-shadow: 0 0 4px var(--color-text);
+    }
+  }
+
+  @media (min-width: 768px) {
+    .hero-content {
+      padding: 4rem 3rem;
+    }
+
+    .description {
+      font-size: 1.25rem;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const typewriter = document.querySelector('.typewriter') as HTMLElement;
+    if (!typewriter) return;
+    
+    const text = typewriter.dataset.text || '';
+    let index = 0;
+    
+    const type = () => {
+      if (index < text.length) {
+        typewriter.textContent += text.charAt(index);
+        index++;
+        // Velocidad variable para efecto más realista
+        const delay = Math.random() * 40 + 30;
+        setTimeout(type, delay);
+      }
+    };
+    
+    // Pequeño delay inicial antes de empezar a escribir
+    setTimeout(type, 500);
+  });
+</script>
