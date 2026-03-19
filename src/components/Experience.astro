@@ -1,108 +1,146 @@
 ---
-import Section from './Section.astro';
 import portfolioData from '../data/portfolio.json';
 
 const { experience } = portfolioData;
 ---
 
-<Section>
-  <div class="section-title border-b">
-    <h2>// EXPERIENCIA_LOG</h2>
-  </div>
-  
-  <div class="experience-list">
-    {experience.map((job) => (
-      <div class="job-item border-b">
-        <div class="job-header">
-          <h3 class="role">> {job.role}</h3>
-          <span class="company">@ {job.company}</span>
+<section id="experiencia" class="section experience">
+  <div class="container">
+    <header class="section-header">
+      <p class="section-label">Trayectoria</p>
+      <h2 class="section-title">Mi camino profesional</h2>
+    </header>
+
+    <div class="timeline">
+      {experience.map((job, index) => (
+        <div class="timeline-item">
+          <div class="timeline-marker">
+            <div class="marker-dot"></div>
+            {index < experience.length - 1 && <div class="marker-line"></div>}
+          </div>
+          <div class="timeline-content">
+            <div class="job-card">
+              <div class="job-header">
+                <h3 class="job-role">{job.role}</h3>
+                <span class="job-company">@ {job.company}</span>
+              </div>
+              <span class="job-period">{job.period}</span>
+              <p class="job-description">{job.description}</p>
+            </div>
+          </div>
         </div>
-        <div class="job-details">
-          <span class="period">[{job.period}]</span>
-          <p class="description">{job.description}</p>
-        </div>
-      </div>
-    ))}
+      ))}
+    </div>
   </div>
-</Section>
+</section>
 
 <style>
-  .section-title {
-    padding: 1.5rem 2rem;
+  .experience {
+    background: var(--color-bg);
     position: relative;
-    overflow: hidden;
   }
 
-  .section-title h2 {
-    font-size: 1.5rem;
-    position: relative;
-    z-index: 1;
-    background-color: var(--color-bg);
-    display: inline-block;
-    padding-right: 1rem;
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
   }
 
-  .job-item {
-    display: grid;
-    grid-template-columns: 1fr;
-    transition: background-color 0.3s;
+  .timeline-item {
+    display: flex;
+    gap: 1.5rem;
   }
 
-  .job-item:hover {
-      background-color: rgba(171, 209, 198, 0.05);
+  .timeline-marker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    width: 20px;
   }
 
-  @media (min-width: 768px) {
-    .job-item {
-      grid-template-columns: 1fr 1fr;
-    }
+  .marker-dot {
+    width: 12px;
+    height: 12px;
+    background: var(--color-accent);
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 0 12px rgba(0, 255, 136, 0.4);
   }
 
-  .job-header, .job-details {
-    padding: 2rem;
+  .marker-line {
+    width: 2px;
+    flex: 1;
+    background: linear-gradient(to bottom, var(--color-accent), var(--color-border));
+    margin-top: 0.5rem;
+  }
+
+  .timeline-content {
+    flex: 1;
+    padding-bottom: 2.5rem;
+  }
+
+  .timeline-item:last-child .timeline-content {
+    padding-bottom: 0;
+  }
+
+  .job-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .job-card:hover {
+    border-color: var(--color-accent);
+    transform: translateX(4px);
   }
 
   .job-header {
-    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-bottom: 0.75rem;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 640px) {
     .job-header {
-      border-bottom: none;
-      border-right: 1px solid var(--border-color);
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
     }
   }
 
-  .role {
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
+  .job-role {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
     color: var(--color-text);
   }
 
-  .company {
-    opacity: 0.8;
+  .job-company {
+    font-family: var(--font-mono);
     font-size: 0.9rem;
+    color: var(--color-accent);
   }
 
-  .period {
-    display: block;
-    font-size: 0.9rem;
-    margin-bottom: 1rem;
-    font-weight: 400;
-    opacity: 0.9;
+  .job-period {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+    width: fit-content;
   }
 
-  .period::before {
-      content: '';
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      background-color: var(--color-text);
-      margin-right: 8px;
-      animation: blink 2s infinite;
-  }
-
-  .job-item:last-child {
-    border-bottom: none;
+  .job-description {
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin: 0;
   }
 </style>

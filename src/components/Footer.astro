@@ -1,98 +1,123 @@
 ---
-import Section from './Section.astro';
 import portfolioData from '../data/portfolio.json';
 
 const { footer } = portfolioData;
 const currentYear = new Date().getFullYear();
 
 const iconMap: Record<string, string> = {
-  mail: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>`,
-  instagram: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>`,
-  x: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l11.733 16h4.267l-11.733 -16z"/><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"/></svg>`,
-  youtube: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></svg>`,
-  linkedin: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>`,
-  platzi: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10.64 1.127L2.487 9.282a3.842 3.842 0 000 5.436l8.155 8.155a3.842 3.842 0 005.436 0l2.719-2.718-2.719-2.718-2.718 2.718L5.204 12l8.155-8.155 5.437 5.437-5.437 5.436 2.718 2.719L21.514 12a3.842 3.842 0 000-5.437l-5.448-5.436a3.828 3.828 0 00-5.425 0Z"/></svg>`,
-  freecodecamp: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32" fill="currentColor"><path d="M 6.0292969 6 C 4.7752969 6 1 10.166359 1 16.318359 C 1 21.707359 4.6528906 26 6.0878906 26 C 6.4778906 26 7 25.572719 7 25.136719 C 7 24.783719 6.6199844 24.3095 5.7089844 23.3125 C 5.5009844 23.0835 5.3186563 22.884766 5.2226562 22.759766 C 3.8586563 20.976766 2.974 18.527516 3 15.978516 C 3.027 13.357516 4.0114531 10.630156 6.0644531 8.4101562 L 6.1992188 8.265625 C 6.5372187 7.905625 7 7.4138281 7 6.9238281 C 7 6.4338281 6.4572969 6 6.0292969 6 z M 25.970703 6 C 25.542703 6 25 6.4338281 25 6.9238281 C 25 7.4138281 25.462781 7.906625 25.800781 8.265625 L 25.935547 8.4101562 C 27.988547 10.629156 28.973 13.357516 29 15.978516 C 29.026 18.527516 28.141344 20.976766 26.777344 22.759766 C 26.681344 22.884766 26.499016 23.0835 26.291016 23.3125 C 25.380016 24.3095 25 24.783719 25 25.136719 C 25 25.572719 25.522109 26 25.912109 26 C 27.347109 26 31 21.707359 31 16.318359 C 31 10.166359 27.224703 6 25.970703 6 z M 13.091797 7.0253906 C 12.958484 7.0579375 12.876953 7.1289531 12.876953 7.2519531 C 12.876953 7.3749531 13.008328 7.4568125 13.111328 7.5078125 C 13.583328 7.7948125 14.117188 8.6047969 14.117188 9.4667969 C 14.117188 11.835797 11.152344 13.989172 11.152344 16.451172 C 11.142344 18.523172 12.599813 20.175047 14.507812 20.873047 C 14.733813 20.965047 15.132812 21.138547 15.132812 20.810547 C 15.132812 20.676547 15.020969 20.667953 14.917969 20.626953 C 14.476969 20.451953 14.200594 20.235703 13.933594 19.845703 C 13.512594 19.229703 13.419922 18.604234 13.419922 17.865234 C 13.419922 16.224234 15.6875 15.926391 15.6875 14.275391 C 15.6875 13.649391 15.287109 13.465016 15.287109 13.291016 C 15.287109 13.178016 15.328406 13.177734 15.441406 13.177734 C 15.852406 13.177734 16.415844 13.854359 16.589844 14.193359 C 16.702844 14.429359 16.712891 14.501812 16.712891 14.757812 C 16.712891 15.116813 16.681641 15.486469 16.681641 15.855469 C 16.681641 17.240469 18.3125 16.870125 18.3125 16.203125 C 18.3125 15.896125 18.128906 15.6095 18.128906 15.3125 C 18.128906 15.2705 18.128922 15.25 18.169922 15.25 C 18.343922 15.25 18.650422 15.640672 18.732422 15.763672 C 19.029422 16.224672 19.173828 16.829047 19.173828 17.373047 C 19.173828 19.035047 17.65625 19.885141 17.65625 20.244141 C 17.65625 20.296141 17.80925 20.645656 18.28125 20.347656 C 19.79925 19.567656 21 17.906188 21 15.742188 C 21 14.018187 20.559375 12.777766 19.359375 11.509766 C 19.154375 11.293766 18.517219 10.636719 18.199219 10.636719 C 17.778219 10.636719 18.568359 11.590328 18.568359 12.236328 C 18.568359 12.605328 18.322359 12.873047 17.943359 12.873047 C 17.348359 12.873047 17.193094 11.570156 17.121094 11.160156 C 16.824094 9.4271562 16.465187 8.1752344 14.742188 7.3652344 C 14.341688 7.1724844 13.491734 6.92775 13.091797 7.0253906 z M 10.001953 23 C 9.4449531 23 9.0234375 23.437625 9.0234375 24.015625 C 9.0234375 24.558625 9.4629531 25 10.001953 25 L 22.160156 25 C 22.357156 25 23 24.926375 23 23.984375 C 23 23.386375 22.670156 23 22.160156 23 L 10.001953 23 z"/></svg>`,
-  github: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>`,
-  gitlab: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="m23.6 9.593-.033-.086L20.3.98a.851.851 0 0 0-.336-.405.87.87 0 0 0-.52-.144.87.87 0 0 0-.52.144.85.85 0 0 0-.31.418l-2.2 6.748H7.59L5.39.99a.857.857 0 0 0-.31-.418.871.871 0 0 0-.52-.143.87.87 0 0 0-.52.143.85.85 0 0 0-.337.406L.44 9.507l-.033.086a6.067 6.067 0 0 0 2.012 7.01l.01.008.028.02 4.98 3.73 2.462 1.863 1.5 1.132a1.008 1.008 0 0 0 1.22 0l1.5-1.132 2.461-1.862 5.008-3.75.012-.01a6.07 6.07 0 0 0 2.001-7.01z"/></svg>`
+  mail: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>`,
+  instagram: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>`,
+  x: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l11.733 16h4.267l-11.733 -16z"/><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"/></svg>`,
+  youtube: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></svg>`,
+  linkedin: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>`,
+  platzi: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M10.64 1.127L2.487 9.282a3.842 3.842 0 000 5.436l8.155 8.155a3.842 3.842 0 005.436 0l2.719-2.718-2.719-2.718-2.718 2.718L5.204 12l8.155-8.155 5.437 5.437-5.437 5.436 2.718 2.719L21.514 12a3.842 3.842 0 000-5.437l-5.448-5.436a3.828 3.828 0 00-5.425 0Z"/></svg>`,
+  freecodecamp: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 32 32" fill="currentColor"><path d="M 6.0292969 6 C 4.7752969 6 1 10.166359 1 16.318359 C 1 21.707359 4.6528906 26 6.0878906 26 C 6.4778906 26 7 25.572719 7 25.136719 C 7 24.783719 6.6199844 24.3095 5.7089844 23.3125 C 5.5009844 23.0835 5.3186563 22.884766 5.2226562 22.759766 C 3.8586563 20.976766 2.974 18.527516 3 15.978516 C 3.027 13.357516 4.0114531 10.630156 6.0644531 8.4101562 L 6.1992188 8.265625 C 6.5372187 7.905625 7 7.4138281 7 6.9238281 C 7 6.4338281 6.4572969 6 6.0292969 6 z M 25.970703 6 C 25.542703 6 25 6.4338281 25 6.9238281 C 25 7.4138281 25.462781 7.906625 25.800781 8.265625 L 25.935547 8.4101562 C 27.988547 10.629156 28.973 13.357516 29 15.978516 C 29.026 18.527516 28.141344 20.976766 26.777344 22.759766 C 26.681344 22.884766 26.499016 23.0835 26.291016 23.3125 C 25.380016 24.3095 25 24.783719 25 25.136719 C 25 25.572719 25.522109 26 25.912109 26 C 27.347109 26 31 21.707359 31 16.318359 C 31 10.166359 27.224703 6 25.970703 6 z"/></svg>`,
+  github: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>`,
+  gitlab: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="m23.6 9.593-.033-.086L20.3.98a.851.851 0 0 0-.336-.405.87.87 0 0 0-.52-.144.87.87 0 0 0-.52.144.85.85 0 0 0-.31.418l-2.2 6.748H7.59L5.39.99a.857.857 0 0 0-.31-.418.871.871 0 0 0-.52-.143.87.87 0 0 0-.52.143.85.85 0 0 0-.337.406L.44 9.507l-.033.086a6.067 6.067 0 0 0 2.012 7.01l.01.008.028.02 4.98 3.73 2.462 1.863 1.5 1.132a1.008 1.008 0 0 0 1.22 0l1.5-1.132 2.461-1.862 5.008-3.75.012-.01a6.07 6.07 0 0 0 2.001-7.01z"/></svg>`
 };
 ---
 
 <footer class="footer">
-  <Section>    
-      <div class="social-links">
-        {footer.socials.map((social) => (
-          <a 
-            href={social.url} 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            class="social-link"
-            title={social.name}
-          >
-            <span class="social-icon" set:html={iconMap[social.icon]} />
-            <span class="social-name">{social.name}</span>
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <a href="#inicio" class="footer-logo">
+            <span class="logo-accent">N</span>T
           </a>
-        ))}
+          <p class="footer-tagline">Full Stack Developer</p>
+        </div>
+        
+        <div class="social-links">
+          {footer.socials.map((social) => (
+            <a 
+              href={social.url} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="social-link"
+              title={social.name}
+              aria-label={social.name}
+            >
+              <span class="social-icon" set:html={iconMap[social.icon]} />
+            </a>
+          ))}
+        </div>
       </div>
 
       <div class="footer-bottom">
-        <div class="copyright">
-          © {currentYear} {footer.copyright} // Todos los derechos reservados
-        </div>
-        <div class="terminal-prompt">
-          <span class="prompt-symbol">$</span> echo "Gracias por visitar" <span class="cursor-blink"></span>
-        </div>
+        <p class="copyright">
+          © {currentYear} {footer.copyright}. Todos los derechos reservados.
+        </p>
+        <p class="footer-credits">
+          Hecho con 
+          <span class="heart">♥</span> 
+          y mucho 
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+        </p>
       </div>
     </div>
-  </Section>
+  </div>
 </footer>
 
 <style>
   .footer {
-    margin-top: 0;
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    padding: 3rem 0 2rem;
   }
 
   .footer-content {
-    padding: 2rem;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 2.5rem;
   }
 
-  .footer-top {
+  .footer-main {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    align-items: center;
+    gap: 1.5rem;
   }
 
-  @media (min-width: 768px) {
-    .footer-top {
+  @media (min-width: 640px) {
+    .footer-main {
       flex-direction: row;
       justify-content: space-between;
-      align-items: center;
     }
   }
 
-  .footer-label {
-    font-size: 0.9rem;
-    opacity: 0.8;
+  .footer-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
   }
 
-  .bracket {
+  @media (min-width: 640px) {
+    .footer-brand {
+      align-items: flex-start;
+    }
+  }
+
+  .footer-logo {
+    font-size: 1.5rem;
+    font-weight: 700;
     color: var(--color-text);
-    opacity: 0.6;
+    letter-spacing: -0.02em;
   }
 
-  .email-link {
-    font-size: 1.1rem;
+  .footer-logo:hover {
     color: var(--color-text);
-    text-decoration: none;
-    transition: opacity 0.2s ease;
   }
 
-  .email-link:hover {
-    opacity: 0.7;
-    text-decoration: underline;
+  .logo-accent {
+    color: var(--color-accent);
+  }
+
+  .footer-tagline {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    margin: 0;
   }
 
   .social-links {
@@ -100,26 +125,32 @@ const iconMap: Record<string, string> = {
     flex-wrap: wrap;
     justify-content: center;
     gap: 0.5rem;
-    padding: 1.5rem 0;
-    border-bottom: 1px solid var(--border-color);
+  }
+
+  @media (min-width: 640px) {
+    .social-links {
+      justify-content: flex-end;
+    }
   }
 
   .social-link {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.6rem 1rem;
-    border: 1px solid var(--border-color);
-    color: var(--color-text);
-    text-decoration: none;
-    font-size: 0.85rem;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
     transition: all 0.2s ease;
-    background-color: transparent;
   }
 
   .social-link:hover {
-    background-color: var(--color-text);
+    background: var(--color-accent);
+    border-color: var(--color-accent);
     color: var(--color-bg);
+    transform: translateY(-2px);
   }
 
   .social-icon {
@@ -128,38 +159,38 @@ const iconMap: Record<string, string> = {
     justify-content: center;
   }
 
-  .social-name {
-    display: none;
-  }
-
-  @media (min-width: 640px) {
-    .social-name {
-      display: inline;
-    }
-  }
-
   .footer-bottom {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    font-size: 0.8rem;
-    opacity: 0.7;
+    align-items: center;
+    gap: 0.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+    text-align: center;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 640px) {
     .footer-bottom {
       flex-direction: row;
       justify-content: space-between;
-      align-items: center;
+      text-align: left;
     }
   }
 
-  .terminal-prompt {
-    font-family: var(--font-mono);
+  .copyright, .footer-credits {
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
   }
 
-  .prompt-symbol {
-    color: var(--color-text);
-    opacity: 0.8;
+  .heart {
+    color: var(--color-accent);
+  }
+
+  .footer-credits svg {
+    color: var(--color-accent);
   }
 </style>

@@ -55,6 +55,72 @@
       "tech": "Next.js, Material UI, AWS, FeathersJS",
       "description": "Aplicación para reducir la barrera de entrada en la creacion de bots de trading de alta frecuencia",
       "link": "https://cryptonotify.me/"
+    },
+    {
+      "title": "DevSec Agent",
+      "tech": "IA",
+      "description": "Agente de seguridad automatizado impulsado por inteligencia artificial",
+      "link": "#"
+    },
+    {
+      "title": "FounderCheck",
+      "tech": "Rust",
+      "description": "Herramienta de verificación y validación para emprendedores",
+      "link": "#"
+    },
+    {
+      "title": "Pipi Labs",
+      "tech": "Consultora",
+      "description": "Consultora de desarrollo de software a medida",
+      "link": "#"
+    },
+    {
+      "title": "Agentes IA",
+      "tech": "Open Fang, Hermes, Open Claw",
+      "description": "Suite de agentes de IA para automatización de tareas",
+      "link": "#"
+    },
+    {
+      "title": "Carreras UNLaM",
+      "tech": "React Flow",
+      "description": "Visualizador interactivo de carreras universitarias",
+      "link": "#"
+    },
+    {
+      "title": "Carruseles Automáticos Instagram",
+      "tech": "Node.js",
+      "description": "Generador automático de carruseles para Instagram",
+      "link": "#"
+    },
+    {
+      "title": "Juegos en Game Pass",
+      "tech": "Puppeteer",
+      "description": "Scraper y catálogo de juegos disponibles en Xbox Game Pass",
+      "link": "#"
+    },
+    {
+      "title": "MiAutoFeo",
+      "tech": "Rust, Telegram",
+      "description": "Bot de Telegram con funcionalidades varias",
+      "link": "#"
+    },
+    {
+      "title": "Home Server",
+      "tech": "Debian, Pi-hole, Docker",
+      "description": "Servidor casero con bloqueo de publicidad y contenedores",
+      "link": "#"
+    },
+    {
+      "title": "ArgenTiles",
+      "tech": "Expo, React Native",
+      "description": "Aplicación móvil con mapas de Argentina",
+      "link": "#"
+    },
+    {
+      "title": "Runtime Bots",
+      "tech": "Rust, Telegram",
+      "description": "Framework para bots de Telegram en Rust",
+      "link": "#"
     }
   ],
   "education": [

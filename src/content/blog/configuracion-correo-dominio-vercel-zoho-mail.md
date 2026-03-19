@@ -1,9 +1,9 @@
 ---
 title: Configuración de correo con tu dominio en Vercel y Zoho Mail
 description: Explicación de los pasos a seguir para crear un mail con tu dominio web configurándolo desde las DNS de Vercel
-coverImage: /configuracion-correo-dominio-vercel-zoho-mail/coverImage.png
-date: 08/09/2023
-alt: Configuración sencilla de correo con tu dominio en Vercel y Zoho Mail
+date: 2023-09-08
+category: "DevOps / Infraestructura"
+tags: ["vercel", "zoho", "email", "dns", "dominios"]
 ---
 
 ## Pasos previos necesarios

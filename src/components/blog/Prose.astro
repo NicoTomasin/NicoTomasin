@@ -1,0 +1,217 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div class:list={['prose', className]}>
+  <slot />
+</div>
+
+<style is:global>
+  .prose {
+    color: var(--color-text);
+    line-height: 1.7;
+    font-size: 1.05rem;
+  }
+
+  .prose :where(h2, h3, h4, h5, h6) {
+    color: var(--color-text);
+    margin-top: 2.5em;
+    margin-bottom: 0.75em;
+    line-height: 1.3;
+  }
+
+  .prose :where(h2) {
+    font-size: 1.75rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .prose :where(h2)::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 1em;
+    background: var(--color-accent);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .prose :where(h3) {
+    font-size: 1.35rem;
+    font-weight: 600;
+  }
+
+  .prose :where(h4) {
+    font-size: 1.15rem;
+    font-weight: 600;
+  }
+
+  .prose :where(p) {
+    margin-bottom: 1.25em;
+  }
+
+  .prose :where(a) {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: opacity 0.2s ease;
+  }
+
+  .prose :where(a):hover {
+    opacity: 0.8;
+  }
+
+  .prose :where(strong) {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  .prose :where(img) {
+    border-radius: 12px;
+    margin: 2em auto;
+    border: 1px solid var(--color-border);
+    max-width: 100%;
+    height: auto;
+  }
+
+  .prose :where(blockquote) {
+    border-left: 3px solid var(--color-accent);
+    padding-left: 1.25em;
+    margin: 1.5em 0;
+    font-style: italic;
+    color: var(--color-text-secondary);
+    background: var(--color-surface);
+    padding: 1em 1.25em;
+    border-radius: 0 8px 8px 0;
+  }
+
+  .prose :where(ul, ol) {
+    margin: 1.25em 0;
+    padding-left: 0;
+  }
+
+  .prose :where(ul) {
+    list-style: none;
+  }
+
+  .prose :where(ul > li) {
+    position: relative;
+    padding-left: 1.5em;
+    margin-bottom: 0.5em;
+  }
+
+  .prose :where(ul > li)::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 6px;
+    height: 6px;
+    background: var(--color-accent);
+    border-radius: 50%;
+  }
+
+  .prose :where(ol) {
+    list-style: none;
+    counter-reset: list-counter;
+  }
+
+  .prose :where(ol > li) {
+    counter-increment: list-counter;
+    position: relative;
+    padding-left: 2em;
+    margin-bottom: 0.5em;
+  }
+
+  .prose :where(ol > li)::before {
+    content: counter(list-counter);
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    font-weight: 600;
+  }
+
+  .prose :where(code):not(pre code) {
+    background: var(--color-surface);
+    color: var(--color-accent);
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    border: 1px solid var(--color-border);
+  }
+
+  .prose :where(pre) {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.25em;
+    overflow-x: auto;
+    margin: 1.5em 0;
+    font-size: 0.9em;
+    line-height: 1.6;
+  }
+
+  .prose :where(pre code) {
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--color-text);
+  }
+
+  .prose :where(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2em 0;
+    font-size: 0.95em;
+  }
+
+  .prose :where(thead) {
+    background: var(--color-surface);
+  }
+
+  .prose :where(th) {
+    text-align: left;
+    padding: 0.75em 1em;
+    font-weight: 600;
+    border-bottom: 2px solid var(--color-border);
+  }
+
+  .prose :where(td) {
+    padding: 0.75em 1em;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .prose :where(tr:last-child td) {
+    border-bottom: none;
+  }
+
+  .prose :where(hr) {
+    border: none;
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--color-border),
+      var(--color-accent),
+      var(--color-border),
+      transparent
+    );
+    margin: 3em 0;
+  }
+
+  .prose :where(br) {
+    display: block;
+    content: '';
+    margin-top: 0.5em;
+  }
+</style>

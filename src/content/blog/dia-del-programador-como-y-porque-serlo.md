@@ -1,9 +1,9 @@
 ---
 title: "Día del programador: Como y por que serlo"
 description: En el día del programador me gustaría contarte cómo me adentré en la programación y por qué creo que todos pueden programar.
-coverImage: /dia-del-programador-como-y-porque-serlo/coverImage.png
-date: 13/09/2023
-alt: "Día del programador: Como y por que serlo"
+date: 2023-09-13
+category: "Opinión / Reflexiones"
+tags: ["programacion", "carrera", "aprendizaje", "desarrollo personal"]
 ---
 
 ## ¿Por que es el día del programador?

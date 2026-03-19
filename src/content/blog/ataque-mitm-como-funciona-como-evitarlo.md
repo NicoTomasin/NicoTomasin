@@ -1,10 +1,11 @@
 ---
 title: "Ataque MitM: Como funciona y como evitarlo"
 description: Voy a investigar un poco sobre los ataques Man in the middle (MitM), para entender su funcionamiento y aprender a protegerse
-coverImage: /ataque-MitM-como-funciona-como-evitarlo/coverImages.png
-date: 17/09/2023
-alt: "Ataque MitM: Como funciona y como evitarlo"
+date: 2023-09-17
+category: "Seguridad"
+tags: ["seguridad", "mitm", "redes", "ciberseguridad"]
 ---
+
 ## ¿Que es un ataque MitM?
 
 Según la empresa especializada en seguridad informática [Kaspersky](https://www.kaspersky.es/blog/que-es-un-ataque-man-in-the-middle/648/) este ataque consta de la "captura" de datos privados y/o paquetes de navegación de un tercero colocándose en el medio del trafico entre un cliente y el router. Es decir que el atacante capturaría todo el trafico de un dispositivo especifico dentro de una red para procesarlo y re dirigirlo.
@@ -31,24 +32,23 @@ De esta manera el atacante podría colocarse en la red y redirigir el trafico de
 
 ## Como evitarlo
 
-- **·** Evita acceder a paginas sensibles, es decir, Banco, Redes, Exchanges, Mail, etc en redes que sean publicas si es sumamente necesario usar esas apps o paginas sensibles fuera de casa, preferentemente hacelo usando los datos mobiles.
+- Evita acceder a paginas sensibles, es decir, Banco, Redes, Exchanges, Mail, etc en redes que sean publicas si es sumamente necesario usar esas apps o paginas sensibles fuera de casa, preferentemente hacelo usando los datos mobiles.
 
-- **·** Las redes publicas son todas aquellas que son de fácil acceso, pese a tener password si la red es de un comercio probablemente la contraseña este a la vista o la hallan compartido muchas veces.
+- Las redes publicas son todas aquellas que son de fácil acceso, pese a tener password si la red es de un comercio probablemente la contraseña este a la vista o la hallan compartido muchas veces.
 
-- **·** Genera una contraseña segura en tu red wifi y de ser posible cambiala 1 vez por mes o al menos una vez al año.
+- Genera una contraseña segura en tu red wifi y de ser posible cambiala 1 vez por mes o al menos una vez al año.
 
-- **·** Tene en cuenta que muchos routers actuales tiene un modo guest o invitado, de esta manera podes colocar una contraseña fácil para compartirle a tus amigos y / o familiares sin exponer tu red privada y aprovechando esta funcionalidad podrías poner la red principal como oculta, para que no sea visible por nadie.
+- Tene en cuenta que muchos routers actuales tiene un modo guest o invitado, de esta manera podes colocar una contraseña fácil para compartirle a tus amigos y / o familiares sin exponer tu red privada y aprovechando esta funcionalidad podrías poner la red principal como oculta, para que no sea visible por nadie.
 
-- **·** Una buena manera de prevenir este tipo de ataques es acceder al servicio que queramos desde su app, ya que así de minimiza el vector de ataque.
+- Una buena manera de prevenir este tipo de ataques es acceder al servicio que queramos desde su app, ya que así de minimiza el vector de ataque.
 
-- **·** Siembre que sea posible, configura un 2FA.
+- Siembre que sea posible, configura un 2FA.
 
-- **·** Usa extensiones como HTTPS Everywhere o force TLS.
+- Usa extensiones como HTTPS Everywhere o force TLS.
 
-- **·** Validar que la web tenga un certificado SSL valido, de todas maneras existen maneras de falsificarlo.
+- Validar que la web tenga un certificado SSL valido, de todas maneras existen maneras de falsificarlo.
 
-- **·** Si sos dev y queres fortalecer un proyecto, aplica todo lo mencionado paro a la inversa. es decir sanitiza forms, validalos, cifralos. Agrega la opción de 2FA y trata de crear un canal seguro a traves de una app.
-
+- Si sos dev y queres fortalecer un proyecto, aplica todo lo mencionado paro a la inversa. es decir sanitiza forms, validalos, cifralos. Agrega la opción de 2FA y trata de crear un canal seguro a traves de una app.
 
 ## Como lo llevan a cabo
 

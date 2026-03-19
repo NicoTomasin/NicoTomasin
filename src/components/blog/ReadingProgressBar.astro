@@ -1,0 +1,44 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div class:list={['reading-progress', className]} id="readingProgress"></div>
+
+<style>
+  .reading-progress {
+    position: fixed;
+    top: var(--nav-height);
+    left: 0;
+    width: 0%;
+    height: 3px;
+    background: linear-gradient(
+      to right,
+      var(--color-accent),
+      var(--color-accent-hover)
+    );
+    z-index: 99;
+    transition: width 0.1s ease-out;
+    box-shadow: 0 0 10px var(--color-accent);
+  }
+</style>
+
+<script>
+  const progressBar = document.getElementById('readingProgress');
+
+  function updateProgress() {
+    if (!progressBar) return;
+
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = (scrollTop / docHeight) * 100;
+
+    progressBar.style.width = `${Math.min(progress, 100)}%`;
+  }
+
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+</script>

@@ -1,0 +1,264 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div class:list={['search-bar', className]}>
+  <div class="search-input-wrapper">
+    <svg
+      class="search-icon"
+      viewBox="0 0 24 24"
+      width="20"
+      height="20"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle cx="11" cy="11" r="8"></circle>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    </svg>
+    <input
+      type="text"
+      id="blogSearch"
+      class="search-input"
+      placeholder="Buscar posts..."
+      autocomplete="off"
+    />
+    <button id="searchClear" class="search-clear" aria-label="Limpiar búsqueda">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+  </div>
+  <div id="searchResults" class="search-results"></div>
+</div>
+
+<style>
+  .search-bar {
+    position: relative;
+    margin-bottom: 1.5rem;
+  }
+
+  .search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 1rem;
+    color: var(--color-text-secondary);
+    pointer-events: none;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 0.875rem 2.5rem 0.875rem 3rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .search-input::placeholder {
+    color: var(--color-text-secondary);
+  }
+
+  .search-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1);
+  }
+
+  .search-clear {
+    position: absolute;
+    right: 0.75rem;
+    background: none;
+    border: none;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    padding: 0.25rem;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: color 0.2s ease, background 0.2s ease;
+  }
+
+  .search-clear:hover {
+    color: var(--color-accent);
+    background: rgba(0, 255, 136, 0.1);
+  }
+
+  .search-clear.show {
+    display: flex;
+  }
+
+  .search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    margin-top: 0.5rem;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 100;
+    display: none;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+
+  .search-results.show {
+    display: block;
+  }
+
+  .search-result-item {
+    display: block;
+    padding: 1rem;
+    border-bottom: 1px solid var(--color-border);
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.2s ease;
+  }
+
+  .search-result-item:last-child {
+    border-bottom: none;
+  }
+
+  .search-result-item:hover {
+    background: rgba(0, 255, 136, 0.05);
+  }
+
+  .search-result-title {
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 0.25rem;
+  }
+
+  .search-result-meta {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .search-result-category {
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+  }
+
+  .search-empty {
+    padding: 2rem;
+    text-align: center;
+    color: var(--color-text-secondary);
+  }
+</style>
+
+<script>
+  import Fuse from 'fuse.js';
+
+  const searchInput = document.getElementById('blogSearch');
+  const searchClear = document.getElementById('searchClear');
+  const searchResults = document.getElementById('searchResults');
+
+  let fuse = null;
+  let postsData = [];
+
+  async function initSearch() {
+    try {
+      const response = await fetch('/blog/search-index.json');
+      postsData = await response.json();
+
+      fuse = new Fuse(postsData, {
+        keys: [
+          { name: 'title', weight: 0.4 },
+          { name: 'description', weight: 0.3 },
+          { name: 'tags', weight: 0.2 },
+          { name: 'category', weight: 0.1 },
+        ],
+        threshold: 0.4,
+        includeScore: true,
+      });
+    } catch (error) {
+      console.error('Error loading search index:', error);
+    }
+  }
+
+  function renderResults(results) {
+    if (!searchResults) return;
+
+    if (results.length === 0) {
+      searchResults.innerHTML = '<div class="search-empty">No se encontraron resultados</div>';
+      searchResults.classList.add('show');
+      return;
+    }
+
+    const html = results
+      .slice(0, 8)
+      .map((result) => {
+        const post = result.item;
+        return `
+          <a href="/blog/${post.slug}" class="search-result-item">
+            <div class="search-result-title">${post.title}</div>
+            <div class="search-result-meta">
+              <span class="search-result-category">${post.category}</span>
+              <span>·</span>
+              <span>${post.date}</span>
+            </div>
+          </a>
+        `;
+      })
+      .join('');
+
+    searchResults.innerHTML = html;
+    searchResults.classList.add('show');
+  }
+
+  searchInput?.addEventListener('input', (e) => {
+    const query = e.target.value.trim();
+
+    if (searchClear) {
+      searchClear.classList.toggle('show', query.length > 0);
+    }
+
+    if (query.length < 2) {
+      searchResults?.classList.remove('show');
+      return;
+    }
+
+    if (fuse) {
+      const results = fuse.search(query);
+      renderResults(results);
+    }
+  });
+
+  searchClear?.addEventListener('click', () => {
+    searchInput.value = '';
+    searchClear.classList.remove('show');
+    searchResults?.classList.remove('show');
+    searchInput.focus();
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!searchInput?.contains(e.target) && !searchResults?.contains(e.target)) {
+      searchResults?.classList.remove('show');
+    }
+  });
+
+  initSearch();
+</script>

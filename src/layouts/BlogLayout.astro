@@ -1,0 +1,271 @@
+---
+import Layout from './Layout.astro';
+import ReadingProgressBar from '../components/blog/ReadingProgressBar.astro';
+import TableOfContents from '../components/blog/TableOfContents.astro';
+import ShareButtons from '../components/blog/ShareButtons.astro';
+import ReadingCat from '../components/blog/ReadingCat.astro';
+import Prose from '../components/blog/Prose.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  date: Date;
+  category: string;
+  readingTime: number;
+  headings: { slug: string; text: string; depth: number }[];
+  slug: string;
+  author?: string;
+}
+
+const { title, description, date, category, readingTime, headings, slug, author } = Astro.props;
+
+const siteUrl = 'https://nicotomasin.com.ar';
+const postUrl = siteUrl + Astro.url.pathname;
+const ogImage = `${siteUrl}/og/blog/${slug}.png`;
+
+const formattedDate = date.toLocaleDateString('es-AR', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description: description,
+  image: ogImage,
+  datePublished: date.toISOString(),
+  dateModified: date.toISOString(),
+  author: {
+    '@type': 'Person',
+    name: author || 'Nico Tomasin',
+    url: siteUrl,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Nico Tomasin',
+    logo: {
+      '@type': 'ImageObject',
+      url: `${siteUrl}/favicon.svg`,
+    },
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': postUrl,
+  },
+};
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Inicio',
+      item: siteUrl,
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Blog',
+      item: `${siteUrl}/blog`,
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: title,
+      item: postUrl,
+    },
+  ],
+};
+---
+
+<Layout title={`${title} | Nico Tomasin`} description={description} image={ogImage}>
+  <ReadingProgressBar />
+
+  <article class="blog-post">
+    <header class="post-header">
+      <div class="container">
+        <nav class="breadcrumb">
+          <a href="/">Inicio</a>
+          <span class="breadcrumb-separator">/</span>
+          <a href="/blog">Blog</a>
+          <span class="breadcrumb-separator">/</span>
+          <span class="breadcrumb-current">{title}</span>
+        </nav>
+
+        <div class="post-meta">
+          <span class="post-category">{category}</span>
+          <span class="post-separator">·</span>
+          <time datetime={date.toISOString()}>{formattedDate}</time>
+          <span class="post-separator">·</span>
+          <span class="post-reading-time">{readingTime} min de lectura</span>
+        </div>
+
+        <h1 class="post-title">{title}</h1>
+
+        <p class="post-excerpt">{description}</p>
+      </div>
+    </header>
+
+    <div class="post-body">
+      <div class="container">
+        <div class="post-content-wrapper">
+          <div class="post-main">
+            <Prose>
+              <slot />
+            </Prose>
+
+            <ShareButtons title={title} url={postUrl} />
+          </div>
+
+          <aside class="post-sidebar">
+            <TableOfContents headings={headings} />
+          </aside>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <Footer />
+  <ReadingCat />
+
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
+</Layout>
+
+<style>
+  .blog-post {
+    padding-top: var(--nav-height);
+    min-height: 100vh;
+  }
+
+  .post-header {
+    padding: 3rem 0 2rem;
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.85rem;
+    flex-wrap: wrap;
+  }
+
+  .breadcrumb a {
+    color: var(--color-text-secondary);
+    transition: color 0.2s ease;
+  }
+
+  .breadcrumb a:hover {
+    color: var(--color-accent);
+  }
+
+  .breadcrumb-separator {
+    color: var(--color-text-secondary);
+    opacity: 0.5;
+  }
+
+  .breadcrumb-current {
+    color: var(--color-text);
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .post-category {
+    font-family: var(--font-mono);
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
+  .post-separator {
+    color: var(--color-text-secondary);
+    opacity: 0.5;
+  }
+
+  .post-meta time,
+  .post-reading-time {
+    color: var(--color-text-secondary);
+  }
+
+  .post-title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+  }
+
+  .post-excerpt {
+    font-size: 1.15rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    max-width: 700px;
+  }
+
+  .post-body {
+    padding: 3rem 0;
+  }
+
+  .post-content-wrapper {
+    display: flex;
+    gap: 3rem;
+    align-items: flex-start;
+  }
+
+  .post-main {
+    flex: 1;
+    min-width: 0;
+    max-width: 800px;
+  }
+
+  .post-sidebar {
+    flex-shrink: 0;
+    width: 250px;
+    display: block;
+  }
+
+  @media (max-width: 1200px) {
+    .post-sidebar {
+      display: none;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .post-hero {
+      max-height: 250px;
+    }
+
+    .post-header {
+      padding: 2rem 0 1.5rem;
+    }
+
+    .post-body {
+      padding: 2rem 0;
+    }
+
+    .breadcrumb-current {
+      display: none;
+    }
+  }
+</style>

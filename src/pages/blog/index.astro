@@ -1,0 +1,178 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PostCard from '../../components/blog/PostCard.astro';
+import SearchBar from '../../components/blog/SearchBar.astro';
+import Footer from '../../components/Footer.astro';
+import BlogHeroShader from '../../components/BlogHeroShader.astro';
+import { getCollection } from 'astro:content';
+import { calculateReadingTime } from '../../lib/reading-time';
+
+const blogEntries = await getCollection('blog', ({ data }) => !data.draft);
+
+const allPosts = blogEntries
+  .map((entry) => ({
+    slug: entry.id,
+    title: entry.data.title,
+    description: entry.data.description,
+    date: entry.data.date,
+    category: entry.data.category,
+    readingTime: calculateReadingTime(entry.body || ''),
+  }))
+  .sort((a, b) => b.date.valueOf() - a.date.valueOf());
+
+const searchIndexData = allPosts.map((post) => ({
+  slug: post.slug,
+  title: post.title,
+  description: post.description,
+  category: post.category,
+  date: post.date.toLocaleDateString('es-AR', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  }),
+  tags: [],
+}));
+---
+
+<Layout
+  title="Blog | Nico Tomasin"
+  description="Artículos sobre desarrollo web, DevOps, seguridad y reflexiones sobre programación."
+>
+  <main class="blog-page">
+    <header class="blog-header">
+      <BlogHeroShader />
+      <div class="blog-header-overlay"></div>
+      <div class="container" style="position: relative; z-index: 2;">
+        <span class="section-label">Blog</span>
+        <h1 class="blog-title">Artículos y reflexiones</h1>
+        <p class="blog-description">
+          Comparto lo que voy aprendiendo sobre desarrollo web, infraestructura,
+          seguridad y mi experiencia en el mundo tech.
+        </p>
+      </div>
+    </header>
+
+    <section class="blog-content">
+      <div class="container">
+        <SearchBar />
+
+        <div class="posts-grid">
+          {allPosts.map((post) => (
+            <PostCard {...post} />
+          ))}
+        </div>
+
+        <div class="no-posts" style="display: none;">
+          <p>No se encontraron resultados.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+
+  <link
+    rel="alternate"
+    type="application/rss+xml"
+    title="Nico Tomasin - Blog RSS Feed"
+    href="/blog/rss.xml"
+  />
+</Layout>
+
+<script define:vars={{ searchIndexData }}>
+  if (typeof window !== 'undefined') {
+    window.__BLOG_SEARCH_INDEX__ = searchIndexData;
+  }
+</script>
+
+<style>
+  .blog-page {
+    padding-top: var(--nav-height);
+    min-height: 100vh;
+  }
+
+  .blog-header {
+    position: relative;
+    padding: 6rem 0 4rem;
+    overflow: hidden;
+  }
+
+  .blog-header-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, 
+      #000000 0%, 
+      #000000 30%,
+      rgba(0, 0, 0, 0.7) 60%,
+      var(--color-bg) 100%
+    );
+    z-index: 1;
+  }
+
+  .section-label {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.75rem;
+  }
+
+  .blog-title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+  }
+
+  .blog-description {
+    font-size: 1.1rem;
+    color: var(--color-text-secondary);
+    max-width: 600px;
+    line-height: 1.6;
+  }
+
+  .blog-content {
+    padding: 3rem 0;
+  }
+
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 1024px) {
+    .posts-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .posts-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .blog-header {
+      padding: 4rem 0 3rem;
+    }
+
+    .blog-content {
+      padding: 2rem 0;
+    }
+  }
+
+  .no-posts {
+    text-align: center;
+    padding: 4rem 0;
+    color: var(--color-text-secondary);
+  }
+
+  .no-posts p {
+    font-size: 1.1rem;
+  }
+</style>

@@ -1,13 +1,9 @@
 ---
 title: "Despliegue en Vercel con un Dominio Personalizado"
-
 description: "Cómo desplegar en Vercel y configurar un dominio comprado a través de NIC Argentina. A lo largo de esta guía, veremos el paso a paso del proceso completo."
-
-coverImage: "/despliegue-vercel-dominio-personalizado/coverImage.png"
-
-date: "24/08/2023"
-
-alt: "Despliegue en Vercel con un Dominio Personalizado"
+date: 2023-08-24
+category: "DevOps / Infraestructura"
+tags: ["vercel", "deploy", "dominios", "dns", "github"]
 ---
 
 ## Pasos previos necesarios
