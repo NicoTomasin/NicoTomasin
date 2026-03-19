@@ -364,18 +364,20 @@ const initialPrivateShow = 6;
   }
 </style>
 
-<script>
-  const grid = document.getElementById('privateGrid');
-  const btn = document.getElementById('expandBtn');
-  const text = btn?.querySelector('.expand-text');
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    const grid = document.getElementById('privateGrid');
+    const btn = document.getElementById('expandBtn');
+    const text = btn?.querySelector('.expand-text');
 
-  if (btn && grid) {
-    btn.addEventListener('click', () => {
-      const isExpanded = grid.classList.toggle('expanded');
-      btn.classList.toggle('expanded', isExpanded);
-      if (text) {
-        text.textContent = isExpanded ? 'Ver menos' : 'Ver más proyectos';
-      }
-    });
-  }
+    if (btn && grid) {
+      btn.addEventListener('click', () => {
+        const isExpanded = grid.classList.toggle('expanded');
+        btn.classList.toggle('expanded', isExpanded);
+        if (text) {
+          text.textContent = isExpanded ? 'Ver menos' : 'Ver más proyectos';
+        }
+      });
+    }
+  });
 </script>

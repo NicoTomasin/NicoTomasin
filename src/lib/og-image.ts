@@ -82,7 +82,7 @@ export async function generateOgImage(options: OgImageOptions): Promise<Buffer> 
                               type: 'span',
                               props: {
                                 style: {
-                                  fontSize: '32px',
+                                  fontSize: '48px',
                                   fontWeight: 700,
                                   color: '#00ff88',
                                 },
@@ -93,7 +93,7 @@ export async function generateOgImage(options: OgImageOptions): Promise<Buffer> 
                               type: 'span',
                               props: {
                                 style: {
-                                  fontSize: '32px',
+                                  fontSize: '48px',
                                   fontWeight: 700,
                                   color: '#e4e4e7',
                                 },
@@ -104,11 +104,11 @@ export async function generateOgImage(options: OgImageOptions): Promise<Buffer> 
                               type: 'div',
                               props: {
                                 style: {
-                                  width: '1px',
-                                  height: '24px',
+                                  width: '2px',
+                                  height: '32px',
                                   backgroundColor: '#1e1e2e',
-                                  marginLeft: '12px',
-                                  marginRight: '12px',
+                                  marginLeft: '16px',
+                                  marginRight: '16px',
                                 },
                               },
                             },
@@ -116,7 +116,7 @@ export async function generateOgImage(options: OgImageOptions): Promise<Buffer> 
                               type: 'span',
                               props: {
                                 style: {
-                                  fontSize: '14px',
+                                  fontSize: '20px',
                                   color: '#a1a1aa',
                                   fontFamily: 'monospace',
                                 },
@@ -131,17 +131,17 @@ export async function generateOgImage(options: OgImageOptions): Promise<Buffer> 
                             type: 'div',
                             props: {
                               style: {
-                                padding: '8px 16px',
+                                padding: '10px 20px',
                                 backgroundColor: 'rgba(0, 255, 136, 0.1)',
                                 border: '1px solid rgba(0, 255, 136, 0.3)',
-                                borderRadius: '8px',
+                                borderRadius: '10px',
                                 display: 'flex',
                               },
                               children: {
                                 type: 'span',
                                 props: {
                                   style: {
-                                    fontSize: '14px',
+                                    fontSize: '18px',
                                     color: '#00ff88',
                                     fontFamily: 'monospace',
                                     textTransform: 'uppercase',
@@ -184,7 +184,7 @@ export async function generateOgImage(options: OgImageOptions): Promise<Buffer> 
                             type: 'span',
                             props: {
                               style: {
-                                fontSize: title.length > 60 ? '48px' : '56px',
+                                fontSize: title.length > 60 ? '64px' : '72px',
                                 fontWeight: 700,
                                 color: '#e4e4e7',
                                 lineHeight: 1.1,
@@ -207,7 +207,7 @@ export async function generateOgImage(options: OgImageOptions): Promise<Buffer> 
                                 type: 'span',
                                 props: {
                                   style: {
-                                    fontSize: '20px',
+                                    fontSize: '28px',
                                     color: '#a1a1aa',
                                     lineHeight: 1.5,
                                     maxWidth: '800px',
@@ -247,7 +247,7 @@ export async function generateOgImage(options: OgImageOptions): Promise<Buffer> 
                         type: 'span',
                         props: {
                           style: {
-                            fontSize: '16px',
+                            fontSize: '22px',
                             color: '#a1a1aa',
                           },
                           children: siteUrl,
