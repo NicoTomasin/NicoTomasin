@@ -354,12 +354,21 @@ const initialPrivateShow = 6;
       display: flex;
     }
 
-    .private-card[data-index]:not([data-index="0"]):not([data-index="1"]):not([data-index="2"]):not([data-index="3"]):not([data-index="4"]):not([data-index="5"]) {
+    .private-card {
       display: none;
     }
 
-    .private-grid.expanded .private-card {
+    .private-card[data-index="0"],
+    .private-card[data-index="1"],
+    .private-card[data-index="2"],
+    .private-card[data-index="3"],
+    .private-card[data-index="4"],
+    .private-card[data-index="5"] {
       display: flex;
+    }
+
+    .private-grid.expanded .private-card {
+      display: flex !important;
     }
   }
 </style>
