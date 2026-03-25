@@ -8,13 +8,13 @@ tags: [build-in-public, foundercheck, helix, yazi, terminal, productividad]
 
 ## TL;DR del día
 
-Primer día de "Volviendo a crear". Migré [FounderCheck](/blog/proyectos/foundercheck) de CLI a interfaz web, definí el MVP (brand kit + deploy), y de pura inercia terminé instalando helix y yazi — un editor y un file manager en terminal que me hicieron cuestionar si realmente necesito una IDE gráfica abierta todo el día.
+Primer día de "Volviendo a crear". Migré [FounderCheck](/blog/foundercheck-la-herramienta-que-necesitaba) de CLI a interfaz web, definí el MVP (brand kit + deploy), y de pura inercia terminé instalando helix y yazi — un editor y un file manager en terminal que me hicieron cuestionar si realmente necesito una IDE gráfica abierta todo el día.
 
 ---
 
 ## Migrando FounderCheck a web
 
-[FounderCheck](/blog/proyectos/foundercheck) arrancó como un script de CLI que hacía algo muy específico: validabas que el nombre de tu proyecto estuviera disponible en dominios y redes sociales, y si todo estaba libre, te desplegaba un template + CI/CD en Cloudflare Worker + GitLab. Útil, pero con un problema: era un script. No podías mostrarle eso a un founder no técnico y decirle "usá esto".
+[FounderCheck](/blog/foundercheck-la-herramienta-que-necesitaba) arrancó como un script de CLI que hacía algo muy específico: validabas que el nombre de tu proyecto estuviera disponible en dominios y redes sociales, y si todo estaba libre, te desplegaba un template + CI/CD en Cloudflare Worker + GitLab. Útil, pero con un problema: era un script. No podías mostrarle eso a un founder no técnico y decirle "usá esto".
 
 Hoy lo migré a interfaz web. El flujo ahora es: entrás, ponés el nombre de tu proyecto, y en minutos tenés un brand kit básico levantado. Sin tocar terminal, sin configurar Cloudflare a mano, sin saber qué es un worker.
 
