@@ -8,7 +8,7 @@ author: "Nico Tomasin"
 draft: false
 ---
 
-## Le pasaba todo el tiempo: me entusiasmaba con una idea, la programaba durante semanas, y cuando quería lanzarla… el nombre ya estaba tomado
+## Me pasaba todo el tiempo: me entusiasmaba con una idea, programaba durante semanas, y cuando quería lanzarla… el nombre ya estaba tomado o el producto no se vendia
 
 Conocés esa sensación. Te levantás un domingo a las 7 de la mañana con una idea que te parece brillante. La misma mañana ya tenés el repo inicializado, el primer commit, y la estructura del proyecto lista. Durante las semanas siguientes, invertís decenas (o cientos) de horas construyendo algo que te apasiona.
 
