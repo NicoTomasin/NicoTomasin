@@ -56,6 +56,29 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <script src="https://platform.twitter.com/widgets.js" charset="utf-8" async></script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ 
+        startOnLoad: true,
+        theme: 'dark',
+        themeVariables: {
+          primaryColor: '#6366f1',
+          primaryTextColor: '#fff',
+          primaryBorderColor: '#7c3aed',
+          lineColor: '#a1a1aa',
+          secondaryColor: '#1e1e2e',
+          tertiaryColor: '#2d2d3f',
+          background: '#0a0a0f',
+          mainBkg: '#1e1e2e',
+          nodeBorder: '#6366f1',
+          clusterBkg: '#2d2d3f',
+          titleColor: '#ffffff',
+          edgeLabelBackground: '#1e1e2e',
+        }
+      });
+    </script>
   </head>
   <body>
     <Navbar />
