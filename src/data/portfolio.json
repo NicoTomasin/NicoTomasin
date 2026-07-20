@@ -13,6 +13,12 @@
   },
   "experience": [
     {
+      "role": "Product Manager",
+      "company": "G2M Technology Group",
+      "period": "abr. 2026 - actualidad",
+      "description": "Lidero el equipo de programadores que crea y mantiene soluciones de trazabilidad y visualizacion de datos para todo tipo de cliente utilizando tecnologias multiplataforma."
+    },
+    {
       "role": "Full Stack Developer",
       "company": "WABOT",
       "period": "nov. 2024 - ene. 2026",
@@ -32,6 +38,12 @@
     }
   ],
   "projects": [
+    {
+      "title": "9z Hub",
+      "tech": "Counter-Strike 2, Demos, Estadisticas",
+      "description": "Estadisticas historicas de jugadores y del roster core de 9z en Counter-Strike 2, calculadas a partir de demos parseadas. Proyecto sin fines de lucro y tributo.",
+      "link": "https://9zhub.com.ar/"
+    },
     {
       "title": "Mi Vidriera",
       "tech": "Astro, Vercel, CSS, Mercado Pago, PostgreSQL",
