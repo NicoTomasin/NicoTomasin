@@ -26,3 +26,4 @@ jobs:
           plugin_languages_ignored: html, css, scss
           plugin_languages_sections: most-used
           plugin_languages_limit: 8
+          plugin_languages_colors: "0:#75aadb, 1:#1e3a8a, 2:#cfe3f5, 3:#2563eb, 4:#ffffff, 5:#9ec5e8, 6:#3b82f6, 7:#e0f2fe"
