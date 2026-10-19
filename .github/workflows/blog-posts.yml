@@ -1,0 +1,24 @@
+name: Blog posts
+
+on:
+  schedule:
+    - cron: "0 5 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: gautamkrishnar/blog-post-workflow@v1
+        with:
+          feed_list: "https://nicotomasin.com.ar/blog/rss.xml"
+          max_post_count: 5
+          commit_message: "docs: update latest blog posts"
+          committer_username: "NicoTomasin"
+          committer_email: "nicobattle3@gmail.com"
