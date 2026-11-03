@@ -123,14 +123,13 @@ const nameLines = ['Nico', 'Tomasin'];
   }
 
   .hero-name {
-    font-family: var(--font-display);
+    font-family: var(--font-serif);
     display: flex;
     flex-direction: column;
-    font-size: clamp(3.75rem, 13.5vw, 12.5rem);
-    font-weight: 800;
-    letter-spacing: -0.04em;
-    line-height: 0.86;
-    text-transform: uppercase;
+    font-size: clamp(4.5rem, 21vw, 15rem);
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 0.85;
     margin: 0;
   }
 
@@ -141,13 +140,7 @@ const nameLines = ['Nico', 'Tomasin'];
 
   .hero-line-1 {
     padding-left: clamp(2rem, 14vw, 14rem);
-    font-family: var(--font-serif);
     font-style: italic;
-    font-weight: 400;
-    text-transform: none;
-    letter-spacing: -0.02em;
-    font-size: 1.12em;
-    line-height: 0.9;
     color: var(--color-accent);
   }
 
@@ -159,7 +152,7 @@ const nameLines = ['Nico', 'Tomasin'];
   }
 
   /* Margen extra para que la itálica no se corte dentro de la máscara */
-  .hero-line-1 .char-mask {
+  .hero-name .char-mask {
     padding: 0 0.06em 0.08em;
     margin: 0 -0.06em;
   }
