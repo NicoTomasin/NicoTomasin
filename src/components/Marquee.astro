@@ -47,6 +47,7 @@ const loop = [...items, ...items, ...items, ...items];
   }
 
   .marquee-item {
+    font-family: var(--font-display);
     display: inline-flex;
     align-items: center;
     gap: 2.5rem;
@@ -66,7 +67,11 @@ const loop = [...items, ...items, ...items, ...items];
   }
 
   .marquee-outline .marquee-item {
-    color: transparent;
-    -webkit-text-stroke: 1px rgba(228, 228, 231, 0.55);
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: -0.01em;
+    color: rgba(228, 228, 231, 0.45);
   }
 </style>

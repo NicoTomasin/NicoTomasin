@@ -8,6 +8,8 @@
   --color-accent-hover: #00cc6a;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: 'Share Tech Mono', monospace;
+  --font-display: 'Syne', var(--font-sans);
+  --font-serif: 'Instrument Serif', Georgia, serif;
   --max-width: 1200px;
   --nav-height: 64px;
 }
@@ -110,6 +112,7 @@ img {
 }
 
 .landing .section-title {
+  font-family: var(--font-display);
   font-size: clamp(2.5rem, 7vw, 6rem);
   font-weight: 700;
   letter-spacing: -0.045em;

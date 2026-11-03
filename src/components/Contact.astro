@@ -40,6 +40,7 @@ const { footer } = portfolioData;
   }
 
   .contact-title {
+    font-family: var(--font-display);
     display: flex;
     flex-direction: column;
     font-size: clamp(3rem, 11vw, 10rem);
@@ -57,8 +58,12 @@ const { footer } = portfolioData;
 
   .contact-row-outline {
     align-self: flex-end;
-    color: transparent;
-    -webkit-text-stroke: 1.5px var(--color-accent);
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    font-size: 1.1em;
+    color: var(--color-accent);
   }
 
   .contact-actions {

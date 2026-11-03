@@ -53,28 +53,37 @@ const initialPrivateShow = 6;
   <div class="container">
     <!-- Private Projects Section -->
     <div class="private-section">
-      <h3 class="private-title" data-reveal>
-        <span class="private-title-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      <div class="private-header">
+        <h3 class="private-title" data-split>Proyectos privados</h3>
+        <span class="private-count" data-reveal>
+          <svg class="lock" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path class="lock-shackle" d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          {String(privateProjects.length).padStart(2, '0')} proyectos sin código público
         </span>
-        Proyectos privados
-      </h3>
+        <span class="private-line" data-private-line></span>
+      </div>
 
       <div class="private-grid" id="privateGrid">
         {privateProjects.map((project, index) => (
-          <div class="private-card" data-index={index} data-batch>
-            <div class="private-card-header">
+          <div class="private-card" data-index={index} data-private-card>
+            <span class="private-spot" aria-hidden="true"></span>
+            <div class="private-card-inner">
+              <div class="private-card-header">
+                <span class="private-card-index">{String(index + 1).padStart(2, '0')}</span>
+                <span class="private-badge">
+                  <svg class="lock" xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path class="lock-shackle" d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  Privado
+                </span>
+              </div>
               <h4 class="private-card-title">{project.title}</h4>
-              <span class="private-badge">Privado</span>
-            </div>
-            <p class="private-card-desc">{project.description}</p>
-            <div class="private-card-tech">
-              {project.tech.split(', ').slice(0, 3).map((tech) => (
-                <span class="tech-chip-small">{tech}</span>
-              ))}
-              {project.tech.split(', ').length > 3 && (
-                <span class="tech-chip-more">+{project.tech.split(', ').length - 3}</span>
-              )}
+              <p class="private-card-desc">{project.description}</p>
+              <div class="private-card-tech">
+                {project.tech.split(', ').slice(0, 3).map((tech) => (
+                  <span class="tech-chip-small" data-chip>{tech}</span>
+                ))}
+                {project.tech.split(', ').length > 3 && (
+                  <span class="tech-chip-more" data-chip>+{project.tech.split(', ').length - 3}</span>
+                )}
+              </div>
             </div>
           </div>
         ))}
@@ -132,6 +141,7 @@ const initialPrivateShow = 6;
   }
 
   .public-card-index {
+    font-family: var(--font-display);
     position: absolute;
     right: -0.05em;
     bottom: -0.2em;
@@ -139,15 +149,14 @@ const initialPrivateShow = 6;
     font-weight: 700;
     line-height: 1;
     letter-spacing: -0.06em;
-    color: transparent;
-    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.035);
     z-index: -1;
     pointer-events: none;
-    transition: -webkit-text-stroke-color 0.4s ease;
+    transition: color 0.4s ease;
   }
 
   .public-card:hover .public-card-index {
-    -webkit-text-stroke-color: rgba(0, 255, 136, 0.35);
+    color: rgba(0, 255, 136, 0.1);
   }
 
   .public-card-glow {
@@ -203,6 +212,7 @@ const initialPrivateShow = 6;
   }
 
   .public-card-title {
+    font-family: var(--font-display);
     font-size: clamp(2.25rem, 5vw, 4.5rem);
     font-weight: 700;
     letter-spacing: -0.04em;
@@ -286,28 +296,58 @@ const initialPrivateShow = 6;
     position: relative;
   }
 
-  .private-title {
+  .private-header {
+    position: relative;
     display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: var(--color-text-secondary);
-    margin: 0 0 1.5rem 0;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--color-border);
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
   }
 
-  .private-title-icon {
-    display: flex;
+  .private-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin: 0;
+  }
+
+  .private-count {
+    display: inline-flex;
     align-items: center;
-    opacity: 0.6;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+  }
+
+  .private-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: linear-gradient(90deg, var(--color-accent), var(--color-border) 40%);
+    transform-origin: left;
+  }
+
+  .lock-shackle {
+    transform-box: fill-box;
+    transform-origin: 100% 100%;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   .private-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 1rem;
+    perspective: 1200px;
   }
 
   @media (min-width: 640px) {
@@ -323,53 +363,100 @@ const initialPrivateShow = 6;
   }
 
   .private-card {
+    --mx: 50%;
+    --my: 50%;
+    position: relative;
     display: flex;
-    flex-direction: column;
-    background: rgba(18, 18, 26, 0.5);
-    border: 1px solid var(--color-border);
-    border-radius: 10px;
-    padding: 1.25rem;
-    transition: all 0.2s ease;
+    border-radius: 16px;
+    padding: 1px;
+    background: var(--color-border);
+    overflow: hidden;
+    isolation: isolate;
+    will-change: transform;
   }
 
-  .private-card:hover {
-    border-color: rgba(255, 255, 255, 0.1);
-    background: rgba(18, 18, 26, 0.8);
+  /* Borde que se ilumina siguiendo al mouse */
+  .private-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(260px circle at var(--mx) var(--my), rgba(0, 255, 136, 0.75), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 0;
+  }
+
+  .private-card-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 1.4rem;
+    border-radius: 15px;
+    background: #101017;
+  }
+
+  /* Spotlight interior */
+  .private-spot {
+    position: absolute;
+    inset: 1px;
+    border-radius: 15px;
+    background: radial-gradient(320px circle at var(--mx) var(--my), rgba(0, 255, 136, 0.09), transparent 65%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 2;
+    pointer-events: none;
   }
 
   .private-card-header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     gap: 0.75rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .private-card-index {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    transition: color 0.3s ease;
   }
 
   .private-card-title {
-    font-size: 1rem;
-    font-weight: 600;
-    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin: 0 0 0.5rem 0;
     color: var(--color-text);
+    transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
 
   .private-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
     font-family: var(--font-mono);
     font-size: 0.65rem;
     color: var(--color-text-secondary);
     background: rgba(255, 255, 255, 0.03);
-    padding: 0.2rem 0.45rem;
-    border-radius: 4px;
+    padding: 0.25rem 0.55rem;
+    border-radius: 100px;
     border: 1px solid var(--color-border);
     flex-shrink: 0;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.08em;
+    transition: color 0.3s ease, border-color 0.3s ease;
   }
 
   .private-card-desc {
-    font-size: 0.85rem;
+    font-size: 0.88rem;
     color: var(--color-text-secondary);
-    line-height: 1.5;
-    margin: 0 0 0.75rem 0;
+    line-height: 1.55;
+    margin: 0 0 1.25rem 0;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -385,18 +472,51 @@ const initialPrivateShow = 6;
 
   .tech-chip-small {
     font-family: var(--font-mono);
-    font-size: 0.65rem;
+    font-size: 0.68rem;
     color: var(--color-text-secondary);
-    background: rgba(255, 255, 255, 0.03);
-    padding: 0.2rem 0.5rem;
-    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.04);
+    padding: 0.25rem 0.6rem;
+    border-radius: 100px;
+    transition: color 0.3s ease, background-color 0.3s ease;
   }
 
   .tech-chip-more {
     font-family: var(--font-mono);
-    font-size: 0.65rem;
+    font-size: 0.68rem;
     color: var(--color-accent);
-    padding: 0.2rem 0.5rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  /* Hovers solo con mouse (evita estados "pegados" en touch) */
+  @media (hover: hover) {
+    .private-card:hover::before,
+    .private-card:hover .private-spot {
+      opacity: 1;
+    }
+
+    .private-card:hover .private-card-index,
+    .private-card:hover .private-badge {
+      color: var(--color-accent);
+    }
+
+    .private-card:hover .private-badge {
+      border-color: rgba(0, 255, 136, 0.35);
+    }
+
+    .private-card:hover .private-card-title {
+      transform: translateX(6px);
+    }
+
+    .private-card:hover .tech-chip-small {
+      color: var(--color-accent);
+      background: rgba(0, 255, 136, 0.08);
+    }
+
+    /* El candado se "abre" */
+    .private-card:hover .lock-shackle,
+    .private-count:hover .lock-shackle {
+      transform: translateY(-18%) rotate(-18deg);
+    }
   }
 
   /* ===== EXPAND BUTTON (Mobile) ===== */
