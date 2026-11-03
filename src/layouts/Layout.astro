@@ -57,11 +57,20 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     
-    <script src="https://platform.twitter.com/widgets.js" charset="utf-8" async></script>
     <script type="module">
-      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-      mermaid.initialize({ 
-        startOnLoad: true,
+      // Scripts externos pesados: solo se cargan si la página los usa
+      if (document.querySelector('.twitter-tweet')) {
+        const s = document.createElement('script');
+        s.src = 'https://platform.twitter.com/widgets.js';
+        s.async = true;
+        document.head.appendChild(s);
+      }
+
+      if (document.querySelector('pre.mermaid')) {
+        const { default: mermaid } = await import('https://cdn.jsdelivr.net/npm/mermaid@12.2.0/dist/mermaid.esm.min.mjs');
+        mermaid.initialize({
+        startOnLoad: false,
+        look: 'classic',
         theme: 'dark',
         themeVariables: {
           primaryColor: '#6366f1',
@@ -77,7 +86,9 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
           titleColor: '#ffffff',
           edgeLabelBackground: '#1e1e2e',
         }
-      });
+        });
+        await mermaid.run({ querySelector: 'pre.mermaid' });
+      }
     </script>
   </head>
   <body>

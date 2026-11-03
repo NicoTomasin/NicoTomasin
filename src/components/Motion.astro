@@ -261,6 +261,9 @@
       let x = 0;
       let skew = 0;
       let visible = false;
+      // Medir el ancho una vez (y al cambiar el tamaño), no en cada frame
+      let trackHalf = track.scrollWidth / 2;
+      new ResizeObserver(() => (trackHalf = track.scrollWidth / 2)).observe(track);
 
       new IntersectionObserver(([entry]) => (visible = entry.isIntersecting)).observe(marquee);
 
@@ -269,7 +272,7 @@
         const velocity = lenis.velocity || 0;
         const scrollDir = lenis.direction === -1 ? -1 : 1;
         const boost = 1 + Math.min(Math.abs(velocity) * 0.25, 8);
-        const half = track.scrollWidth / 2;
+        const half = trackHalf;
         x -= baseDir * scrollDir * 0.05 * deltaMs * boost;
         x = ((x % half) + half) % half - half;
         skew += (gsap.utils.clamp(-10, 10, velocity * 0.4 * baseDir) - skew) * 0.12;
@@ -506,15 +509,14 @@
   // ---------- Experiencia: líneas que se dibujan + contenido ----------
   function setupExperience() {
     document.querySelectorAll<HTMLElement>('[data-job]').forEach((job) => {
-      gsap
-        .timeline({ scrollTrigger: { trigger: job, start: 'top 88%' } })
-        .fromTo(job.querySelector('[data-job-line]'), { scaleX: 0 }, { scaleX: 1, duration: 1.4, ease: 'expo.inOut' })
-        .fromTo(
-          job.querySelectorAll('[data-job-fade]'),
-          { y: 28, opacity: 0 },
-          { y: 0, opacity: 1, duration: 1, ease: 'expo.out', stagger: 0.07 },
-          0.35
-        );
+      const line = job.querySelector('[data-job-line]');
+      const texts = job.querySelectorAll('[data-job-fade]');
+      const tl = gsap.timeline({ scrollTrigger: { trigger: job, start: 'top 88%' } });
+      if (line) tl.fromTo(line, { scaleX: 0 }, { scaleX: 1, duration: 1.4, ease: 'expo.inOut' });
+      // La última fila (cierre de la lista) solo tiene línea: sin textos no hay nada que animar
+      if (texts.length) {
+        tl.fromTo(texts, { y: 28, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'expo.out', stagger: 0.07 }, 0.35);
+      }
     });
   }
 

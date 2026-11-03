@@ -25,7 +25,8 @@ export default function ogImagesIntegration() {
             const filePath = path.join(contentDir, file);
             const content = await fs.readFile(filePath, 'utf-8');
 
-            const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---/);
+            // \r?\n: en Windows git puede convertir los .md a CRLF
+            const frontmatterMatch = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
             if (!frontmatterMatch) continue;
 
             const frontmatter = frontmatterMatch[1];
