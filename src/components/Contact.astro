@@ -1,0 +1,133 @@
+---
+import portfolioData from '../data/portfolio.json';
+
+const { footer } = portfolioData;
+---
+
+<section id="contacto" class="contact" data-contact>
+  <div class="container contact-inner">
+    <p class="section-label" data-reveal>Contacto</p>
+
+    <h2 class="contact-title" aria-label="¿Construimos algo juntos?">
+      <span class="contact-row" aria-hidden="true" data-contact-row data-dir="-1">¿Construimos</span>
+      <span class="contact-row contact-row-outline" aria-hidden="true" data-contact-row data-dir="1">algo juntos?</span>
+    </h2>
+
+    <div class="contact-actions">
+      <a href={`mailto:${footer.email}`} class="contact-orb" data-magnetic="0.5" data-cursor="Escribime">
+        <span class="contact-orb-fill"></span>
+        <span class="contact-orb-label">Hablemos</span>
+      </a>
+      <a href={`mailto:${footer.email}`} class="contact-email" data-reveal>
+        {footer.email}
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact {
+    position: relative;
+    padding: 8rem 0 10rem;
+    background: var(--color-bg);
+    overflow: hidden;
+  }
+
+  .contact-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .contact-title {
+    display: flex;
+    flex-direction: column;
+    font-size: clamp(3rem, 11vw, 10rem);
+    font-weight: 700;
+    letter-spacing: -0.05em;
+    line-height: 0.9;
+    margin: 0;
+  }
+
+  .contact-row {
+    display: block;
+    white-space: nowrap;
+    will-change: transform;
+  }
+
+  .contact-row-outline {
+    align-self: flex-end;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--color-accent);
+  }
+
+  .contact-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .contact-actions {
+      flex-direction: row;
+      align-items: center;
+      gap: 3rem;
+    }
+  }
+
+  .contact-orb {
+    position: relative;
+    width: clamp(140px, 16vw, 200px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--color-accent);
+    color: var(--color-accent);
+    overflow: hidden;
+    isolation: isolate;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .contact-orb-fill {
+    position: absolute;
+    inset: 0;
+    background: var(--color-accent);
+    border-radius: 50%;
+    transform: translateY(101%);
+    transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+    z-index: -1;
+  }
+
+  .contact-orb:hover {
+    color: var(--color-bg);
+  }
+
+  .contact-orb:hover .contact-orb-fill {
+    transform: translateY(0);
+  }
+
+  .contact-orb-label {
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: 0.02em;
+    transition: color 0.4s ease;
+  }
+
+  .contact-email {
+    font-family: var(--font-mono);
+    font-size: clamp(1rem, 2vw, 1.4rem);
+    color: var(--color-text-secondary);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 0.25rem;
+    transition: color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .contact-email:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+</style>

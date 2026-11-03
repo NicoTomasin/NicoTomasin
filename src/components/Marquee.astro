@@ -1,0 +1,72 @@
+---
+interface Props {
+  items: string[];
+  reverse?: boolean;
+  outline?: boolean;
+}
+
+const { items, reverse = false, outline = false } = Astro.props;
+// Se repite el contenido para que el loop sea continuo en pantallas anchas
+const loop = [...items, ...items, ...items, ...items];
+---
+
+<div class:list={['marquee', { 'marquee-outline': outline }]} data-marquee data-direction={reverse ? '-1' : '1'} aria-hidden="true">
+  <div class="marquee-track" data-marquee-track>
+    {[0, 1].map(() => (
+      <div class="marquee-group">
+        {loop.map((item) => (
+          <span class="marquee-item">
+            {item}
+            <svg class="marquee-star" viewBox="0 0 24 24" width="0.6em" height="0.6em" fill="currentColor"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg>
+          </span>
+        ))}
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .marquee {
+    overflow: hidden;
+    padding: 1.25rem 0;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    background: #000;
+    user-select: none;
+  }
+
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+  }
+
+  .marquee-group {
+    display: flex;
+    flex-shrink: 0;
+  }
+
+  .marquee-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 2.5rem;
+    padding-right: 2.5rem;
+    font-size: clamp(2.5rem, 7vw, 6rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--color-text);
+  }
+
+  .marquee-star {
+    color: var(--color-accent);
+    flex-shrink: 0;
+  }
+
+  .marquee-outline .marquee-item {
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(228, 228, 231, 0.55);
+  }
+</style>

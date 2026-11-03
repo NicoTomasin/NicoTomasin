@@ -1,18 +1,25 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Motion from '../components/Motion.astro';
 import Hero from '../components/Hero.astro';
+import Marquee from '../components/Marquee.astro';
 import Projects from '../components/Projects.astro';
 import Experience from '../components/Experience.astro';
 import Education from '../components/Education.astro';
+import Contact from '../components/Contact.astro';
 import Footer from '../components/Footer.astro';
 ---
 
 <Layout title="Nico Tomasin | Full Stack Developer">
-  <main>
+  <Motion />
+  <main class="landing">
     <Hero />
+    <Marquee items={['Full Stack', 'Product', 'Build in public']} />
     <Projects />
     <Experience />
+    <Marquee items={['Astro', 'Rust', 'TypeScript', 'React', 'Hono', 'PostgreSQL']} reverse outline />
     <Education />
+    <Contact />
   </main>
   <Footer />
 </Layout>
