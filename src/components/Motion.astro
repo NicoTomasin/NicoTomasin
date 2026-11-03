@@ -24,6 +24,7 @@
   .has-motion [data-reveal],
   .has-motion [data-batch],
   .has-motion [data-private-card],
+  .has-motion [data-post-fade],
   .has-motion [data-job-fade],
   .has-motion [data-hero-fade] {
     opacity: 0;
@@ -39,6 +40,10 @@
 
   .has-motion [data-split] {
     visibility: hidden;
+  }
+
+  .has-motion [data-post-media] {
+    clip-path: inset(100% 0 0 0 round 18px);
   }
 
   .has-motion [data-job-line],
@@ -173,6 +178,7 @@
     setupSplitTitles();
     setupReveals();
     setupPrivateProjects();
+    setupLatestPosts();
     setupProjects();
     setupExperience();
     setupContact();
@@ -332,6 +338,48 @@
         gsap.fromTo(hidden, { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: 'expo.out', stagger: 0.06 });
         ScrollTrigger.refresh();
       });
+    });
+  }
+
+  // ---------- Últimos posts: cortina sobre la imagen, zoom de entrada y parallax ----------
+  function setupLatestPosts() {
+    const posts = gsap.utils.toArray<HTMLElement>('[data-post]');
+    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+    posts.forEach((post, i) => {
+      const media = post.querySelector<HTMLElement>('[data-post-media]');
+      const img = post.querySelector<HTMLElement>('[data-post-img]');
+      if (!media || !img) return;
+
+      // Entrada: la máscara se abre de abajo hacia arriba mientras la imagen se aleja
+      gsap
+        .timeline({ scrollTrigger: { trigger: post, start: 'top 85%' }, delay: i === 0 ? 0 : 0.12 * i })
+        .fromTo(
+          media,
+          { clipPath: 'inset(100% 0% 0% 0% round 18px)' },
+          { clipPath: 'inset(0% 0% 0% 0% round 18px)', duration: 1.4, ease: 'expo.inOut' }
+        )
+        .fromTo(img, { scale: 1.35 }, { scale: 1, duration: 1.8, ease: 'expo.out' }, 0.2)
+        .fromTo(
+          post.querySelectorAll('[data-post-fade]'),
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1, duration: 1, ease: 'expo.out', stagger: 0.08 },
+          0.7
+        );
+
+      // Parallax de la imagen dentro de su marco mientras se scrollea
+      gsap.fromTo(
+        img,
+        { yPercent: -6 },
+        { yPercent: 6, ease: 'none', scrollTrigger: { trigger: media, start: 'top bottom', end: 'bottom top', scrub: true } }
+      );
+
+      // Hover: zoom suave de la imagen (GSAP, para no pisar el transform del parallax)
+      if (finePointer) {
+        const zoom = gsap.quickTo(img, 'scale', { duration: 0.8, ease: 'power3.out' });
+        post.addEventListener('mouseenter', () => zoom(1.06));
+        post.addEventListener('mouseleave', () => zoom(1));
+      }
     });
   }
 
