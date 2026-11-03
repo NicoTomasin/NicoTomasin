@@ -7,30 +7,27 @@ const { experience } = portfolioData;
 <section id="experiencia" class="section experience">
   <div class="container">
     <header class="section-header">
-      <p class="section-label">Trayectoria</p>
-      <h2 class="section-title">Mi camino profesional</h2>
+      <p class="section-label" data-reveal>Trayectoria</p>
+      <h2 class="section-title" data-split>Mi camino profesional</h2>
     </header>
 
-    <div class="timeline">
+    <ol class="jobs">
       {experience.map((job, index) => (
-        <div class="timeline-item">
-          <div class="timeline-marker">
-            <div class="marker-dot"></div>
-            {index < experience.length - 1 && <div class="marker-line"></div>}
-          </div>
-          <div class="timeline-content">
-            <div class="job-card">
-              <div class="job-header">
-                <h3 class="job-role">{job.role}</h3>
-                <span class="job-company">@ {job.company}</span>
-              </div>
-              <span class="job-period">{job.period}</span>
-              <p class="job-description">{job.description}</p>
+        <li class="job" data-job>
+          <span class="job-line" data-job-line></span>
+          <div class="job-inner">
+            <span class="job-index" data-job-fade>{String(index + 1).padStart(2, '0')}</span>
+            <div class="job-main">
+              <h3 class="job-role" data-job-fade>{job.role}</h3>
+              <span class="job-company" data-job-fade>@ {job.company}</span>
             </div>
+            <p class="job-description" data-job-fade>{job.description}</p>
+            <span class="job-period" data-job-fade>{job.period}</span>
           </div>
-        </div>
+        </li>
       ))}
-    </div>
+      <li class="job job-end" aria-hidden="true" data-job><span class="job-line" data-job-line></span></li>
+    </ol>
   </div>
 </section>
 
@@ -40,107 +37,132 @@ const { experience } = portfolioData;
     position: relative;
   }
 
-  .timeline {
+  .jobs {
     display: flex;
     flex-direction: column;
-    gap: 0;
   }
 
-  .timeline-item {
-    display: flex;
-    gap: 1.5rem;
+  .job {
+    position: relative;
   }
 
-  .timeline-marker {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex-shrink: 0;
-    width: 20px;
+  .job-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--color-border);
+    transform-origin: left;
   }
 
-  .marker-dot {
-    width: 12px;
-    height: 12px;
+  .job-line::after {
+    content: '';
+    position: absolute;
+    inset: 0;
     background: var(--color-accent);
-    border-radius: 50%;
-    flex-shrink: 0;
-    box-shadow: 0 0 12px rgba(0, 255, 136, 0.4);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
   }
 
-  .marker-line {
-    width: 2px;
-    flex: 1;
-    background: linear-gradient(to bottom, var(--color-accent), var(--color-border));
-    margin-top: 0.5rem;
+
+  .job-inner {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.75rem 1.25rem;
+    padding: 2rem 0;
+    transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
 
-  .timeline-content {
-    flex: 1;
-    padding-bottom: 2.5rem;
+
+  .job-index {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-accent);
+    padding-top: 0.6rem;
   }
 
-  .timeline-item:last-child .timeline-content {
-    padding-bottom: 0;
-  }
-
-  .job-card {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: 12px;
-    padding: 1.5rem;
-    transition: border-color 0.2s ease, transform 0.2s ease;
-  }
-
-  .job-card:hover {
-    border-color: var(--color-accent);
-    transform: translateX(4px);
-  }
-
-  .job-header {
+  .job-main {
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
-    margin-bottom: 0.75rem;
-  }
-
-  @media (min-width: 640px) {
-    .job-header {
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-    }
   }
 
   .job-role {
-    font-size: 1.1rem;
-    font-weight: 600;
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 2.6vw, 2.25rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
     margin: 0;
     color: var(--color-text);
+    transition: color 0.3s ease;
   }
+
 
   .job-company {
     font-family: var(--font-mono);
-    font-size: 0.9rem;
-    color: var(--color-accent);
-  }
-
-  .job-period {
-    display: inline-block;
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
+    font-size: 0.95rem;
     color: var(--color-text-secondary);
-    margin-bottom: 0.75rem;
-    padding: 0.25rem 0.75rem;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 4px;
-    width: fit-content;
   }
 
   .job-description {
-    font-size: 0.95rem;
+    grid-column: 2;
+    font-size: 0.98rem;
     color: var(--color-text-secondary);
     line-height: 1.6;
     margin: 0;
+    max-width: 520px;
+  }
+
+  .job-period {
+    grid-column: 2;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  @media (min-width: 900px) {
+    .job-inner {
+      grid-template-columns: 4rem 1.2fr 1fr 11rem;
+      align-items: start;
+      gap: 2rem;
+      padding: 2.75rem 0;
+    }
+
+    .job-description,
+    .job-period {
+      grid-column: auto;
+    }
+
+    .job-description {
+      padding-top: 0.5rem;
+    }
+
+    .job-period {
+      text-align: right;
+      padding-top: 0.75rem;
+    }
+  }
+
+  @media (hover: hover) {
+    .job:hover .job-line::after {
+      transform: scaleX(1);
+    }
+
+    .job:hover .job-inner {
+      transform: translateX(10px);
+    }
+
+    .job:hover .job-role {
+      color: var(--color-accent);
+    }
+  }
+
+  .job-end {
+    height: 1px;
   }
 </style>
