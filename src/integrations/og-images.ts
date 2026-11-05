@@ -3,7 +3,8 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Resvg } from '@resvg/resvg-js';
 import { generateOgImage, generatePageOgImage, generateProfileOgImage } from '../lib/og-image.ts';
-import { calculateReadingTime, formatReadingTime } from '../lib/reading-time.ts';
+import sharp from 'sharp';
+import { coverVariant, firstImage } from '../lib/post-cover.ts';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const publicDir = path.join(__dirname, '../../public');
@@ -30,18 +31,24 @@ async function generatePostImages() {
     if (field(frontmatter, 'draft') === 'true') continue;
 
     const slug = file.replace(/\.md$/, '');
-    const rawDate = field(frontmatter, 'date');
-    const date = rawDate
-      ? new Date(rawDate).toLocaleDateString('es-AR', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' })
-      : undefined;
 
     try {
+      // Captura del post (webp/png/jpg en public/) → JPEG que satori/resvg puedan leer
+      const shotPath = firstImage(body);
+      let screenshot;
+      if (shotPath) {
+        const { data, info } = await sharp(path.join(publicDir, shotPath))
+          .resize({ width: 1200, withoutEnlargement: true })
+          .jpeg({ quality: 82 })
+          .toBuffer({ resolveWithObject: true });
+        screenshot = { data, mime: 'image/jpeg', width: info.width, height: info.height };
+      }
+
       const png = await generateOgImage({
         title: field(frontmatter, 'title') ?? 'Sin título',
-        description: field(frontmatter, 'description'),
         category: field(frontmatter, 'category'),
-        date,
-        readingTime: formatReadingTime(calculateReadingTime(body)),
+        variant: coverVariant(slug),
+        screenshot,
       });
       await fs.writeFile(path.join(outputDir, `${slug}.png`), png);
       console.log(`  OG: blog/${slug}`);
@@ -78,6 +85,7 @@ async function generateSiteImages() {
       title: 'Lo que construyo,',
       accent: 'por dentro',
       description: 'Cómo armé cada proyecto: decisiones, arquitectura, errores y lo que aprendí.',
+      variant: 3,
     })
   );
   console.log('  OG: og.png, og-en.png, og/blog.png');

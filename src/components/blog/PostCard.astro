@@ -1,5 +1,7 @@
 ---
 import { formatReadingTime } from '../../lib/reading-time';
+import type { PostCover as Cover } from '../../lib/post-cover';
+import PostCover from './PostCover.astro';
 
 interface Props {
   title: string;
@@ -9,9 +11,10 @@ interface Props {
   category: string;
   readingTime: number;
   featured?: boolean;
+  cover: Cover;
 }
 
-const { title, description, slug, date, category, readingTime, featured = false } = Astro.props;
+const { title, description, slug, date, category, readingTime, featured = false, cover } = Astro.props;
 
 const formattedDate = date.toLocaleDateString('es-AR', {
   day: 'numeric',
@@ -19,14 +22,12 @@ const formattedDate = date.toLocaleDateString('es-AR', {
   year: 'numeric',
   timeZone: 'UTC',
 });
-
-const ogImage = `/og/blog/${slug}.png`;
 ---
 
 <article class:list={['post-card', { 'is-featured': featured }]}>
   <a href={`/blog/${slug}`} class="post-link">
     <div class="post-image-wrapper">
-      <img src={ogImage} alt="" class="post-image" loading={featured ? 'eager' : 'lazy'} width="1200" height="630" />
+      <div class="post-image"><PostCover cover={cover} eager={featured} /></div>
     </div>
     <div class="post-content">
       <div class="post-meta">
@@ -151,20 +152,10 @@ const ogImage = `/og/blog/${slug}.png`;
 
     /* La OG tiene texto: se muestra entera, centrada sobre el fondo */
     .is-featured .post-image-wrapper {
-      display: grid;
-      place-items: center;
       aspect-ratio: auto;
-      height: 100%;
-      padding: 1.5rem;
+      min-height: 22rem;
       border-bottom: 0;
       border-right: 1px solid var(--color-border);
-    }
-
-    .is-featured .post-image {
-      height: auto;
-      aspect-ratio: 40 / 21;
-      border-radius: 10px;
-      border: 1px solid var(--color-border);
     }
 
     .is-featured .post-content {

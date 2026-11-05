@@ -5,6 +5,7 @@ import { Resvg } from '@resvg/resvg-js';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { COVER_VARIANTS } from './post-cover.ts';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.join(__dirname, '../..');
@@ -31,7 +32,7 @@ let assets: Awaited<ReturnType<typeof loadAssets>> | undefined;
 
 async function loadAssets() {
   const font = (pkg: string, file: string) => fs.readFile(path.join(root, 'node_modules/@fontsource', pkg, 'files', file));
-  const [syne700, syne800, serif, serifItalic, mono, inter400, inter600, bg] = await Promise.all([
+  const [syne700, syne800, serif, serifItalic, mono, inter400, inter600, ...backgrounds] = await Promise.all([
     font('syne', 'syne-latin-700-normal.woff'),
     font('syne', 'syne-latin-800-normal.woff'),
     font('instrument-serif', 'instrument-serif-latin-400-normal.woff'),
@@ -39,7 +40,7 @@ async function loadAssets() {
     font('share-tech-mono', 'share-tech-mono-latin-400-normal.woff'),
     font('inter', 'inter-latin-400-normal.woff'),
     font('inter', 'inter-latin-600-normal.woff'),
-    fs.readFile(path.join(root, 'src/assets/og/blackhole.jpg')),
+    ...Array.from({ length: COVER_VARIANTS }, (_, i) => fs.readFile(path.join(root, `public/covers/bh-${i}.jpg`))),
   ]);
   return {
     fonts: [
@@ -51,7 +52,7 @@ async function loadAssets() {
       { name: 'Inter', data: inter400, weight: 400 as const, style: 'normal' as const },
       { name: 'Inter', data: inter600, weight: 600 as const, style: 'normal' as const },
     ],
-    background: `data:image/jpeg;base64,${bg.toString('base64')}`,
+    backgrounds: backgrounds.map((bg) => `data:image/jpeg;base64,${bg.toString('base64')}`),
   };
 }
 
@@ -62,10 +63,10 @@ async function render(tree: Node) {
 }
 
 /** Fondo: el agujero negro desplazado (x) + un velo para que el texto lea bien */
-function backdrop(offsetX: number, veil: string) {
+function backdrop(offsetX: number, veil: string, variant = 0) {
   return [
     h('img', { position: 'absolute', left: offsetX, top: 0, width: OG_WIDTH, height: OG_HEIGHT }, undefined, {
-      src: assets!.background,
+      src: assets!.backgrounds[variant % assets!.backgrounds.length],
       width: OG_WIDTH,
       height: OG_HEIGHT,
     }),
@@ -93,56 +94,77 @@ function titleSize(title: string) {
 
 export interface PostOgOptions {
   title: string;
-  description?: string;
   category?: string;
-  date?: string;
-  readingTime?: string;
+  /** Variante del agujero negro (fija por slug) */
+  variant?: number;
+  /** Captura del post ya convertida a PNG/JPEG */
+  screenshot?: { data: Buffer; mime: string; width: number; height: number };
 }
 
-/** OG de un post del blog */
+/**
+ * OG de un post: logo, categoría y título. Nada más.
+ * Si el post tiene captura, va a la derecha como una "ventana" inclinada; si no, el agujero negro ocupa ese lugar.
+ */
 export async function generateOgImage(options: PostOgOptions): Promise<Buffer> {
   assets ??= await loadAssets();
-  const { title, description, category, date, readingTime } = options;
-  // Recorte en límite de palabra (y sin puntuación colgando) para que entre en 2-3 líneas
-  const desc =
-    description && description.length > 118
-      ? `${description.slice(0, 118).replace(/\s+\S*$/, '').replace(/[\s,.;:—-]+$/, '')}…`
-      : description;
-  const meta = [date, readingTime].filter(Boolean).join('  ·  ');
+  const { title, category, variant = 0, screenshot } = options;
+  const withShot = Boolean(screenshot);
+  const size = withShot ? Math.min(titleSize(title), 64) - 4 : titleSize(title) + 6;
+
+  const shotWidth = 600;
+  const shotHeight = screenshot ? Math.round((shotWidth * screenshot.height) / screenshot.width) : 0;
 
   return render(
     h('div', { position: 'relative', width: '100%', height: '100%', backgroundColor: '#000', overflow: 'hidden' }, [
       ...backdrop(
-        430,
-        'linear-gradient(90deg, #000 0%, rgba(0,0,0,0.96) 42%, rgba(0,0,0,0.55) 72%, rgba(0,0,0,0.2) 100%)'
+        withShot ? 260 : 380,
+        withShot
+          ? 'linear-gradient(90deg, #000 0%, rgba(0,0,0,0.92) 45%, rgba(0,0,0,0.55) 100%)'
+          : 'linear-gradient(90deg, #000 0%, rgba(0,0,0,0.9) 40%, rgba(0,0,0,0.15) 100%)',
+        variant
       ),
-      h('div', { position: 'relative', flexDirection: 'column', justifyContent: 'space-between', width: '100%', height: '100%', padding: '56px 64px' }, [
-        h('div', { alignItems: 'center', justifyContent: 'space-between' }, [
-          h('div', { alignItems: 'center', gap: 20 }, [
-            logo,
-            h('div', { width: 2, height: 30, backgroundColor: C.border }),
-            mono('Blog · Build in public'),
-          ]),
-          category
-            ? h(
-                'div',
-                { padding: '8px 18px', border: `1px solid ${C.accent}`, borderRadius: 999, backgroundColor: 'rgba(0,255,136,0.08)' },
-                mono(category, { color: C.accent, fontSize: 20 })
-              )
-            : h('div', {}),
-        ]),
-        h('div', { flexDirection: 'column', gap: 22, maxWidth: 860 }, [
-          h(
+      screenshot
+        ? h(
             'div',
-            { fontFamily: 'Syne', fontWeight: 700, fontSize: titleSize(title), lineHeight: 1.04, letterSpacing: -2, color: C.text },
-            title
-          ),
-          desc ? h('div', { fontFamily: 'Inter', fontSize: 26, lineHeight: 1.45, color: C.muted, maxWidth: 780 }, desc) : h('div', {}),
+            {
+              position: 'absolute',
+              left: 640,
+              top: 120,
+              width: shotWidth,
+              height: Math.min(shotHeight, 560),
+              borderRadius: 18,
+              overflow: 'hidden',
+              // boxShadow + rotate hace crashear a resvg: el borde con un toque de acento da la separación
+              border: '2px solid rgba(0,255,136,0.25)',
+              transform: 'rotate(-4deg)',
+            },
+            h('img', { width: shotWidth, height: shotHeight, objectFit: 'cover' }, undefined, {
+              src: `data:${screenshot.mime};base64,${screenshot.data.toString('base64')}`,
+              width: shotWidth,
+              height: shotHeight,
+            })
+          )
+        : h('div', {}),
+      h('div', { position: 'relative', flexDirection: 'column', justifyContent: 'space-between', width: '100%', height: '100%', padding: '60px 64px' }, [
+        h('div', { alignItems: 'center', gap: 20 }, [
+          logo,
+          category ? h('div', { width: 2, height: 30, backgroundColor: C.border }) : h('div', {}),
+          category ? mono(category, { color: C.accent }) : h('div', {}),
         ]),
-        h('div', { alignItems: 'center', justifyContent: 'space-between', paddingTop: 22, borderTop: `1px solid ${C.border}` }, [
-          mono('Nico Tomasin  ·  nicotomasin.com.ar', { color: C.text, fontSize: 20 }),
-          meta ? mono(meta, { fontSize: 20 }) : h('div', {}),
-        ]),
+        h(
+          'div',
+          {
+            fontFamily: 'Syne',
+            fontWeight: 700,
+            fontSize: size,
+            lineHeight: 1.04,
+            letterSpacing: -2,
+            color: C.text,
+            maxWidth: withShot ? 560 : 900,
+          },
+          title
+        ),
+        mono('nicotomasin.com.ar/blog', { fontSize: 20 }),
       ]),
     ])
   );
@@ -197,15 +219,16 @@ export interface PageOgOptions {
   title: string;
   accent: string;
   description: string;
+  variant?: number;
 }
 
 /** OG genérica de página (índice del blog) */
 export async function generatePageOgImage(options: PageOgOptions): Promise<Buffer> {
   assets ??= await loadAssets();
-  const { kicker, title, accent, description } = options;
+  const { kicker, title, accent, description, variant = 0 } = options;
   return render(
     h('div', { position: 'relative', width: '100%', height: '100%', backgroundColor: '#000', overflow: 'hidden' }, [
-      ...backdrop(380, 'linear-gradient(90deg, #000 0%, rgba(0,0,0,0.9) 45%, rgba(0,0,0,0.2) 100%)'),
+      ...backdrop(380, 'linear-gradient(90deg, #000 0%, rgba(0,0,0,0.9) 45%, rgba(0,0,0,0.2) 100%)', variant),
       h('div', { position: 'relative', flexDirection: 'column', justifyContent: 'space-between', width: '100%', height: '100%', padding: '56px 64px' }, [
         h('div', { alignItems: 'center', gap: 20 }, [logo, h('div', { width: 2, height: 30, backgroundColor: C.border }), mono(kicker)]),
         h('div', { flexDirection: 'column', gap: 24 }, [

@@ -1,0 +1,70 @@
+---
+// Portada visual de un post: su captura, o una variante del agujero negro con el tag.
+// Nunca repite el título (ya está en la card).
+import type { PostCover } from '../../lib/post-cover';
+
+interface Props {
+  cover: PostCover;
+  eager?: boolean;
+  /** Atributo extra para las animaciones de la landing */
+  animate?: boolean;
+}
+
+const { cover, eager = false, animate = false } = Astro.props;
+const animateAttr = animate ? { 'data-post-img': '' } : {};
+---
+
+{cover.screenshot ? (
+  <img
+    class="cover cover-shot"
+    src={cover.screenshot}
+    alt=""
+    loading={eager ? 'eager' : 'lazy'}
+    decoding="async"
+    {...animateAttr}
+  />
+) : (
+  <div
+    class="cover cover-gen"
+    style={`--bg: url('${cover.background}'); --focus: ${cover.focus}`}
+    {...animateAttr}
+  >
+    <span class="cover-topic">#{cover.topic}</span>
+  </div>
+)}
+
+<style>
+  .cover {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .cover-shot {
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  .cover-gen {
+    position: relative;
+    display: grid;
+    place-items: center;
+    background:
+      linear-gradient(180deg, rgba(10, 10, 15, 0.1) 0%, rgba(10, 10, 15, 0.55) 100%),
+      var(--bg) var(--focus) / cover no-repeat,
+      #000;
+  }
+
+  .cover-topic {
+    position: relative;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(1.75rem, 4.5vw, 2.75rem);
+    line-height: 1;
+    letter-spacing: -0.01em;
+    color: var(--color-text);
+    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.7);
+    padding: 0 1rem;
+    text-align: center;
+  }
+</style>

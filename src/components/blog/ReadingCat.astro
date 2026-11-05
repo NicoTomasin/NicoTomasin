@@ -19,45 +19,70 @@ const messages = [
   <div class="cat-bubble" id="catBubble">
     <span class="bubble-text" id="bubbleText"></span>
   </div>
-  <div class="cat-body">
+  <div class="cat-body" role="button" tabindex="0" aria-label="Gato lector: tocá para que te diga algo">
     <svg
       viewBox="0 0 64 64"
       width="64"
       height="64"
       class="cat-svg"
       id="catSvg"
+      aria-hidden="true"
     >
-      <g class="cat-ears">
-        <polygon points="12,24 8,4 24,16" fill="currentColor" class="cat-ear cat-ear-left" />
-        <polygon points="52,24 56,4 40,16" fill="currentColor" class="cat-ear cat-ear-right" />
-      </g>
-      <ellipse cx="32" cy="38" rx="24" ry="20" fill="currentColor" class="cat-face" />
-      <g class="cat-eyes" id="catEyes">
-        <ellipse cx="22" cy="34" rx="4" ry="5" fill="#0a0a0f" class="cat-eye cat-eye-left" />
-        <ellipse cx="42" cy="34" rx="4" ry="5" fill="#0a0a0f" class="cat-eye cat-eye-right" />
-        <ellipse cx="23" cy="33" rx="1.5" ry="2" fill="#fff" class="cat-pupil cat-pupil-left" />
-        <ellipse cx="43" cy="33" rx="1.5" ry="2" fill="#fff" class="cat-pupil cat-pupil-right" />
-      </g>
-      <g class="cat-eyes-closed" id="catEyesClosed">
-        <path d="M18,34 Q22,38 26,34" stroke="#0a0a0f" stroke-width="2" fill="none" class="cat-eye-closed cat-eye-closed-left" />
-        <path d="M38,34 Q42,38 46,34" stroke="#0a0a0f" stroke-width="2" fill="none" class="cat-eye-closed cat-eye-closed-right" />
-      </g>
-      <ellipse cx="32" cy="42" rx="3" ry="2" fill="#ffb6c1" class="cat-nose" />
-      <g class="cat-whiskers">
-        <line x1="10" y1="40" x2="22" y2="42" stroke="#0a0a0f" stroke-width="1" class="whisker" />
-        <line x1="10" y1="44" x2="22" y2="44" stroke="#0a0a0f" stroke-width="1" class="whisker" />
-        <line x1="10" y1="48" x2="22" y2="46" stroke="#0a0a0f" stroke-width="1" class="whisker" />
-        <line x1="54" y1="40" x2="42" y2="42" stroke="#0a0a0f" stroke-width="1" class="whisker" />
-        <line x1="54" y1="44" x2="42" y2="44" stroke="#0a0a0f" stroke-width="1" class="whisker" />
-        <line x1="54" y1="48" x2="42" y2="46" stroke="#0a0a0f" stroke-width="1" class="whisker" />
-      </g>
+      <!-- Cola (detrás de la cabeza) -->
       <g class="cat-tail" id="catTail">
-        <path d="M56,50 Q70,40 65,60" stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round" class="tail-path" />
+        <path d="M48 53 C59 56 64 47 60.5 41 C58.5 37.5 61 34.5 63.5 36.5" stroke="currentColor" stroke-width="5" fill="none" stroke-linecap="round" class="tail-path" />
       </g>
-      <g class="cat-hearts" id="catHearts">
-        <text x="10" y="20" font-size="12" class="heart heart-1">💚</text>
-        <text x="48" y="18" font-size="10" class="heart heart-2">💚</text>
-        <text x="28" y="12" font-size="8" class="heart heart-3">💚</text>
+
+      <!-- Cabeza: una sola silueta con curvas, orejas redondeadas -->
+      <path
+        class="cat-face"
+        fill="currentColor"
+        d="M12 30 C10 22 10.5 14 12.5 8.5 C13.4 6.2 15.6 5.8 17.2 7.6 L24.5 15 C29.3 13.6 34.7 13.6 39.5 15 L46.8 7.6 C48.4 5.8 50.6 6.2 51.5 8.5 C53.5 14 54 22 52 30 C54 33.5 55 37.5 55 41 C55 51.5 45 58 32 58 C19 58 9 51.5 9 41 C9 37.5 10 33.5 12 30 Z"
+      />
+      <path class="cat-ear-inner" d="M15 11.5 C15.4 10.3 16.3 10.2 17 11 L21.5 15.8 C19 17 17 18.8 15.6 21 C14.6 17.8 14.5 14.4 15 11.5 Z" />
+      <path class="cat-ear-inner" d="M49 11.5 C48.6 10.3 47.7 10.2 47 11 L42.5 15.8 C45 17 47 18.8 48.4 21 C49.4 17.8 49.5 14.4 49 11.5 Z" />
+
+      <!-- Cachetes -->
+      <ellipse cx="17.5" cy="44" rx="4" ry="2.6" class="cat-blush" />
+      <ellipse cx="46.5" cy="44" rx="4" ry="2.6" class="cat-blush" />
+
+      <!-- Ojos abiertos (parpadean) -->
+      <g class="cat-eyes" id="catEyes">
+        <g class="cat-eye">
+          <ellipse cx="23.5" cy="36" rx="3.4" ry="4.2" fill="#0a0a0f" />
+          <circle cx="24.7" cy="34.4" r="1.25" fill="#fff" />
+          <circle cx="22.6" cy="37.6" r="0.6" fill="#fff" opacity="0.7" />
+        </g>
+        <g class="cat-eye">
+          <ellipse cx="40.5" cy="36" rx="3.4" ry="4.2" fill="#0a0a0f" />
+          <circle cx="41.7" cy="34.4" r="1.25" fill="#fff" />
+          <circle cx="39.6" cy="37.6" r="0.6" fill="#fff" opacity="0.7" />
+        </g>
+      </g>
+
+      <!-- Ojos cerrados (dormido) -->
+      <g class="cat-eyes-closed" id="catEyesClosed">
+        <path d="M19.8 36.2 Q23.5 39.4 27.2 36.2" stroke="#0a0a0f" stroke-width="1.6" fill="none" stroke-linecap="round" />
+        <path d="M36.8 36.2 Q40.5 39.4 44.2 36.2" stroke="#0a0a0f" stroke-width="1.6" fill="none" stroke-linecap="round" />
+      </g>
+
+      <!-- Nariz y boca "ω" -->
+      <path d="M30.2 42.2 C30.2 41.3 33.8 41.3 33.8 42.2 C33.8 43.1 32.6 44.1 32 44.1 C31.4 44.1 30.2 43.1 30.2 42.2 Z" class="cat-nose" />
+      <path d="M28.6 45.6 C29.4 47.6 31.6 47.6 32 45.2 C32.4 47.6 34.6 47.6 35.4 45.6" stroke="#0a0a0f" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+
+      <!-- Bigotes curvos -->
+      <g class="cat-whiskers" stroke="#0a0a0f" stroke-width="0.9" stroke-linecap="round" fill="none">
+        <path d="M10.5 40.8 Q14.8 40.6 18.8 42.2" />
+        <path d="M10 45.2 Q14.4 44.6 18.6 45.1" />
+        <path d="M53.5 40.8 Q49.2 40.6 45.2 42.2" />
+        <path d="M54 45.2 Q49.6 44.6 45.4 45.1" />
+      </g>
+
+      <!-- Corazones (al terminar) -->
+      <g class="cat-hearts" id="catHearts" transform="translate(-2 -2) scale(1.08)">
+        <path class="heart heart-1" d="M10 14 C10 11.5 13.5 11 14 13.5 C14.5 11 18 11.5 18 14 C18 16.8 14 19 14 19 C14 19 10 16.8 10 14 Z" />
+        <path class="heart heart-2" d="M47 8 C47 6.2 49.6 5.8 50 7.7 C50.4 5.8 53 6.2 53 8 C53 10 50 11.8 50 11.8 C50 11.8 47 10 47 8 Z" />
+        <path class="heart heart-3" d="M29.5 4 C29.5 2.7 31.4 2.4 31.7 3.8 C32 2.4 33.9 2.7 33.9 4 C33.9 5.5 31.7 6.8 31.7 6.8 C31.7 6.8 29.5 5.5 29.5 4 Z" />
       </g>
     </svg>
   </div>
@@ -88,8 +113,8 @@ const messages = [
     position: relative;
     opacity: 0;
     transform: translateY(10px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    max-width: 150px;
+    transition: opacity var(--dur-ui) var(--ease-out), transform var(--dur-ui) var(--ease-out);
+    pointer-events: none;
   }
 
   .cat-bubble::after {
@@ -119,17 +144,64 @@ const messages = [
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: 50%;
-    padding: 0.5rem;
-    transition: border-color 0.3s ease;
+    padding: 0.55rem;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    transition: border-color var(--dur-ui) ease, transform var(--dur-press) var(--ease-out);
   }
 
-  .cat-body:hover {
-    border-color: var(--color-accent);
+  .cat-body:active {
+    transform: scale(0.95);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .cat-body:hover {
+      border-color: var(--accent-line);
+    }
   }
 
   .cat-svg {
+    display: block;
     color: var(--color-text);
     overflow: visible;
+  }
+
+  .cat-ear-inner {
+    fill: color-mix(in srgb, var(--color-accent) 35%, var(--color-text));
+    opacity: 0.55;
+  }
+
+  .cat-blush {
+    fill: var(--color-accent);
+    opacity: 0.18;
+  }
+
+  .cat-nose {
+    fill: var(--color-accent-hover);
+  }
+
+  .heart {
+    fill: var(--color-accent);
+  }
+
+  /* Parpadeo: cada ~5s, rápido */
+  .cat-eye {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: blink 5s infinite;
+  }
+
+  .cat-eye:nth-child(2) {
+    animation-delay: 0.04s;
+  }
+
+  @keyframes blink {
+    0%, 94%, 100% {
+      transform: scaleY(1);
+    }
+    96% {
+      transform: scaleY(0.1);
+    }
   }
 
   .cat-eyes-closed {
@@ -142,6 +214,8 @@ const messages = [
   }
 
   .heart {
+    transform-box: fill-box;
+    transform-origin: center;
     animation: float-heart 2s ease-in-out infinite;
   }
 
@@ -169,16 +243,25 @@ const messages = [
   }
 
   .tail-path {
-    animation: wag-tail 1s ease-in-out infinite;
-    transform-origin: 56px 50px;
+    animation: wag-tail 1.6s ease-in-out infinite;
+    transform-origin: 48px 53px;
   }
 
   @keyframes wag-tail {
     0%, 100% {
-      transform: rotate(-5deg);
+      transform: rotate(-6deg);
     }
     50% {
-      transform: rotate(5deg);
+      transform: rotate(6deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tail-path,
+    .cat-eye,
+    .heart,
+    .zzz {
+      animation: none;
     }
   }
 
@@ -309,6 +392,13 @@ const messages = [
 
     clearTimeout(scrollTimeout);
     scrollTimeout = setTimeout(checkIdle, 5000);
+  });
+
+  readingCat?.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      readingCat.click();
+    }
   });
 
   readingCat?.addEventListener('click', () => {

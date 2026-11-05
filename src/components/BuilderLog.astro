@@ -62,7 +62,7 @@ const hiddenCount = Math.max(0, builds.length - INITIAL);
                   data-log-row
                   data-category={build.category}
                   data-extra={(order.get(build.slug) ?? 0) >= INITIAL ? '' : undefined}
-                  data-preview={build.post ? `/og/blog/${build.post}.png` : undefined}
+                  data-preview={build.cover ? build.cover.screenshot ?? build.cover.background : undefined}
                 >
                   <div class="log-name">
                     {primary ? (
