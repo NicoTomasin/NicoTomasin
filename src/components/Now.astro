@@ -43,7 +43,7 @@ const updated = new Date(now.updated);
       </ol>
 
       {latest && (
-        <a href={`/blog/${latest.id}`} class="now-latest pressable" data-batch>
+        <a href={`/blog/${latest.id}`} class="now-latest pressable" data-batch data-cursor={t('featured.read')}>
           <span class="now-latest-label">
             {t('now.latest')} · <time datetime={latest.data.date.toISOString()}>{fmt(latest.data.date)}</time>
           </span>

@@ -91,48 +91,70 @@
     transform: translateY(-100%);
   }
 
-  /* Etiqueta contextual junto al cursor del sistema (solo mouse).
-     No reemplaza al cursor: aparece solo sobre elementos con data-cursor ("Visitar", "Leer"…) */
+  /* Cursor custom (solo mouse) */
   .cursor {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 300;
+    width: 14px;
+    height: 14px;
+    margin: -7px 0 0 -7px;
+    border-radius: 50%;
+    background: var(--color-accent);
     pointer-events: none;
-    will-change: transform;
+    z-index: 300;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    mix-blend-mode: difference;
+    transition: width 0.2s var(--ease-out), height 0.2s var(--ease-out),
+      margin 0.2s var(--ease-out), opacity 0.2s ease;
+  }
+
+  .cursor.is-active {
+    display: flex;
+  }
+
+  .cursor.is-hidden {
+    opacity: 0;
+  }
+
+  .cursor.is-hover {
+    width: 48px;
+    height: 48px;
+    margin: -24px 0 0 -24px;
+  }
+
+  .cursor.is-label {
+    width: 96px;
+    height: 96px;
+    margin: -48px 0 0 -48px;
+    mix-blend-mode: normal;
   }
 
   .cursor-label {
-    display: block;
-    margin: 18px 0 0 16px;
-    padding: 0.4rem 0.7rem;
     font-family: var(--font-mono);
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    white-space: nowrap;
     color: var(--color-bg);
-    background: var(--color-accent);
-    border-radius: 100px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
-    transform-origin: top left;
     opacity: 0;
-    transform: scale(0.9);
-    /* Salida rápida */
-    transition: opacity 100ms ease, transform 100ms ease;
+    transition: opacity 0.2s ease;
   }
 
   .cursor.is-label .cursor-label {
     opacity: 1;
-    transform: scale(1);
-    /* Entrada un poco más lenta que la salida */
-    transition: opacity 160ms var(--ease-out), transform 160ms var(--ease-out);
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .cursor-label {
-      transform: none;
-    }
+  /* Con el cursor custom activo (solo mouse + animaciones) se esconde el del sistema.
+     Los campos de texto mantienen el cursor de texto para poder seleccionar. */
+  html.has-custom-cursor,
+  html.has-custom-cursor * {
+    cursor: none !important;
+  }
+
+  html.has-custom-cursor :is(input, textarea, [contenteditable='true']) {
+    cursor: text !important;
   }
 </style>
 
@@ -479,48 +501,38 @@
     });
   }
 
-  // ---------- Etiqueta contextual del cursor ----------
+  // ---------- Cursor custom ----------
   function setupCursor() {
     if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
     const cursor = document.querySelector<HTMLElement>('[data-cursor-el]');
     const label = document.querySelector<HTMLElement>('[data-cursor-label]');
     if (!cursor || !label) return;
 
-    // Sigue al cursor casi pegado: un lerp corto, sin la sensación de "arrastre"
-    const xTo = gsap.quickTo(cursor, 'x', { duration: 0.12, ease: 'power2.out' });
-    const yTo = gsap.quickTo(cursor, 'y', { duration: 0.12, ease: 'power2.out' });
-    let current: HTMLElement | null = null;
+    // Es el único cursor visible: casi pegado al mouse (con retraso largo apuntar se siente roto)
+    const xTo = gsap.quickTo(cursor, 'x', { duration: 0.08, ease: 'power2.out' });
+    const yTo = gsap.quickTo(cursor, 'y', { duration: 0.08, ease: 'power2.out' });
+    document.documentElement.classList.add('has-custom-cursor');
 
-    const hide = () => {
-      current = null;
-      cursor.classList.remove('is-label');
-    };
-
-    window.addEventListener(
-      'mousemove',
-      (event) => {
-        xTo(event.clientX);
-        yTo(event.clientY);
-      },
-      { passive: true }
-    );
-
-    document.addEventListener('mouseover', (event) => {
-      const target = (event.target as HTMLElement).closest<HTMLElement>('[data-cursor]');
-      if (target === current) return;
-      if (!target) return hide();
-      // Al entrar, la etiqueta aparece donde está el mouse (sin viajar desde la posición anterior)
-      if (!current) {
-        gsap.set(cursor, { x: event.clientX, y: event.clientY });
-      }
-      current = target;
-      label.textContent = target.dataset.cursor ?? '';
-      cursor.classList.add('is-label');
+    window.addEventListener('mousemove', (event) => {
+      cursor.classList.add('is-active');
+      cursor.classList.remove('is-hidden');
+      xTo(event.clientX);
+      yTo(event.clientY);
+    });
+    document.documentElement.addEventListener('mouseleave', () => cursor.classList.add('is-hidden'));
+    // Navegando con teclado el cursor custom estorba: se oculta hasta el próximo movimiento
+    window.addEventListener('keydown', (event) => {
+      if (event.key === 'Tab') cursor.classList.add('is-hidden');
     });
 
-    document.documentElement.addEventListener('mouseleave', hide);
-    window.addEventListener('keydown', hide);
-    window.addEventListener('blur', hide);
+    document.addEventListener('mouseover', (event) => {
+      const target = event.target as HTMLElement;
+      const labelled = target.closest<HTMLElement>('[data-cursor]');
+      const interactive = target.closest('a, button');
+      if (labelled) label.textContent = labelled.dataset.cursor ?? '';
+      cursor.classList.toggle('is-label', Boolean(labelled));
+      cursor.classList.toggle('is-hover', !labelled && Boolean(interactive));
+    });
   }
 
   function escapeHtml(value: string) {
