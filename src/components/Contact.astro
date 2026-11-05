@@ -1,26 +1,51 @@
 ---
 import portfolioData from '../data/portfolio.json';
+import { type Lang, useTranslations } from '../i18n/ui';
 
-const { footer } = portfolioData;
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const { contact, footer } = portfolioData;
+const follow = footer.socials.filter((s) => ['X', 'YouTube', 'GitHub', 'Instagram'].includes(s.name));
 ---
 
 <section id="contacto" class="contact" data-contact>
   <div class="container contact-inner">
-    <p class="section-label" data-reveal>Contacto</p>
+    <p class="section-label" data-reveal>{t('contact.label')}</p>
 
-    <h2 class="contact-title" aria-label="¿Construimos algo juntos?">
-      <span class="contact-row" aria-hidden="true" data-contact-row data-dir="-1">¿Construimos</span>
-      <span class="contact-row contact-row-outline" aria-hidden="true" data-contact-row data-dir="1">algo juntos?</span>
+    <h2 class="contact-title" aria-label={`${t('contact.line1')} ${t('contact.line2')}`}>
+      <span class="contact-row" aria-hidden="true" data-contact-row data-dir="-1">{t('contact.line1')}</span>
+      <span class="contact-row contact-row-outline" aria-hidden="true" data-contact-row data-dir="1">{t('contact.line2')}</span>
     </h2>
 
     <div class="contact-actions">
-      <a href={`mailto:${footer.email}`} class="contact-orb" data-magnetic="0.5" data-cursor="Escribime">
+      <a href={`mailto:${contact.email}`} class="contact-orb pressable" data-magnetic="0.4" data-cursor={t('contact.cursor')}>
         <span class="contact-orb-fill"></span>
-        <span class="contact-orb-label">Hablemos</span>
+        <span class="contact-orb-label">{t('contact.orb')}</span>
       </a>
-      <a href={`mailto:${footer.email}`} class="contact-email" data-reveal>
-        {footer.email}
+      <div class="contact-direct" data-reveal>
+        <p class="contact-note">{t('contact.direct')}</p>
+        <a href={`mailto:${contact.email}`} class="contact-email">{contact.email}</a>
+      </div>
+    </div>
+
+    <div class="contact-extra">
+      <a href={contact.pipiLabs} class="contact-card pressable" data-reveal>
+        <span class="contact-card-kicker">{t('contact.teams')}</span>
+        <span class="contact-card-title">{t('contact.teamsCta')} →</span>
       </a>
+      <div class="contact-card contact-follow" data-reveal>
+        <span class="contact-card-kicker">{t('contact.follow')}</span>
+        <ul class="follow-list">
+          {follow.map((social) => (
+            <li><a href={social.url} target="_blank" rel="noopener noreferrer" class="follow-link">{social.name} ↗</a></li>
+          ))}
+          <li><a href="/blog/rss.xml" class="follow-link">RSS</a></li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
@@ -43,7 +68,7 @@ const { footer } = portfolioData;
     font-family: var(--font-display);
     display: flex;
     flex-direction: column;
-    font-size: clamp(3rem, 11vw, 10rem);
+    font-size: clamp(2.25rem, 9.5vw, 9.5rem);
     font-weight: 700;
     letter-spacing: -0.05em;
     line-height: 0.9;
@@ -103,23 +128,39 @@ const { footer } = portfolioData;
     background: var(--color-accent);
     border-radius: 50%;
     transform: translateY(101%);
-    transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+    transition: transform 450ms var(--ease-in-out);
     z-index: -1;
   }
 
-  .contact-orb:hover {
-    color: var(--color-bg);
-  }
+  @media (hover: hover) and (pointer: fine) {
+    .contact-orb:hover {
+      color: var(--color-bg);
+    }
 
-  .contact-orb:hover .contact-orb-fill {
-    transform: translateY(0);
+    .contact-orb:hover .contact-orb-fill {
+      transform: translateY(0);
+    }
+
+    .contact-email:hover {
+      color: var(--color-accent);
+      border-color: var(--color-accent);
+    }
+
+    .contact-card:hover {
+      border-color: var(--accent-line);
+      color: inherit;
+    }
+
+    .follow-link:hover {
+      color: var(--color-accent);
+    }
   }
 
   .contact-orb-label {
     font-weight: 600;
     font-size: 1.05rem;
     letter-spacing: 0.02em;
-    transition: color 0.4s ease;
+    transition: color var(--dur-ui) ease;
   }
 
   .contact-email {
@@ -128,11 +169,74 @@ const { footer } = portfolioData;
     color: var(--color-text-secondary);
     border-bottom: 1px solid var(--color-border);
     padding-bottom: 0.25rem;
-    transition: color 0.3s ease, border-color 0.3s ease;
+    transition: color var(--dur-ui) ease, border-color var(--dur-ui) ease;
+    overflow-wrap: anywhere;
   }
 
-  .contact-email:hover {
-    color: var(--color-accent);
-    border-color: var(--color-accent);
+  .contact-direct {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .contact-note {
+    max-width: 40ch;
+    color: var(--color-text-secondary);
+  }
+
+  .contact-extra {
+    display: grid;
+    gap: 1rem;
+    margin-top: 2.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .contact-extra {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .contact-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 18px;
+    background: var(--color-surface);
+    transition: border-color var(--dur-ui) ease, transform var(--dur-press) var(--ease-out);
+  }
+
+  .contact-follow:active {
+    transform: none;
+  }
+
+  .contact-card-kicker {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+  }
+
+  .contact-card-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--step-2);
+    letter-spacing: -0.03em;
+    color: var(--color-text);
+  }
+
+  .follow-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+  }
+
+  .follow-link {
+    display: inline-block;
+    padding: 0.2rem 0;
+    font-weight: 600;
+    color: var(--color-text);
   }
 </style>

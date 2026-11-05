@@ -1,7 +1,7 @@
 ---
 title: "Cómo mantengo actualizada la lista de juegos de Game Pass con GitHub Actions"
 description: "Un scraper con Puppeteer que corre todos los días gratis en GitHub Actions y publica la lista de juegos de PC Game Pass como un JSON que cualquiera puede consumir."
-date: 2026-11-03
+date: 2025-10-17
 category: "Proyectos"
 tags: ["puppeteer", "scraping", "github-actions", "bun", "open-source"]
 author: "Nico Tomasin"

@@ -1,7 +1,7 @@
 ---
 title: "Cómo automaticé carruseles de Instagram con IA y templates propios"
 description: "Un generador en Astro que convierte un prompt en un carrusel de 5 placas con la identidad de mi marca, validado con Zod y descargable en PNG."
-date: 2026-11-03
+date: 2026-01-16
 category: "Proyectos"
 tags: ["ia", "astro", "react", "gemini", "automatizacion"]
 author: "Nico Tomasin"

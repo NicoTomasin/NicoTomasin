@@ -1,7 +1,7 @@
 ---
 title: "Un visualizador de datos que se adapta a bases que no controlás"
 description: "Cómo diseñamos un visualizador web que no tiene el esquema de datos escrito en el código: configuración dinámica en runtime, dashboards armables y una versión de solo lectura generada desde el mismo código."
-date: 2026-11-03
+date: 2026-10-05
 category: "Proyectos"
 tags: ["astro", "arquitectura", "visualizacion-de-datos", "configuracion", "bun"]
 author: "Nico Tomasin"

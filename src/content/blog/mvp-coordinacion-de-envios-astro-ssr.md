@@ -1,7 +1,7 @@
 ---
 title: "Un MVP para coordinar envíos entre ubicaciones: de cero a producción con Astro SSR"
 description: "Cómo encaramos un MVP web para coordinar envíos entre sedes: Astro en modo servidor con Bun, Drizzle sobre MySQL, etiquetas con código de barras y PDF generados en el servidor, y tests por caso de uso."
-date: 2026-11-03
+date: 2026-10-20
 category: "Proyectos"
 tags: ["mvp", "astro", "bun", "drizzle", "pdf"]
 author: "Nico Tomasin"

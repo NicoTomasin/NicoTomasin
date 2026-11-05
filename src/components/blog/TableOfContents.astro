@@ -15,10 +15,12 @@ const filteredHeadings = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
 ---
 
 {filteredHeadings.length > 0 && (
-  <nav class="toc" id="toc">
-    <button class="toc-toggle" id="tocToggle" aria-label="Tabla de contenidos">
-      <span class="toc-icon">≡</span>
+  <nav class="toc" id="toc" aria-label="Tabla de contenidos">
+    <button class="toc-toggle pressable" id="tocToggle" aria-expanded="false" aria-controls="tocContent">
+      <span class="toc-icon" aria-hidden="true">≡</span>
       <span class="toc-label">Contenido</span>
+      <span class="toc-count">{filteredHeadings.length} secciones</span>
+      <svg class="toc-chevron" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
     </button>
     <div class="toc-content" id="tocContent">
       <span class="toc-title">En esta página</span>
@@ -37,11 +39,12 @@ const filteredHeadings = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
 
 <style>
   .toc {
-    position: fixed;
+    position: sticky;
     top: calc(var(--nav-height) + 2rem);
-    right: 1.5rem;
-    max-width: 250px;
-    z-index: 50;
+    max-height: calc(100vh - var(--nav-height) - 4rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
   }
 
   .toc-toggle {
@@ -107,12 +110,14 @@ const filteredHeadings = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
     border-left: 2px solid transparent;
     padding-left: 0.5rem;
     margin-left: -0.5rem;
-    transition: all 0.2s ease;
+    transition: color var(--dur-ui) ease, border-color var(--dur-ui) ease;
   }
 
-  .toc-link:hover {
-    color: var(--color-accent);
-    border-left-color: var(--color-accent);
+  @media (hover: hover) and (pointer: fine) {
+    .toc-link:hover {
+      color: var(--color-accent);
+      border-left-color: var(--color-accent);
+    }
   }
 
   .toc-link.active {
@@ -120,17 +125,32 @@ const filteredHeadings = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
     border-left-color: var(--color-accent);
   }
 
+  .toc-count {
+    margin-left: auto;
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+  }
+
+  .toc-chevron {
+    color: var(--color-text-secondary);
+    transition: transform var(--dur-ui) var(--ease-out);
+  }
+
+  .toc-toggle[aria-expanded='true'] .toc-chevron {
+    transform: rotate(180deg);
+  }
+
   @media (max-width: 1200px) {
     .toc {
-      position: relative;
-      top: auto;
-      right: auto;
-      max-width: 100%;
+      position: static;
+      max-height: none;
+      overflow: visible;
       margin-bottom: 2rem;
     }
 
     .toc-toggle {
       display: flex;
+      padding: 0.85rem 1rem;
     }
 
     .toc-content {
@@ -141,6 +161,11 @@ const filteredHeadings = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
     .toc-content.open {
       display: block;
     }
+
+    .toc-link {
+      padding-top: 0.45rem;
+      padding-bottom: 0.45rem;
+    }
   }
 </style>
 
@@ -149,7 +174,8 @@ const filteredHeadings = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
   const tocContent = document.getElementById('tocContent');
 
   tocToggle?.addEventListener('click', () => {
-    tocContent?.classList.toggle('open');
+    const open = tocContent?.classList.toggle('open') ?? false;
+    tocToggle.setAttribute('aria-expanded', String(open));
   });
 
   const tocLinks = document.querySelectorAll('.toc-link');
@@ -173,12 +199,25 @@ const filteredHeadings = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
     });
   }
 
-  window.addEventListener('scroll', updateActiveLink, { passive: true });
+  let ticking = false;
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        updateActiveLink();
+        ticking = false;
+      });
+    },
+    { passive: true }
+  );
   updateActiveLink();
 
   tocLinks.forEach((link) => {
     link.addEventListener('click', () => {
       tocContent?.classList.remove('open');
+      tocToggle?.setAttribute('aria-expanded', 'false');
     });
   });
 </script>

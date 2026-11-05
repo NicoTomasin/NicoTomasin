@@ -1,7 +1,7 @@
 ---
 title: "Mi primer bot de Telegram en TypeScript: el patrón que sigo usando hoy"
 description: "Un bot mínimo con teclado de botones y un mapa de acciones. Simple, pero me enseñó una estructura que después llevé a bots mucho más grandes en Rust."
-date: 2026-11-03
+date: 2024-04-29
 category: "Proyectos"
 tags: ["telegram", "typescript", "node", "bots", "arquitectura"]
 author: "Nico Tomasin"

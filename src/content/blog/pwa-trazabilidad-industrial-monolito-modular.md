@@ -1,7 +1,7 @@
 ---
 title: "Trazabilidad industrial con una PWA: arquitectura hexagonal en un monolito modular"
 description: "Cómo encaré una app para reemplazar el seguimiento en papel de una planta metalúrgica: PWA para celulares, monolito modular, fronteras de capas verificadas en CI y contratos OpenAPI tipados."
-date: 2026-11-03
+date: 2026-10-28
 category: "Proyectos"
 tags: ["arquitectura", "pwa", "fastify", "postgresql", "typescript"]
 author: "Nico Tomasin"

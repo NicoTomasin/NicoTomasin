@@ -1,14 +1,21 @@
 ---
 import portfolioData from '../data/portfolio.json';
+import { type Lang, l, useTranslations } from '../i18n/ui';
 
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
 const { experience } = portfolioData;
 ---
 
 <section id="experiencia" class="section experience">
   <div class="container">
     <header class="section-header">
-      <p class="section-label" data-reveal>Trayectoria</p>
-      <h2 class="section-title" data-split>Mi camino profesional</h2>
+      <p class="section-label" data-reveal>{t('path.label')}</p>
+      <h2 class="section-title" data-split>{t('path.title')}</h2>
     </header>
 
     <ol class="jobs">
@@ -17,12 +24,18 @@ const { experience } = portfolioData;
           <span class="job-line" data-job-line></span>
           <div class="job-inner">
             <span class="job-index" data-job-fade>{String(index + 1).padStart(2, '0')}</span>
-            <div class="job-main">
-              <h3 class="job-role" data-job-fade>{job.role}</h3>
-              <span class="job-company" data-job-fade>@ {job.company}</span>
-            </div>
-            <p class="job-description" data-job-fade>{job.description}</p>
-            <span class="job-period" data-job-fade>{job.period}</span>
+            <h3 class="job-company" data-job-fade>{job.company}</h3>
+            <ol class:list={['roles', { 'roles-timeline': job.roles.length > 1 }]}>
+              {job.roles.map((role, ri) => (
+                <li class:list={['role', { 'role-current': index === 0 && ri === 0 }]} data-job-fade>
+                  <div class="role-head">
+                    <span class="role-name">{l(role.role, lang)}</span>
+                    <span class="role-period">{l(role.period, lang)}</span>
+                  </div>
+                  <p class="role-description">{l(role.description, lang)}</p>
+                </li>
+              ))}
+            </ol>
           </div>
         </li>
       ))}
@@ -63,61 +76,98 @@ const { experience } = portfolioData;
     background: var(--color-accent);
     transform: scaleX(0);
     transform-origin: left;
-    transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+    transition: transform 400ms var(--ease-in-out);
   }
-
 
   .job-inner {
     display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 0.75rem 1.25rem;
+    grid-template-columns: 2.25rem 1fr;
+    gap: 1rem 1rem;
     padding: 2rem 0;
-    transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
-
 
   .job-index {
     font-family: var(--font-mono);
     font-size: 0.85rem;
     color: var(--color-accent);
-    padding-top: 0.6rem;
+    padding-top: 0.5rem;
   }
 
-  .job-main {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-
-  .job-role {
+  .job-company {
     font-family: var(--font-display);
-    font-size: clamp(1.4rem, 2.6vw, 2.25rem);
+    font-size: var(--step-3);
     font-weight: 700;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.035em;
     line-height: 1.05;
     margin: 0;
     color: var(--color-text);
-    transition: color 0.3s ease;
+    transition: color var(--dur-ui) ease;
   }
 
-
-  .job-company {
-    font-family: var(--font-mono);
-    font-size: 0.95rem;
-    color: var(--color-text-secondary);
-  }
-
-  .job-description {
+  .roles {
     grid-column: 2;
-    font-size: 0.98rem;
-    color: var(--color-text-secondary);
-    line-height: 1.6;
-    margin: 0;
-    max-width: 520px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
   }
 
-  .job-period {
-    grid-column: 2;
+  /* Varios roles en la misma empresa: una línea vertical que los une */
+  .roles-timeline {
+    position: relative;
+    padding-left: 1.5rem;
+  }
+
+  .roles-timeline::before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 0.55rem;
+    bottom: 0.55rem;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--color-accent), var(--color-border));
+  }
+
+  .roles-timeline .role {
+    position: relative;
+  }
+
+  .roles-timeline .role::before {
+    content: '';
+    position: absolute;
+    left: calc(-1.5rem + 1px);
+    top: 0.45rem;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--color-bg);
+    border: 1px solid var(--color-text-secondary);
+  }
+
+  .roles-timeline .role-current::before {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    box-shadow: 0 0 10px var(--color-accent);
+  }
+
+  .role-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.25rem 1rem;
+  }
+
+  .role-name {
+    font-weight: 600;
+    font-size: var(--step-1);
+    color: var(--color-text);
+  }
+
+  .role-current .role-name {
+    color: var(--color-accent);
+  }
+
+  .role-period {
     font-family: var(--font-mono);
     font-size: 0.8rem;
     color: var(--color-text-secondary);
@@ -125,39 +175,33 @@ const { experience } = portfolioData;
     text-transform: uppercase;
   }
 
+  .role-description {
+    margin-top: 0.4rem;
+    font-size: 0.98rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    max-width: 58ch;
+  }
+
   @media (min-width: 900px) {
     .job-inner {
-      grid-template-columns: 4rem 1.2fr 1fr 11rem;
+      grid-template-columns: 4rem minmax(0, 1fr) minmax(0, 1.4fr);
       align-items: start;
       gap: 2rem;
       padding: 2.75rem 0;
     }
 
-    .job-description,
-    .job-period {
+    .roles {
       grid-column: auto;
-    }
-
-    .job-description {
-      padding-top: 0.5rem;
-    }
-
-    .job-period {
-      text-align: right;
-      padding-top: 0.75rem;
     }
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .job:hover .job-line::after {
       transform: scaleX(1);
     }
 
-    .job:hover .job-inner {
-      transform: translateX(10px);
-    }
-
-    .job:hover .job-role {
+    .job:hover .job-company {
       color: var(--color-accent);
     }
   }

@@ -1,6 +1,14 @@
 ---
 import portfolioData from '../data/portfolio.json';
+import { type Lang, useTranslations, homePath } from '../i18n/ui';
+import Logo from './Logo.astro';
 
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = 'es' } = Astro.props;
+const t = useTranslations(lang);
 const { footer } = portfolioData;
 const currentYear = new Date().getFullYear();
 
@@ -22,10 +30,10 @@ const iconMap: Record<string, string> = {
     <div class="footer-content">
       <div class="footer-main">
         <div class="footer-brand">
-          <a href="#inicio" class="footer-logo">
-            <span class="logo-accent">N</span>T
+          <a href={homePath(lang)} class="footer-logo" aria-label="Nico Tomasin — inicio">
+            <Logo size="2.1rem" />
           </a>
-          <p class="footer-tagline">Full Stack Developer</p>
+          <p class="footer-tagline">{t('footer.tagline')}</p>
         </div>
         
         <div class="social-links">
@@ -88,18 +96,7 @@ const iconMap: Record<string, string> = {
   }
 
   .footer-logo {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--color-text);
-    letter-spacing: -0.02em;
-  }
-
-  .footer-logo:hover {
-    color: var(--color-text);
-  }
-
-  .logo-accent {
-    color: var(--color-accent);
+    display: inline-flex;
   }
 
   .footer-tagline {
@@ -131,7 +128,7 @@ const iconMap: Record<string, string> = {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--color-border);
     color: var(--color-text-secondary);
-    transition: all 0.2s ease;
+    transition: color var(--dur-ui) ease, border-color var(--dur-ui) ease, background-color var(--dur-ui) ease, transform var(--dur-press) var(--ease-out);
   }
 
   .social-link:hover {

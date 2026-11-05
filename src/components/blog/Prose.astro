@@ -13,38 +13,43 @@ const { class: className } = Astro.props;
 <style is:global>
   .prose {
     color: var(--color-text);
-    line-height: 1.7;
-    font-size: 1.05rem;
+    line-height: 1.75;
+    font-size: clamp(1.0625rem, 1rem + 0.2vw, 1.125rem);
+    overflow-wrap: break-word;
   }
 
   .prose :where(h2, h3, h4, h5, h6) {
     color: var(--color-text);
-    margin-top: 2.5em;
-    margin-bottom: 0.75em;
-    line-height: 1.3;
+    margin-top: 2.25em;
+    margin-bottom: 0.6em;
+    line-height: 1.2;
+    text-wrap: balance;
+    scroll-margin-top: calc(var(--nav-height) + 1.5rem);
+  }
+
+  .prose > :first-child {
+    margin-top: 0;
   }
 
   .prose :where(h2) {
-    font-size: 1.75rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 1.3rem + 1.2vw, 2.1rem);
     font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
+    letter-spacing: -0.03em;
+    padding-top: 1.25em;
+    border-top: 1px solid var(--color-border);
   }
 
-  .prose :where(h2)::before {
-    content: '';
-    display: inline-block;
-    width: 4px;
-    height: 1em;
-    background: var(--color-accent);
-    border-radius: 2px;
-    flex-shrink: 0;
+  .prose > :where(h2:first-child),
+  .prose :where(h2:first-of-type) {
+    border-top: 0;
+    padding-top: 0;
   }
 
   .prose :where(h3) {
-    font-size: 1.35rem;
+    font-size: 1.3rem;
     font-weight: 600;
+    letter-spacing: -0.01em;
   }
 
   .prose :where(h4) {
@@ -54,6 +59,7 @@ const { class: className } = Astro.props;
 
   .prose :where(p) {
     margin-bottom: 1.25em;
+    text-wrap: pretty;
   }
 
   .prose :where(a) {
@@ -63,8 +69,10 @@ const { class: className } = Astro.props;
     transition: opacity 0.2s ease;
   }
 
-  .prose :where(a):hover {
-    opacity: 0.8;
+  @media (hover: hover) and (pointer: fine) {
+    .prose :where(a):hover {
+      opacity: 0.8;
+    }
   }
 
   .prose :where(strong) {
@@ -84,6 +92,9 @@ const { class: className } = Astro.props;
     border-left: 3px solid var(--color-accent);
     padding-left: 1.25em;
     margin: 1.5em 0;
+    font-family: var(--font-serif);
+    font-size: 1.2em;
+    line-height: 1.5;
     font-style: italic;
     color: var(--color-text-secondary);
     background: var(--color-surface);
@@ -146,8 +157,9 @@ const { class: className } = Astro.props;
     padding: 0.2em 0.4em;
     border-radius: 4px;
     font-family: var(--font-mono);
-    font-size: 0.9em;
+    font-size: 0.88em;
     border: 1px solid var(--color-border);
+    overflow-wrap: anywhere;
   }
 
   .prose :where(pre) {
@@ -156,6 +168,9 @@ const { class: className } = Astro.props;
     border-radius: 12px;
     padding: 1.25em;
     overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    tab-size: 2;
     margin: 1.5em 0;
     font-size: 0.9em;
     line-height: 1.6;
@@ -172,7 +187,22 @@ const { class: className } = Astro.props;
     width: 100%;
     border-collapse: collapse;
     margin: 2em 0;
-    font-size: 0.95em;
+    font-size: 0.92em;
+  }
+
+  /* En mobile la tabla scrollea sola en vez de romper el ancho de la página */
+  @media (max-width: 768px) {
+    .prose :where(table) {
+      display: block;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      white-space: nowrap;
+    }
+
+    .prose :where(td) {
+      white-space: normal;
+      min-width: 10rem;
+    }
   }
 
   .prose :where(thead) {
@@ -249,12 +279,12 @@ const { class: className } = Astro.props;
   }
 
   .prose .callout-tip {
-    background: rgba(99, 102, 241, 0.1);
-    border-color: #6366f1;
+    background: var(--accent-soft);
+    border-color: var(--color-accent);
   }
 
   .prose .callout-tip .callout-title {
-    color: #818cf8;
+    color: var(--color-accent);
   }
 
   .prose .callout-warning {
@@ -267,30 +297,33 @@ const { class: className } = Astro.props;
   }
 
   .prose .callout-note {
-    background: rgba(59, 130, 246, 0.1);
-    border-color: #3b82f6;
+    background: var(--color-surface);
+    border-color: var(--color-text-secondary);
   }
 
   .prose .callout-note .callout-title {
-    color: #60a5fa;
+    color: var(--color-text);
   }
 
   .prose .callout-quote {
-    background: rgba(139, 92, 246, 0.1);
-    border-color: #8b5cf6;
+    background: transparent;
+    border-color: var(--color-border);
   }
 
   .prose .callout-quote .callout-title {
-    color: #a78bfa;
+    color: var(--color-text-secondary);
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.1rem;
   }
 
   .prose .callout-info {
-    background: rgba(14, 165, 233, 0.1);
-    border-color: #0ea5e9;
+    background: color-mix(in srgb, var(--color-accent-hover) 8%, transparent);
+    border-color: var(--color-accent-hover);
   }
 
   .prose .callout-info .callout-title {
-    color: #38bdf8;
+    color: var(--color-accent-hover);
   }
 
   .prose .callout-danger {
@@ -473,7 +506,7 @@ const { class: className } = Astro.props;
     border: 1px solid var(--color-border);
     border-radius: 8px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: color var(--dur-ui) ease, border-color var(--dur-ui) ease, background-color var(--dur-ui) ease, transform var(--dur-press) var(--ease-out);
   }
 
   .prose details:hover {

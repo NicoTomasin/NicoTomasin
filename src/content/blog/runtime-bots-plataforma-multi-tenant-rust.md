@@ -1,7 +1,7 @@
 ---
 title: "Runtime Bots: diseñando una plataforma multi-tenant de bots de Telegram en Rust"
 description: "La arquitectura de una plataforma para correr muchos bots de Telegram aislados: modelo de actores con Actix, control plane en Axum, Row-Level Security en Postgres y OpenTelemetry."
-date: 2026-11-03
+date: 2026-03-12
 category: "Proyectos"
 tags: ["rust", "telegram", "actores", "multi-tenant", "arquitectura"]
 author: "Nico Tomasin"

@@ -3,9 +3,11 @@ import Layout from '../../layouts/Layout.astro';
 import PostCard from '../../components/blog/PostCard.astro';
 import SearchBar from '../../components/blog/SearchBar.astro';
 import Footer from '../../components/Footer.astro';
-import BlogHeroShader from '../../components/BlogHeroShader.astro';
+import ShaderBackground from '../../components/ShaderBackground.astro';
 import { getCollection } from 'astro:content';
 import { calculateReadingTime } from '../../lib/reading-time';
+import { blogSchema } from '../../lib/schema';
+import { getPostCover } from '../../lib/post-cover';
 
 const blogEntries = await getCollection('blog', ({ data }) => !data.draft);
 
@@ -17,8 +19,12 @@ const allPosts = blogEntries
     date: entry.data.date,
     category: entry.data.category,
     readingTime: calculateReadingTime(entry.body || ''),
+    cover: getPostCover({ slug: entry.id, body: entry.body, tags: entry.data.tags, category: entry.data.category }),
   }))
   .sort((a, b) => b.date.valueOf() - a.date.valueOf());
+
+const [featuredPost, ...restPosts] = allPosts;
+const jsonLd = blogSchema(allPosts);
 
 const searchIndexData = allPosts.map((post) => ({
   slug: post.slug,
@@ -29,25 +35,35 @@ const searchIndexData = allPosts.map((post) => ({
     day: 'numeric',
     month: 'short',
     year: 'numeric',
+    timeZone: 'UTC',
   }),
-  tags: [],
+  tags: blogEntries.find((e) => e.id === post.slug)?.data.tags ?? [],
 }));
 ---
 
 <Layout
-  title="Blog | Nico Tomasin"
-  description="Artículos sobre desarrollo web, DevOps, seguridad y reflexiones sobre programación."
+  title="Blog de Nico Tomasin | Build in public"
+  description="Cómo armé cada proyecto por dentro: bots en Rust, hardware con ESP32, productos web e IA local. Decisiones, arquitectura y aprendizajes."
+  image="/og/blog.png"
+  imageAlt="Blog de Nico Tomasin: lo que construyo, por dentro"
+  jsonLd={jsonLd}
 >
   <main class="blog-page">
     <header class="blog-header">
-      <BlogHeroShader />
+      <div class="blog-header-bg" aria-hidden="true">
+        <ShaderBackground id="blog-shader-canvas" intensity={0.55} />
+      </div>
       <div class="blog-header-overlay"></div>
-      <div class="container" style="position: relative; z-index: 2;">
-        <span class="section-label">Blog</span>
-        <h1 class="blog-title">Artículos y reflexiones</h1>
+      <div class="container blog-header-inner">
+        <span class="section-label">Blog · Build in public</span>
+        <h1 class="blog-title">Lo que construyo, <em>por dentro</em></h1>
         <p class="blog-description">
-          Comparto lo que voy aprendiendo sobre desarrollo web, infraestructura,
-          seguridad y mi experiencia en el mundo tech.
+          Cómo armé cada proyecto: decisiones, arquitectura, errores y lo que aprendí.
+          Bots, hardware, productos propios y herramientas del trabajo.
+        </p>
+        <p class="blog-stats">
+          <span><strong>{allPosts.length}</strong> posts</span>
+          <a href="/blog/rss.xml">RSS</a>
         </p>
       </div>
     </header>
@@ -56,8 +72,14 @@ const searchIndexData = allPosts.map((post) => ({
       <div class="container">
         <SearchBar />
 
+        {featuredPost && (
+          <div class="posts-featured">
+            <PostCard {...featuredPost} featured />
+          </div>
+        )}
+
         <div class="posts-grid">
-          {allPosts.map((post) => (
+          {restPosts.map((post) => (
             <PostCard {...post} />
           ))}
         </div>
@@ -71,12 +93,6 @@ const searchIndexData = allPosts.map((post) => ({
 
   <Footer />
 
-  <link
-    rel="alternate"
-    type="application/rss+xml"
-    title="Nico Tomasin - Blog RSS Feed"
-    href="/blog/rss.xml"
-  />
 </Layout>
 
 <script define:vars={{ searchIndexData }}>
@@ -93,8 +109,45 @@ const searchIndexData = allPosts.map((post) => ({
 
   .blog-header {
     position: relative;
-    padding: 6rem 0 4rem;
+    padding: clamp(4rem, 10vw, 7rem) 0 clamp(3rem, 6vw, 4.5rem);
     overflow: hidden;
+    background: #000;
+  }
+
+  .blog-header-bg {
+    position: absolute;
+    inset: 0;
+    opacity: 0.85;
+  }
+
+  .blog-header-inner {
+    position: relative;
+    z-index: 2;
+  }
+
+  .blog-stats {
+    display: flex;
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+  }
+
+  .blog-stats strong {
+    color: var(--color-accent);
+    font-weight: 400;
+  }
+
+  .blog-stats a {
+    color: var(--color-text);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .posts-featured {
+    margin-bottom: 1.5rem;
   }
 
   .blog-header-overlay {
@@ -103,12 +156,9 @@ const searchIndexData = allPosts.map((post) => ({
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(180deg, 
-      #000000 0%, 
-      #000000 30%,
-      rgba(0, 0, 0, 0.7) 60%,
-      var(--color-bg) 100%
-    );
+    background:
+      linear-gradient(90deg, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.35) 55%, transparent 100%),
+      linear-gradient(180deg, transparent 50%, var(--color-bg) 100%);
     z-index: 1;
   }
 
@@ -123,17 +173,28 @@ const searchIndexData = allPosts.map((post) => ({
   }
 
   .blog-title {
-    font-size: clamp(2rem, 5vw, 3rem);
+    font-family: var(--font-display);
+    font-size: clamp(2.6rem, 1.6rem + 5vw, 6rem);
     font-weight: 700;
-    margin-bottom: 1rem;
+    letter-spacing: -0.045em;
+    line-height: 0.95;
+    margin-bottom: 1.5rem;
+    max-width: 13ch;
     color: var(--color-text);
   }
 
+  .blog-title em {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    color: var(--color-accent);
+  }
+
   .blog-description {
-    font-size: 1.1rem;
+    font-size: var(--step-1);
     color: var(--color-text-secondary);
-    max-width: 600px;
-    line-height: 1.6;
+    max-width: 52ch;
+    line-height: 1.55;
   }
 
   .blog-content {

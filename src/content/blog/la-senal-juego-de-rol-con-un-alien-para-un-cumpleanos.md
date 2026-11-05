@@ -1,7 +1,7 @@
 ---
 title: "La Señal: cómo programé un juego de rol con un alien para un cumpleaños"
 description: "Credenciales con QR, glifos alienígenas generados por código, realidad aumentada y un panel de DM en tiempo real para una noche de juego entre amigos."
-date: 2026-11-09
+date: 2026-10-27
 category: "Proyectos"
 tags: ["juegos", "websockets", "preact", "realidad-aumentada", "generativo"]
 author: "Nico Tomasin"

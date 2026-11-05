@@ -1,7 +1,7 @@
 ---
 title: "Content Lab: cómo armé una fábrica de videos con IA que corre en mi PC"
 description: "Un equipo de agentes que investiga, escribe, verifica, narra con mi voz y renderiza videos, reels y artículos. Sin APIs remotas: todo local en una GPU."
-date: 2026-11-03
+date: 2026-10-27
 category: "Proyectos"
 tags: ["ia", "agentes", "ollama", "remotion", "bun"]
 author: "Nico Tomasin"

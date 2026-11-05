@@ -1,7 +1,7 @@
 ---
 title: "Un design system con Web Components: un solo set de componentes para cualquier framework"
 description: "Por qué construimos el design system del equipo con tokens, íconos y Web Components en Lit, y cómo lo usamos en Astro, Electron y JavaScript vanilla sin atarnos a un framework."
-date: 2026-11-03
+date: 2026-10-20
 category: "Proyectos"
 tags: ["design-system", "web-components", "lit", "storybook", "frontend"]
 author: "Nico Tomasin"

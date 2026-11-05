@@ -1,7 +1,7 @@
 ---
 title: "Licencias offline para software on-premise: firmas digitales en lugar de servidores de activación"
 description: "Por qué armamos un esquema de licencias que no necesita internet: licencias firmadas, atadas al equipo donde corre el sistema y verificadas al arrancar, más un proceso de emisión y rotación de claves."
-date: 2026-11-03
+date: 2026-10-05
 category: "Proyectos"
 tags: ["seguridad", "licencias", "criptografia", "on-premise", "astro"]
 author: "Nico Tomasin"

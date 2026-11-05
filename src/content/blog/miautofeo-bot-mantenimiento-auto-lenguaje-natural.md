@@ -1,7 +1,7 @@
 ---
 title: "MiAutoFeo: un bot de Telegram que entiende cómo hablamos de nuestro auto"
 description: "Registrar el mantenimiento del auto escribiendo como hablás: un parser determinista en Rust resuelve la mayoría de los mensajes y un LLM local entra solo cuando hace falta."
-date: 2026-11-03
+date: 2026-03-11
 category: "Proyectos"
 tags: ["rust", "telegram", "nlp", "ollama", "sqlite"]
 author: "Nico Tomasin"

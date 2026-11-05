@@ -42,24 +42,27 @@ Contenido del post en Markdown...
 | `tags` | string[] | `[]` | Array de tags relacionados con el post. Útil para SEO y organización. |
 | `author` | string | `"Nico Tomasin"` | Autor del post. Se usa en JSON-LD Schema. |
 | `draft` | boolean | `false` | Si es `true`, el post no se incluye en el build. |
+| `seoTitle` | string | — | Título solo para buscadores (ideal ≤ 60 caracteres). Si falta se usa `title`. El sufijo " \| Nico Tomasin" solo se agrega si el total entra en 65. |
+| `seoDescription` | string | — | Meta description solo para buscadores (ideal 140-160 caracteres). Si falta se usa `description`. |
 
 ### Categorías Disponibles
 
-- `Seguridad`
-- `DevOps / Infraestructura`
-- `Desarrollo Web`
-- `Opinión / Reflexiones`
+- `Proyectos` (la mayoría: cómo armé cada build)
+- `Build in Public`
+- `Emprendimiento`
 
 ## Imagen OG Automática
 
 **No es necesario agregar `coverImage`.** 
 
-Cada post genera automáticamente una imagen OG (1200x630px) en el build con:
-- Logo "NT" + "Blog"
+Cada post genera automáticamente una imagen OG (1200x630px) en el build (`src/integrations/og-images.ts` + `src/lib/og-image.ts`) con:
+- El agujero negro del hero de fondo (`src/assets/og/blackhole.jpg`)
+- Logo "NT" + "Blog · Build in public"
 - Badge de categoría
-- Título del post
-- Descripción truncada
-- URL del sitio
+- Título del post en Syne y descripción recortada en límite de palabra
+- Fecha y tiempo de lectura
+
+El mismo build regenera también `og.png` (landing ES), `og-en.png` (landing EN), `og/blog.png` (índice del blog) y `apple-touch-icon.png`.
 
 La imagen se usa en:
 - Cards del listado `/blog`
@@ -114,6 +117,16 @@ Explicación de qué es Cloudflare y por qué usarlo...
 - Incluir imágenes con alt descriptivo
 - Enlaces internos a otros posts
 - Enlaces externos a fuentes confiables
+
+### Para buscadores y asistentes de IA (SEO / AEO / GEO)
+Todo se genera solo en el build, sin tocar nada:
+- **JSON-LD** (`src/lib/schema.ts`): `Person` + `WebSite` + `ProfilePage` + lista de builds en la landing, `Blog` en el índice y `BlogPosting` + `BreadcrumbList` en cada post. Si el post está en el Builder log, se vincula con `about`.
+- **`/llms.txt`**: resumen en Markdown para asistentes de IA (quién soy, experiencia, builds, posts y contacto), armado desde `portfolio.json` y los posts.
+- **`/robots.txt`**: permite buscadores y crawlers de IA (GPTBot, ClaudeBot, PerplexityBot, Google-Extended…).
+- **Sitemap** con `lastmod` = fecha del post y hreflang ES/EN para la landing.
+- **RSS** con categorías, tags e imagen de cada post.
+
+Al cambiar de trabajo, rol o proyectos, actualizá `src/data/portfolio.json` (y `metadata.lastUpdate`): landing, JSON-LD y `llms.txt` salen de ahí. El texto de la OG de la landing está en `src/integrations/og-images.ts`.
 
 ## Comandos Útiles
 

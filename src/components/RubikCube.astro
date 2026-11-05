@@ -1,0 +1,235 @@
+---
+// Easter egg: un cubo tipo Rubik con la paleta del sitio.
+// Arrastrá para rotarlo, tocá para mezclarlo, y "resolver" lo devuelve a su estado.
+interface Props {
+  label: string;
+  solveLabel: string;
+}
+
+const { label, solveLabel } = Astro.props;
+const faces = ['front', 'back', 'right', 'left', 'top', 'bottom'] as const;
+---
+
+<div class="rubik" data-rubik>
+  <button type="button" class="rubik-stage" data-rubik-stage aria-label={label}>
+    <div class="rubik-cube" data-rubik-cube>
+      {faces.map((face, fi) => (
+        <div class:list={['rubik-face', `rubik-${face}`]}>
+          {Array.from({ length: 9 }, () => (
+            <span class="rubik-sticker" data-c={fi}></span>
+          ))}
+        </div>
+      ))}
+    </div>
+    <span class="rubik-shadow" aria-hidden="true"></span>
+  </button>
+  <div class="rubik-ui">
+    <span class="rubik-hint" aria-hidden="true">{label}</span>
+    <button type="button" class="rubik-solve pressable" data-rubik-solve hidden>{solveLabel}</button>
+  </div>
+</div>
+
+<style>
+  .rubik {
+    --s: min(200px, 48vw);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .rubik-stage {
+    position: relative;
+    width: calc(var(--s) * 1.6);
+    height: calc(var(--s) * 1.6);
+    display: grid;
+    place-items: center;
+    perspective: 900px;
+    background: none;
+    border: 0;
+    border-radius: 24px;
+    cursor: grab;
+    touch-action: pan-y;
+  }
+
+  .rubik-stage:active {
+    cursor: grabbing;
+  }
+
+  .rubik-cube {
+    position: relative;
+    width: var(--s);
+    height: var(--s);
+    transform-style: preserve-3d;
+    transform: rotateX(-24deg) rotateY(-36deg);
+  }
+
+  .rubik-face {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5%;
+    padding: 5%;
+    background: #000;
+    border-radius: 10%;
+    backface-visibility: hidden;
+  }
+
+  .rubik-front { transform: translateZ(calc(var(--s) / 2)); }
+  .rubik-back { transform: rotateY(180deg) translateZ(calc(var(--s) / 2)); }
+  .rubik-right { transform: rotateY(90deg) translateZ(calc(var(--s) / 2)); }
+  .rubik-left { transform: rotateY(-90deg) translateZ(calc(var(--s) / 2)); }
+  .rubik-top { transform: rotateX(90deg) translateZ(calc(var(--s) / 2)); }
+  .rubik-bottom { transform: rotateX(-90deg) translateZ(calc(var(--s) / 2)); }
+
+  .rubik-sticker {
+    border-radius: 18%;
+    transition: background-color 260ms var(--ease-out);
+  }
+
+  /* Seis "colores", todos salidos de la paleta */
+  .rubik-sticker[data-c='0'] { background: var(--color-accent); box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.25); }
+  .rubik-sticker[data-c='1'] { background: var(--color-accent-hover); }
+  .rubik-sticker[data-c='2'] { background: var(--color-text); }
+  .rubik-sticker[data-c='3'] { background: var(--color-text-secondary); }
+  .rubik-sticker[data-c='4'] { background: var(--color-border); }
+  .rubik-sticker[data-c='5'] { background: var(--color-surface); box-shadow: inset 0 0 0 1px var(--color-border); }
+
+  .rubik-shadow {
+    position: absolute;
+    bottom: 6%;
+    left: 50%;
+    width: 60%;
+    height: 10%;
+    translate: -50% 0;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, color-mix(in srgb, var(--color-accent) 22%, transparent), transparent);
+    filter: blur(6px);
+    pointer-events: none;
+  }
+
+  .rubik-ui {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-height: 2.25rem;
+  }
+
+  .rubik-hint {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .rubik-solve {
+    padding: 0.45rem 0.9rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-bg);
+    background: var(--color-accent);
+    border: 0;
+    border-radius: 100px;
+    cursor: pointer;
+  }
+
+  .rubik-solve[hidden] {
+    display: none;
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-rubik]').forEach((root) => {
+    const stage = root.querySelector<HTMLButtonElement>('[data-rubik-stage]')!;
+    const cube = root.querySelector<HTMLElement>('[data-rubik-cube]')!;
+    const solve = root.querySelector<HTMLButtonElement>('[data-rubik-solve]')!;
+    const stickers = [...root.querySelectorAll<HTMLElement>('.rubik-sticker')];
+    const solved = stickers.map((s) => s.dataset.c!);
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    // Rotación con inercia: el drag fija un objetivo y el cubo lo persigue
+    let rx = -24;
+    let ry = -36;
+    let tx = rx;
+    let ty = ry;
+    const idleSpin = reduced.matches ? 0 : 0.12; // giro lento en reposo
+    let dragging = false;
+    let moved = 0;
+    let lastX = 0;
+    let lastY = 0;
+    let visible = false;
+    let raf = 0;
+
+    const render = () => {
+      if (!dragging) ty += idleSpin;
+      rx += (tx - rx) * 0.14;
+      ry += (ty - ry) * 0.14;
+      cube.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
+      raf = visible ? requestAnimationFrame(render) : 0;
+    };
+
+    new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      if (visible && !raf) raf = requestAnimationFrame(render);
+    }).observe(stage);
+
+    stage.addEventListener('pointerdown', (event) => {
+      dragging = true;
+      moved = 0;
+      lastX = event.clientX;
+      lastY = event.clientY;
+      stage.setPointerCapture(event.pointerId);
+    });
+    stage.addEventListener('pointermove', (event) => {
+      if (!dragging) return;
+      const dx = event.clientX - lastX;
+      const dy = event.clientY - lastY;
+      moved += Math.abs(dx) + Math.abs(dy);
+      ty += dx * 0.6;
+      tx = Math.max(-80, Math.min(80, tx - dy * 0.6));
+      lastX = event.clientX;
+      lastY = event.clientY;
+    });
+    const end = () => (dragging = false);
+    stage.addEventListener('pointerup', end);
+    stage.addEventListener('pointercancel', end);
+
+    const paint = (colors: string[]) => {
+      stickers.forEach((s, i) => {
+        const delay = reduced.matches ? 0 : (i % 9) * 18;
+        setTimeout(() => (s.dataset.c = colors[i]), delay);
+      });
+    };
+
+    const scramble = () => {
+      // Barajar los mismos 54 stickers: siempre quedan 9 de cada color
+      const pool = [...solved];
+      for (let i = pool.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [pool[i], pool[j]] = [pool[j], pool[i]];
+      }
+      paint(pool);
+      if (!reduced.matches) ty += 180;
+      solve.hidden = false;
+    };
+
+    // Click sin arrastre (o Enter/Espacio) mezcla
+    stage.addEventListener('click', () => {
+      if (moved > 6) return;
+      scramble();
+    });
+
+    solve.addEventListener('click', () => {
+      paint(solved);
+      if (!reduced.matches) ty -= 180;
+      solve.hidden = true;
+      stage.focus();
+    });
+  });
+</script>

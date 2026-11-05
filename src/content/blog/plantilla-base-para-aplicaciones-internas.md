@@ -1,7 +1,7 @@
 ---
 title: "Cómo armamos una plantilla base para que cada proyecto nuevo arranque en minutos"
 description: "Una plantilla institucional con login, roles y usuarios, arquitectura hexagonal y un CLI de creación: así evitamos rehacer lo mismo en cada aplicación interna del equipo."
-date: 2026-11-03
+date: 2026-11-02
 category: "Proyectos"
 tags: ["arquitectura", "plantillas", "fastify", "react", "liderazgo-tecnico"]
 author: "Nico Tomasin"

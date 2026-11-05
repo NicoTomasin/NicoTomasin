@@ -23,15 +23,27 @@
   /* Estados iniciales (solo si hay animaciones) */
   .has-motion [data-reveal],
   .has-motion [data-batch],
-  .has-motion [data-private-card],
   .has-motion [data-post-fade],
-  .has-motion [data-job-fade],
-  .has-motion [data-hero-fade] {
+  .has-motion [data-job-fade] {
     opacity: 0;
   }
 
+  /* Intro del hero (es el LCP): en CSS, arranca con el primer paint sin esperar a GSAP.
+     Misma coreografía que antes: nombre en ola desde 0.1s, el resto acompaña desde 0.5s (expo.out). */
   .has-motion [data-hero-char] {
-    transform: translateY(110%);
+    animation: hero-char-in 1s cubic-bezier(0.16, 1, 0.3, 1) calc(0.1s + var(--c, 0) * 0.03s) both;
+  }
+
+  .has-motion [data-hero-fade] {
+    animation: hero-rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) calc(0.5s + var(--i, 0) * 0.06s) both;
+  }
+
+  @keyframes hero-char-in {
+    from { transform: translateY(110%); }
+  }
+
+  @keyframes hero-rise {
+    from { opacity: 0; transform: translateY(16px); }
   }
 
   .has-motion #shader-canvas {
@@ -46,8 +58,7 @@
     clip-path: inset(100% 0 0 0 round 18px);
   }
 
-  .has-motion [data-job-line],
-  .has-motion [data-private-line] {
+  .has-motion [data-job-line] {
     transform: scaleX(0);
   }
 
@@ -109,8 +120,8 @@
     align-items: center;
     justify-content: center;
     mix-blend-mode: difference;
-    transition: width 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), height 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
-      margin 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.3s ease;
+    transition: width 0.2s var(--ease-out), height 0.2s var(--ease-out),
+      margin 0.2s var(--ease-out), opacity 0.2s ease;
   }
 
   .cursor.is-active {
@@ -147,25 +158,57 @@
   .cursor.is-label .cursor-label {
     opacity: 1;
   }
+
+  /* Con el cursor custom activo (solo mouse + animaciones) se esconde el del sistema.
+     Los campos de texto mantienen el cursor de texto para poder seleccionar. */
+  html.has-custom-cursor,
+  html.has-custom-cursor * {
+    cursor: none !important;
+  }
+
+  html.has-custom-cursor :is(input, textarea, [contenteditable='true']) {
+    cursor: text !important;
+  }
 </style>
 
 <script>
-  import gsap from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  import Lenis from 'lenis';
+  import type GSAP from 'gsap';
+  import type { ScrollTrigger as ScrollTriggerType } from 'gsap/ScrollTrigger';
+  import type Lenis from 'lenis';
   import 'lenis/dist/lenis.css';
+
+  // GSAP y Lenis (~50 KB) se descargan recién en el load: el intro del hero va por CSS,
+  // así que no compiten con el CSS ni con el primer paint
+  let gsap: typeof GSAP;
+  let ScrollTrigger: typeof ScrollTriggerType;
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (!reducedMotion) {
     (window as any).__motionReady = true;
-    gsap.registerPlugin(ScrollTrigger);
-    init();
+    const start = async () => {
+      try {
+        const [gsapModule, stModule, lenisModule] = await Promise.all([
+          import('gsap'),
+          import('gsap/ScrollTrigger'),
+          import('lenis'),
+        ]);
+        gsap = gsapModule.default;
+        ScrollTrigger = stModule.ScrollTrigger;
+        gsap.registerPlugin(ScrollTrigger);
+        init(lenisModule.default);
+      } catch {
+        // Si no carga, mostrar todo sin animaciones
+        document.documentElement.classList.remove('has-motion');
+      }
+    };
+    if (document.readyState === 'complete') start();
+    else window.addEventListener('load', start, { once: true });
   }
 
-  function init() {
+  function init(LenisCtor: typeof Lenis) {
     // ---------- Smooth scroll ----------
-    const lenis = new Lenis({ lerp: 0.09, smoothWheel: true });
+    const lenis = new LenisCtor({ lerp: 0.09, smoothWheel: true });
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add((time) => lenis.raf(time * 1000));
     gsap.ticker.lagSmoothing(0);
@@ -177,7 +220,6 @@
     setupMarquees(lenis);
     setupSplitTitles();
     setupReveals();
-    setupPrivateProjects();
     setupLatestPosts();
     setupProjects();
     setupExperience();
@@ -186,6 +228,8 @@
     setupCursor();
 
     document.fonts?.ready.then(() => ScrollTrigger.refresh());
+    // Filtros del Builder log (y cualquier cambio de alto) recalculan los triggers
+    window.addEventListener('layout:changed', () => ScrollTrigger.refresh());
   }
 
   // ---------- Links internos con Lenis ----------
@@ -234,11 +278,13 @@
     const hero = document.querySelector('[data-hero]');
     if (!hero) return;
 
-    const intro = gsap.timeline({ defaults: { ease: 'expo.out' }, delay: 0.1 });
+    // Coreografía: el shader abre, el nombre entra en ola y el resto acompaña.
+    // Todo legible en ~1.4s; el contenido no espera a que el shader termine.
+    const intro = gsap.timeline({ defaults: { ease: 'expo.out' } });
     intro
-      .fromTo('#shader-canvas', { scale: 1.35, opacity: 0 }, { scale: 1, opacity: 1, duration: 2.4 }, 0)
-      .fromTo('[data-hero-char]', { y: 0, yPercent: 110 }, { y: 0, yPercent: 0, duration: 1.5, stagger: 0.04 }, 0.25)
-      .fromTo('[data-hero-fade]', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2, stagger: 0.1 }, 0.9);
+      .fromTo('#shader-canvas', { scale: 1.2, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.6 }, 0);
+    // Si el usuario scrollea antes de que termine, no lo hacemos esperar
+    ScrollTrigger.create({ trigger: hero, start: 'top+=40 top', once: true, onEnter: () => intro.progress(1) });
 
     gsap
       .timeline({
@@ -298,13 +344,12 @@
 
       gsap.fromTo(
         el.querySelectorAll('.split-word-inner'),
-        { yPercent: 115, rotate: 5 },
+        { yPercent: 105 },
         {
           yPercent: 0,
-          rotate: 0,
-          duration: 1.3,
+          duration: 0.8,
           ease: 'expo.out',
-          stagger: 0.07,
+          stagger: 0.04,
           scrollTrigger: { trigger: el, start: 'top 88%' },
         }
       );
@@ -316,8 +361,8 @@
     gsap.utils.toArray<HTMLElement>('[data-reveal]').forEach((el) => {
       gsap.fromTo(
         el,
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1.1, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 90%' } }
+        { y: 20, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.7, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 90%' } }
       );
     });
 
@@ -327,21 +372,11 @@
       onEnter: (els) =>
         gsap.fromTo(
           els,
-          { y: 60, opacity: 0 },
-          { y: 0, opacity: 1, duration: 1.1, ease: 'expo.out', stagger: 0.08, overwrite: true }
+          { y: 24, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.7, ease: 'expo.out', stagger: 0.05, overwrite: true }
         ),
     });
 
-    // "Ver más proyectos" (mobile) muestra cards que estaban ocultas
-    document.getElementById('expandBtn')?.addEventListener('click', () => {
-      requestAnimationFrame(() => {
-        const hidden = gsap.utils
-          .toArray<HTMLElement>('#privateGrid [data-private-card]')
-          .filter((card) => card.offsetParent !== null && getComputedStyle(card).opacity === '0');
-        gsap.fromTo(hidden, { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: 'expo.out', stagger: 0.06 });
-        ScrollTrigger.refresh();
-      });
-    });
   }
 
   // ---------- Últimos posts: cortina sobre la imagen, zoom de entrada y parallax ----------
@@ -356,18 +391,18 @@
 
       // Entrada: la máscara se abre de abajo hacia arriba mientras la imagen se aleja
       gsap
-        .timeline({ scrollTrigger: { trigger: post, start: 'top 85%' }, delay: i === 0 ? 0 : 0.12 * i })
+        .timeline({ scrollTrigger: { trigger: post, start: 'top 85%' }, delay: 0.08 * i })
         .fromTo(
           media,
           { clipPath: 'inset(100% 0% 0% 0% round 18px)' },
-          { clipPath: 'inset(0% 0% 0% 0% round 18px)', duration: 1.4, ease: 'expo.inOut' }
+          { clipPath: 'inset(0% 0% 0% 0% round 18px)', duration: 1, ease: 'expo.inOut' }
         )
-        .fromTo(img, { scale: 1.35 }, { scale: 1, duration: 1.8, ease: 'expo.out' }, 0.2)
+        .fromTo(img, { scale: 1.15 }, { scale: 1, duration: 1.2, ease: 'expo.out' }, 0.15)
         .fromTo(
           post.querySelectorAll('[data-post-fade]'),
-          { y: 30, opacity: 0 },
-          { y: 0, opacity: 1, duration: 1, ease: 'expo.out', stagger: 0.08 },
-          0.7
+          { y: 16, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.7, ease: 'expo.out', stagger: 0.05 },
+          0.45
         );
 
       // Parallax de la imagen dentro de su marco mientras se scrollea
@@ -383,61 +418,6 @@
         post.addEventListener('mouseenter', () => zoom(1.06));
         post.addEventListener('mouseleave', () => zoom(1));
       }
-    });
-  }
-
-  // ---------- Proyectos privados: entrada 3D en cascada + spotlight y tilt ----------
-  function setupPrivateProjects() {
-    const line = document.querySelector('[data-private-line]');
-    if (line) {
-      gsap.fromTo(
-        line,
-        { scaleX: 0 },
-        { scaleX: 1, duration: 1.6, ease: 'expo.inOut', scrollTrigger: { trigger: line, start: 'top 90%' } }
-      );
-    }
-
-    const cards = gsap.utils.toArray<HTMLElement>('[data-private-card]');
-    gsap.set(cards, { transformPerspective: 1000 });
-
-    ScrollTrigger.batch(cards, {
-      start: 'top 92%',
-      once: true,
-      onEnter: (batch) => {
-        const visible = (batch as HTMLElement[]).filter((card) => card.offsetParent !== null);
-        if (!visible.length) return;
-        gsap.fromTo(
-          visible,
-          { opacity: 0, y: 70, rotationX: -35, transformOrigin: '50% 0%' },
-          { opacity: 1, y: 0, rotationX: 0, duration: 1.3, ease: 'expo.out', stagger: 0.09, overwrite: true }
-        );
-        gsap.fromTo(
-          visible.flatMap((card) => Array.from(card.querySelectorAll('[data-chip]'))),
-          { opacity: 0, scale: 0.6, y: 8 },
-          { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: 'back.out(2)', stagger: 0.025, delay: 0.45 }
-        );
-      },
-    });
-
-    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-
-    cards.forEach((card) => {
-      const rotX = gsap.quickTo(card, 'rotationX', { duration: 0.6, ease: 'power3.out' });
-      const rotY = gsap.quickTo(card, 'rotationY', { duration: 0.6, ease: 'power3.out' });
-
-      card.addEventListener('pointermove', (event) => {
-        const rect = card.getBoundingClientRect();
-        const px = (event.clientX - rect.left) / rect.width;
-        const py = (event.clientY - rect.top) / rect.height;
-        card.style.setProperty('--mx', `${px * 100}%`);
-        card.style.setProperty('--my', `${py * 100}%`);
-        rotX((0.5 - py) * 8);
-        rotY((px - 0.5) * 8);
-      });
-      card.addEventListener('pointerleave', () => {
-        rotX(0);
-        rotY(0);
-      });
     });
   }
 
@@ -484,7 +464,7 @@
         );
         gsap.fromTo(
           card,
-          { scale: 0.88, opacity: 0.35 },
+          { scale: 0.95, opacity: 0.55 },
           {
             scale: 1,
             opacity: 1,
@@ -499,8 +479,8 @@
       track.querySelectorAll<HTMLElement>('[data-card]').forEach((card) => {
         gsap.fromTo(
           card,
-          { y: 80, opacity: 0, scale: 0.96 },
-          { y: 0, opacity: 1, scale: 1, duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: card, start: 'top 90%' } }
+          { y: 32, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, ease: 'expo.out', scrollTrigger: { trigger: card, start: 'top 90%' } }
         );
       });
     });
@@ -512,10 +492,10 @@
       const line = job.querySelector('[data-job-line]');
       const texts = job.querySelectorAll('[data-job-fade]');
       const tl = gsap.timeline({ scrollTrigger: { trigger: job, start: 'top 88%' } });
-      if (line) tl.fromTo(line, { scaleX: 0 }, { scaleX: 1, duration: 1.4, ease: 'expo.inOut' });
+      if (line) tl.fromTo(line, { scaleX: 0 }, { scaleX: 1, duration: 0.9, ease: 'expo.inOut' });
       // La última fila (cierre de la lista) solo tiene línea: sin textos no hay nada que animar
       if (texts.length) {
-        tl.fromTo(texts, { y: 28, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'expo.out', stagger: 0.07 }, 0.35);
+        tl.fromTo(texts, { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: 'expo.out', stagger: 0.05 }, 0.2);
       }
     });
   }
@@ -538,7 +518,7 @@
   function setupMagnetic() {
     if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
     document.querySelectorAll<HTMLElement>('[data-magnetic]').forEach((el) => {
-      const strength = parseFloat(el.dataset.magnetic || '') || 0.3;
+      const strength = parseFloat(el.dataset.magnetic || '') || 0.2;
       const xTo = gsap.quickTo(el, 'x', { duration: 0.6, ease: 'power3.out' });
       const yTo = gsap.quickTo(el, 'y', { duration: 0.6, ease: 'power3.out' });
       el.addEventListener('mousemove', (event) => {
@@ -547,7 +527,8 @@
         yTo((event.clientY - (rect.top + rect.height / 2)) * strength);
       });
       el.addEventListener('mouseleave', () => {
-        gsap.to(el, { x: 0, y: 0, duration: 1, ease: 'elastic.out(1, 0.35)' });
+        xTo(0);
+        yTo(0);
       });
     });
   }
@@ -559,8 +540,10 @@
     const label = document.querySelector<HTMLElement>('[data-cursor-label]');
     if (!cursor || !label) return;
 
-    const xTo = gsap.quickTo(cursor, 'x', { duration: 0.45, ease: 'power3.out' });
-    const yTo = gsap.quickTo(cursor, 'y', { duration: 0.45, ease: 'power3.out' });
+    // Es el único cursor visible: casi pegado al mouse (con retraso largo apuntar se siente roto)
+    const xTo = gsap.quickTo(cursor, 'x', { duration: 0.08, ease: 'power2.out' });
+    const yTo = gsap.quickTo(cursor, 'y', { duration: 0.08, ease: 'power2.out' });
+    document.documentElement.classList.add('has-custom-cursor');
 
     window.addEventListener('mousemove', (event) => {
       cursor.classList.add('is-active');
@@ -569,6 +552,10 @@
       yTo(event.clientY);
     });
     document.documentElement.addEventListener('mouseleave', () => cursor.classList.add('is-hidden'));
+    // Navegando con teclado el cursor custom estorba: se oculta hasta el próximo movimiento
+    window.addEventListener('keydown', (event) => {
+      if (event.key === 'Tab') cursor.classList.add('is-hidden');
+    });
 
     document.addEventListener('mouseover', (event) => {
       const target = event.target as HTMLElement;

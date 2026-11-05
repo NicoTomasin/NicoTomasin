@@ -1,7 +1,7 @@
 ---
 title: "Mi Vidriera: cómo construí un SaaS multi-tenant para emprendedores con Astro"
 description: "Una plataforma para que pequeños negocios muestren sus productos en un link y reciban consultas por WhatsApp. Multi-tenant, dominios propios y seguridad desde el día uno."
-date: 2026-11-03
+date: 2026-08-18
 category: "Proyectos"
 tags: ["saas", "astro", "multi-tenant", "prisma", "vercel"]
 author: "Nico Tomasin"

@@ -1,7 +1,7 @@
 ---
 title: "Hankook Argentina: un tema de WordPress a medida para una marca global"
 description: "Cómo desarrollé el sitio de Hankook Argentina con un tema de WordPress propio: buscador de neumáticos por medida, mapa de distribuidores, secciones modulares y foco en performance."
-date: 2026-11-03
+date: 2025-05-16
 category: "Proyectos"
 tags: ["wordpress", "php", "woocommerce", "leaflet", "performance"]
 author: "Nico Tomasin"

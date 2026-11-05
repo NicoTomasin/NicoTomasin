@@ -1,7 +1,7 @@
 ---
 title: "Cómo migramos un sistema legacy en PHP a Astro y Bun sin apagar el viejo"
 description: "La estrategia que usamos para reescribir un gestor de encuestas interno: contratos escritos a partir del sistema viejo, la misma base de datos para comparar y migración módulo por módulo."
-date: 2026-11-03
+date: 2026-10-30
 category: "Proyectos"
 tags: ["migracion", "legacy", "astro", "bun", "liderazgo-tecnico"]
 author: "Nico Tomasin"
