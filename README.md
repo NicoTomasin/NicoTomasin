@@ -106,11 +106,11 @@ Construyo aplicaciones web modernas y escalables con foco en **performance**, **
 ## ✍️ Últimos posts del blog
 
 <!-- BLOG-POST-LIST:START -->
-- [9z Hub: cómo armé un sitio de estadísticas de CS2 parseando demos](https://nicotomasin.com.ar/blog/9z-hub-estadisticas-cs2-desde-demos/)
 - [Un bot de Telegram en Rust para ahorrar en BTC con disciplina](https://nicotomasin.com.ar/blog/bot-telegram-rust-disciplina-btc/)
-- [CoBreak: una app Android para convertir las pausas de pantalla en hábitos](https://nicotomasin.com.ar/blog/cobreak-pausas-activas-gamificadas/)
-- [Content Lab: cómo armé una fábrica de videos con IA que corre en mi PC](https://nicotomasin.com.ar/blog/content-lab-fabrica-local-de-contenido-con-ia/)
 - [FounderCheck por dentro: de un CLI en Rust a una plataforma web en el edge](https://nicotomasin.com.ar/blog/foundercheck-por-dentro-arquitectura/)
+- [Trazabilidad industrial con una PWA: arquitectura hexagonal en un monolito modular](https://nicotomasin.com.ar/blog/pwa-trazabilidad-industrial-monolito-modular/)
+- [Content Lab: cómo armé una fábrica de videos con IA que corre en mi PC](https://nicotomasin.com.ar/blog/content-lab-fabrica-local-de-contenido-con-ia/)
+- [CoBreak: una app Android para convertir las pausas de pantalla en hábitos](https://nicotomasin.com.ar/blog/cobreak-pausas-activas-gamificadas/)
 <!-- BLOG-POST-LIST:END -->
 
 ## 🐍 Contribuciones
