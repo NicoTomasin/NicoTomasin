@@ -86,10 +86,11 @@ function backdrop(offsetX: number, veil: string, background: string) {
 const mono = (text: string, style: Record<string, unknown> = {}) =>
   h('span', { fontFamily: 'Share Tech Mono', fontSize: 22, letterSpacing: 3, textTransform: 'uppercase', color: C.muted, ...style }, text);
 
+// Monograma como en el sitio: Instrument Serif itálica, N clara y T verde
 const logo = h('div', { alignItems: 'center', gap: 18 }, [
-  h('div', { fontFamily: 'Syne', fontWeight: 800, fontSize: 40, letterSpacing: -2 }, [
-    h('span', { color: C.accent }, 'N'),
-    h('span', { color: C.text }, 'T'),
+  h('div', { fontFamily: 'Instrument Serif', fontStyle: 'italic', fontSize: 52, lineHeight: 1, letterSpacing: -2 }, [
+    h('span', { color: C.text }, 'N'),
+    h('span', { color: C.accent }, 'T'),
   ]),
 ]);
 

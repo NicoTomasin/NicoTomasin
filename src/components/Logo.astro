@@ -1,0 +1,35 @@
+---
+// Monograma "NT" con la tipografía del hero: Instrument Serif itálica.
+// N en el color del texto y T en verde, como "Nico" / "Tomasin".
+interface Props {
+  size?: string;
+}
+
+const { size = '1.85rem' } = Astro.props;
+---
+
+<span class="logo" style={`--logo-size: ${size}`} aria-hidden="true"><span class="logo-n">N</span><span class="logo-t">T</span></span>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: baseline;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: var(--logo-size);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    /* La itálica sobresale a la derecha: un poco de aire para que no se corte */
+    padding-right: 0.08em;
+  }
+
+  .logo-n {
+    color: var(--color-text);
+  }
+
+  .logo-t {
+    color: var(--color-accent);
+    margin-left: -0.02em;
+  }
+</style>

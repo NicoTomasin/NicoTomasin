@@ -1,6 +1,7 @@
 ---
 import portfolioData from '../data/portfolio.json';
 import { type Lang, useTranslations, homePath } from '../i18n/ui';
+import Logo from './Logo.astro';
 
 interface Props {
   lang?: Lang;
@@ -30,7 +31,7 @@ const iconMap: Record<string, string> = {
       <div class="footer-main">
         <div class="footer-brand">
           <a href={homePath(lang)} class="footer-logo" aria-label="Nico Tomasin — inicio">
-            <span class="logo-accent">N</span>T
+            <Logo size="2.1rem" />
           </a>
           <p class="footer-tagline">{t('footer.tagline')}</p>
         </div>
@@ -95,18 +96,7 @@ const iconMap: Record<string, string> = {
   }
 
   .footer-logo {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--color-text);
-    letter-spacing: -0.02em;
-  }
-
-  .footer-logo:hover {
-    color: var(--color-text);
-  }
-
-  .logo-accent {
-    color: var(--color-accent);
+    display: inline-flex;
   }
 
   .footer-tagline {
