@@ -198,14 +198,6 @@
       { "es": "Fan de lanzamientos de hardware", "en": "Hardware launch nerd" },
       { "es": "Redes neuronales", "en": "Neural networks" },
       { "es": "Scrapear la web", "en": "Scraping the web" }
-    ],
-    "collection": [
-      { "name": "PS1", "owned": true },
-      { "name": "PS2", "owned": false },
-      { "name": "PS3", "owned": true },
-      { "name": "PS4", "owned": true },
-      { "name": "Arcade", "owned": true },
-      { "name": "PC gamer", "owned": true }
     ]
   },
   "stack": [

@@ -31,18 +31,6 @@ const { about } = portfolioData;
           <li class="about-fact" data-batch>{l(fact, lang)}</li>
         ))}
       </ul>
-
-      <div class="collection" data-reveal>
-        <p class="collection-label">{t('about.collection')}</p>
-        <ul class="shelf">
-          {about.collection.map((item) => (
-            <li class:list={['shelf-item', { 'is-missing': !item.owned }]}>
-              <span class="shelf-name">{item.name}</span>
-              {!item.owned && <span class="shelf-tag">{t('about.missing')}</span>}
-            </li>
-          ))}
-        </ul>
-      </div>
     </div>
 
     <div class="about-visual" data-reveal>
@@ -103,64 +91,6 @@ const { about } = portfolioData;
     border: 1px solid var(--color-border);
     border-radius: 100px;
     background: var(--color-surface);
-  }
-
-  .collection {
-    margin-top: 2.5rem;
-  }
-
-  .collection-label {
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--color-accent);
-    margin-bottom: 0.9rem;
-  }
-
-  /* Una estantería: cada consola es un slot; la que falta queda punteada */
-  .shelf {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr));
-    gap: 0.5rem;
-    padding-bottom: 0.6rem;
-    border-bottom: 2px solid var(--color-border);
-  }
-
-  .shelf-item {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    gap: 0.25rem;
-    min-height: 4.5rem;
-    padding: 0.75rem;
-    border-radius: 10px;
-    background: linear-gradient(180deg, var(--color-surface), #0d0d14);
-    border: 1px solid var(--color-border);
-  }
-
-  .shelf-name {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 1.05rem;
-    letter-spacing: -0.02em;
-  }
-
-  .shelf-item.is-missing {
-    background: transparent;
-    border: 1px dashed var(--accent-line);
-  }
-
-  .shelf-item.is-missing .shelf-name {
-    color: var(--color-text-secondary);
-  }
-
-  .shelf-tag {
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--color-accent);
   }
 
   .about-visual {
