@@ -8,7 +8,17 @@ import { remarkCodeTitles } from './src/lib/remark-code-titles';
 
 export default defineConfig({
   site: 'https://nicotomasin.com.ar',
-  integrations: [sitemap(), ogImagesIntegration()],
+  i18n: {
+    defaultLocale: 'es',
+    locales: ['es', 'en'],
+    routing: { prefixDefaultLocale: false },
+  },
+  integrations: [
+    sitemap({
+      i18n: { defaultLocale: 'es', locales: { es: 'es-AR', en: 'en-US' } },
+    }),
+    ogImagesIntegration(),
+  ],
   markdown: {
     remarkPlugins: [
       remarkCallouts,

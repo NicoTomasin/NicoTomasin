@@ -1,201 +1,239 @@
 {
   "metadata": {
-    "title": "Nico Tomasin | Portfolio",
-    "description": "Nico Tomasin Portfolio",
-    "version": "V2.0.0",
-    "lastUpdate": "2026-01-09"
+    "version": "V3.0.0",
+    "lastUpdate": "2026-11-04"
   },
   "hero": {
-    "label": "Nico Tomasin",
-    "title": "FULL STACK DEVELOPER",
-    "description": "Construyendo aplicaciones web modernas y escalables con un enfoque en performance y experiencia de usuario.",
-    "status": "DISPONIBLE PARA PROYECTOS"
+    "kicker": { "es": "PM @ G2M · Buenos Aires", "en": "PM @ G2M · Buenos Aires, AR" },
+    "description": {
+      "es": "Construyo lo que me da curiosidad: de bots en Rust a un tamagotchi con ESP32. De día lidero producto en G2M; el resto del tiempo, cacharreo.",
+      "en": "I build whatever makes me curious: from Rust bots to an ESP32 tamagotchi. By day I lead product at G2M; the rest of the time, I tinker."
+    },
+    "role": { "es": "Product Manager · Full stack", "en": "Product Manager · Full stack" },
+    "status": { "es": "Abierto a ideas", "en": "Open to ideas" }
+  },
+  "now": {
+    "updated": "2026-11-04",
+    "items": [
+      {
+        "label": { "es": "Trabajo", "en": "Work" },
+        "text": {
+          "es": "Liderando el equipo de producto en G2M: trazabilidad, visualización de datos y apps internas.",
+          "en": "Leading the product team at G2M: traceability, data visualization and internal apps."
+        }
+      },
+      {
+        "label": { "es": "Estudio", "en": "Studying" },
+        "text": {
+          "es": "Matemática por mi cuenta para llegar bien a la Licenciatura en Informática.",
+          "en": "Self-studying math to start a CS degree on the right foot."
+        }
+      },
+      {
+        "label": { "es": "Aprendiendo", "en": "Learning" },
+        "text": {
+          "es": "Redes neuronales desde cero: entender de raíz cómo funciona una IA.",
+          "en": "Neural networks from scratch: understanding how AI works at the root."
+        }
+      },
+      {
+        "label": { "es": "Buscando", "en": "Hunting" },
+        "text": {
+          "es": "Una PS2 para completar la colección.",
+          "en": "A PS2 to complete the collection."
+        }
+      }
+    ]
   },
   "experience": [
     {
-      "role": "Product Manager",
       "company": "G2M Technology Group",
-      "period": "abr. 2026 - actualidad",
-      "description": "Lidero el equipo de programadores que crea y mantiene soluciones de trazabilidad y visualizacion de datos para todo tipo de cliente utilizando tecnologias multiplataforma."
+      "roles": [
+        {
+          "role": { "es": "Product Manager", "en": "Product Manager" },
+          "period": { "es": "abr. 2026 — hoy", "en": "Apr 2026 — now" },
+          "description": {
+            "es": "Lidero el equipo que crea y mantiene soluciones de trazabilidad y visualización de datos multiplataforma. Volví a G2M, esta vez del lado de producto.",
+            "en": "I lead the team that builds and maintains cross-platform traceability and data-visualization products. Came back to G2M, this time on the product side."
+          }
+        },
+        {
+          "role": { "es": "Software Developer", "en": "Software Developer" },
+          "period": { "es": "ago. 2024 — nov. 2024", "en": "Aug 2024 — Nov 2024" },
+          "description": {
+            "es": "Desarrollo y mantenimiento del software usado en el censo nacional argentino.",
+            "en": "Built and maintained software used in Argentina's national census."
+          }
+        }
+      ]
     },
     {
-      "role": "Full Stack Developer",
       "company": "WABOT",
-      "period": "nov. 2024 - ene. 2026",
-      "description": "En wabot desarrollamos bots de WhatsApp para empresas como PECOM y Unilever"
+      "roles": [
+        {
+          "role": { "es": "Full Stack Developer", "en": "Full Stack Developer" },
+          "period": { "es": "nov. 2024 — ene. 2026", "en": "Nov 2024 — Jan 2026" },
+          "description": {
+            "es": "Bots de WhatsApp para empresas como PECOM y Unilever.",
+            "en": "WhatsApp bots for companies like PECOM and Unilever."
+          }
+        }
+      ]
     },
     {
-      "role": "Software Developer",
-      "company": "G2M",
-      "period": "ago. 2024 - nov. 2024",
-      "description": "Desarrollo y mantenimiento del software utilizado para el censo nacional Argentino"
-    },
-    {
-      "role": "Frontend Developer",
       "company": "Block Builders",
-      "period": "sep. 2023 - feb. 2024",
-      "description": "Creación de sitios web corporativos y landing pages para todo tipo de clientes"
-    }
-  ],
-  "projects": [
-    {
-      "title": "9z Hub",
-      "tech": "Counter-Strike 2, Demos, Estadisticas",
-      "description": "Estadisticas historicas de jugadores y del roster core de 9z en Counter-Strike 2, calculadas a partir de demos parseadas. Proyecto sin fines de lucro y tributo.",
-      "link": "https://9zhub.com.ar/"
-    },
-    {
-      "title": "Mi Vidriera",
-      "tech": "Astro, Vercel, CSS, Mercado Pago, PostgreSQL",
-      "description": "Una plataforma con editor WYSIWYG para crear un sitio basico para emprendedores",
-      "link": "https://mividriera.com.ar"
-    },
-    {
-      "title": "Hankook Argentina",
-      "tech": "Wordpress, CSS, PHP, WooCommerce",
-      "description": "Sitio web de la marca de neumaticos Hankook Argentina",
-      "link": "https://hankook.com.ar/"
-    },
-    {
-      "title": "Argenews",
-      "tech": "Astro, CSS, Cloudflare Workers, Hono, PostgreSQL",
-      "description": "Portal de noticias inspirado en hackernews con las principales noticias de Argentina",
-      "link": "https://argenews.ar/"
-    },
-    {
-      "title": "CryptoNotify",
-      "tech": "Next.js, Material UI, AWS, FeathersJS",
-      "description": "Aplicación para reducir la barrera de entrada en la creacion de bots de trading de alta frecuencia",
-      "link": "https://cryptonotify.me/"
-    },
-    {
-      "title": "DevSec Agent",
-      "tech": "IA",
-      "description": "Agente de seguridad automatizado impulsado por inteligencia artificial",
-      "link": "#"
-    },
-    {
-      "title": "FounderCheck",
-      "tech": "Rust",
-      "description": "Herramienta de verificación y validación para emprendedores",
-      "link": "#"
-    },
-    {
-      "title": "Pipi Labs",
-      "tech": "Consultora",
-      "description": "Consultora de desarrollo de software a medida",
-      "link": "#"
-    },
-    {
-      "title": "Agentes IA",
-      "tech": "Open Fang, Hermes, Open Claw",
-      "description": "Suite de agentes de IA para automatización de tareas",
-      "link": "#"
-    },
-    {
-      "title": "Carreras UNLaM",
-      "tech": "React Flow",
-      "description": "Visualizador interactivo de carreras universitarias",
-      "link": "#"
-    },
-    {
-      "title": "Carruseles Automáticos Instagram",
-      "tech": "Node.js",
-      "description": "Generador automático de carruseles para Instagram",
-      "link": "#"
-    },
-    {
-      "title": "Juegos en Game Pass",
-      "tech": "Puppeteer",
-      "description": "Scraper y catálogo de juegos disponibles en Xbox Game Pass",
-      "link": "#"
-    },
-    {
-      "title": "MiAutoFeo",
-      "tech": "Rust, Telegram",
-      "description": "Bot de Telegram con funcionalidades varias",
-      "link": "#"
-    },
-    {
-      "title": "Home Server",
-      "tech": "Debian, Pi-hole, Docker",
-      "description": "Servidor casero con bloqueo de publicidad y contenedores",
-      "link": "#"
-    },
-    {
-      "title": "ArgenTiles",
-      "tech": "Expo, React Native",
-      "description": "Aplicación móvil con mapas de Argentina",
-      "link": "#"
-    },
-    {
-      "title": "Runtime Bots",
-      "tech": "Rust, Telegram",
-      "description": "Framework para bots de Telegram en Rust",
-      "link": "#"
+      "roles": [
+        {
+          "role": { "es": "Frontend Developer", "en": "Frontend Developer" },
+          "period": { "es": "sep. 2023 — feb. 2024", "en": "Sep 2023 — Feb 2024" },
+          "description": {
+            "es": "Sitios corporativos y landing pages para todo tipo de clientes.",
+            "en": "Corporate sites and landing pages for all kinds of clients."
+          }
+        }
+      ]
     }
   ],
   "education": [
-    {
-      "degree": "Tec. en Desarrollo Web",
-      "institution": "Universidad Nacional de La Matanza",
-      "year": "2020 - 2024"
-    },
-    {
-      "degree": "Programacion Basica con C#",
-      "institution": "Platzi",
-      "year": "2024"
-    }
+    { "degree": "Tec. en Desarrollo Web", "institution": "Universidad Nacional de La Matanza", "year": "2020 — 2024" },
+    { "degree": "Lic. en Informática", "institution": { "es": "Próximamente", "en": "Coming up" }, "year": "—" }
   ],
+  "categories": {
+    "producto": { "es": "Producto", "en": "Product" },
+    "bots": { "es": "Bots", "en": "Bots" },
+    "ia": { "es": "IA", "en": "AI" },
+    "hardware": { "es": "Hardware", "en": "Hardware" },
+    "juegos": { "es": "Juegos", "en": "Games" },
+    "herramientas": { "es": "Herramientas", "en": "Tools" },
+    "clientes": { "es": "Clientes", "en": "Clients" },
+    "trabajo": { "es": "G2M", "en": "G2M" }
+  },
+  "builds": [
+    { "slug": "plantilla-g2m", "title": "g2m-base", "year": 2026, "category": "trabajo", "status": "privado", "tech": ["React", "Fastify", "MySQL"], "post": "plantilla-base-para-aplicaciones-internas",
+      "description": { "es": "Plantilla para generar apps internas con login, roles y arquitectura hexagonal.", "en": "Template to spin up internal apps with auth, roles and hexagonal architecture." } },
+    { "slug": "encuestas", "title": "Encuestas", "year": 2026, "category": "trabajo", "status": "privado", "tech": ["Astro", "Bun", "MySQL"], "post": "migrar-sistema-legacy-php-a-astro-y-bun",
+      "description": { "es": "Migración módulo por módulo de un sistema PHP + jQuery a Astro y Bun.", "en": "Module-by-module migration of a PHP + jQuery system to Astro and Bun." } },
+    { "slug": "dantex", "title": "Trazabilidad industrial", "year": 2026, "category": "clientes", "status": "privado", "tech": ["PWA", "Fastify", "PostgreSQL"], "post": "pwa-trazabilidad-industrial-monolito-modular",
+      "description": { "es": "PWA para una planta de metal desplegado: materia prima, producción, pallets y certificados.", "en": "PWA for an expanded-metal plant: raw material, production, pallets and certificates." } },
+    { "slug": "content-lab", "title": "Content Lab", "year": 2026, "category": "ia", "status": "privado", "featured": true, "tech": ["Bun", "Ollama", "Remotion"], "post": "content-lab-fabrica-local-de-contenido-con-ia",
+      "description": { "es": "Fábrica local de contenido con IA: investiga, escribe, narra con mi voz y renderiza videos. Todo en mi PC.", "en": "A local AI content factory: researches, writes, narrates in my voice and renders videos. All on my PC." } },
+    { "slug": "la-senal", "title": "La Señal", "year": 2026, "category": "juegos", "status": "privado", "featured": true, "tech": ["Preact", "WebSockets", "AR"], "post": "la-senal-juego-de-rol-con-un-alien-para-un-cumpleanos",
+      "description": { "es": "Un juego de rol con un alien para un cumpleaños: personajes secretos, glifos y dos realidades.", "en": "A role-playing game with an alien for a birthday party: secret characters, glyphs and two realities." } },
+    { "slug": "traza-web", "title": "Traza", "year": 2026, "category": "trabajo", "status": "privado", "tech": ["Astro SSR", "Bun", "Drizzle"], "post": "mvp-coordinacion-de-envios-astro-ssr",
+      "description": { "es": "MVP para coordinar envíos entre ubicaciones, con etiquetas y código de barras.", "en": "MVP to coordinate shipments between locations, with barcode labels." } },
+    { "slug": "design-system", "title": "Design System G2M", "year": 2026, "category": "trabajo", "status": "privado", "tech": ["Lit", "Web Components", "Storybook"], "post": "design-system-con-web-components-y-lit",
+      "description": { "es": "Tokens, íconos y Web Components que funcionan en Astro, Electron y JS vanilla.", "en": "Tokens, icons and Web Components that work in Astro, Electron and vanilla JS." } },
+    { "slug": "trazabilidad-desktop", "title": "Traza Desktop", "year": 2026, "category": "trabajo", "status": "privado", "tech": ["Electron", "SQLite"], "post": "app-escritorio-offline-first-electron-sqlite",
+      "description": { "es": "App de escritorio offline-first: el operario nunca ve un error de conexión.", "en": "Offline-first desktop app: the operator never sees a connection error." } },
+    { "slug": "licencias", "title": "Licencias offline", "year": 2026, "category": "trabajo", "status": "privado", "tech": ["Astro", "Criptografía"], "post": "licencias-offline-para-software-on-premise",
+      "description": { "es": "Generador de licencias firmadas para software on-premise, sin conexión.", "en": "Signed license generator for on-premise software, no network needed." } },
+    { "slug": "visualizador", "title": "Visualizador", "year": 2026, "category": "trabajo", "status": "privado", "tech": ["Astro", "Bun"], "post": "visualizador-configurable-sin-esquema-fijo",
+      "description": { "es": "Visualizador de datos configurable, sin esquema fijo.", "en": "Configurable data visualizer with no fixed schema." } },
+    { "slug": "mesa-de-ayuda", "title": "Mesa de ayuda", "year": 2026, "category": "trabajo", "status": "privado", "tech": ["HESK", "PHP"], "post": "no-todo-hay-que-programarlo-mesa-de-ayuda",
+      "description": { "es": "La decisión de no programarla: open source bien elegido antes que código propio.", "en": "The decision not to build it: well-chosen open source over custom code." } },
+    { "slug": "cobreak", "title": "CoBreak", "year": 2026, "category": "producto", "status": "privado", "tech": ["Kotlin", "Android", "Astro"], "post": "cobreak-pausas-activas-gamificadas",
+      "description": { "es": "Pausas activas gamificadas para quienes pasamos el día sentados.", "en": "Gamified active breaks for people who sit all day." } },
+    { "slug": "mi-vidriera", "title": "Mi Vidriera", "year": 2026, "category": "producto", "status": "live", "featured": true, "tech": ["Astro", "Prisma", "Mercado Pago", "Vercel"], "link": "https://mividriera.com.ar", "post": "mi-vidriera-vidrieras-online-para-emprendedores",
+      "description": { "es": "Plataforma multi-tenant con editor WYSIWYG para que emprendedores tengan su vidriera online.", "en": "Multi-tenant platform with a WYSIWYG editor so small businesses get their own storefront." } },
+    { "slug": "tamagotchi", "title": "Tamagotchi PaceFlow", "year": 2026, "category": "hardware", "status": "privado", "featured": true, "tech": ["ESP32", "BLE", "Flutter"], "post": "tamagotchi-conectado-esp32",
+      "description": { "es": "Un compañero de escritorio con ESP32 que reacciona a cuánto tiempo pasás sentado.", "en": "An ESP32 desk companion that reacts to how long you've been sitting." } },
+    { "slug": "9z-hub", "title": "9z Hub", "year": 2026, "category": "juegos", "status": "live", "featured": true, "tech": ["Go", "Astro", "SQLite"], "link": "https://9zhub.com.ar/", "post": "9z-hub-estadisticas-cs2-desde-demos",
+      "description": { "es": "Estadísticas históricas del roster de 9z en CS2, calculadas a partir de demos parseadas. Un tributo sin fines de lucro.", "en": "Historical CS2 stats for 9z's roster, computed from parsed demos. A non-profit tribute." } },
+    { "slug": "foundercheck", "title": "FounderCheck", "year": 2026, "category": "producto", "status": "privado", "featured": true, "tech": ["Rust", "Hono", "Cloudflare Workers"], "post": "foundercheck-la-herramienta-que-necesitaba",
+      "description": { "es": "Validá el nombre de tu idea (dominio, redes, branding) antes de escribir una línea de código.", "en": "Validate your idea's name (domain, socials, branding) before writing a line of code." } },
+    { "slug": "runtime-bots", "title": "Runtime Bots", "year": 2026, "category": "bots", "status": "privado", "tech": ["Rust", "Actores", "Telegram"], "post": "runtime-bots-plataforma-multi-tenant-rust",
+      "description": { "es": "Plataforma multi-tenant para correr muchos bots de Telegram, en Rust.", "en": "Multi-tenant platform to run many Telegram bots, in Rust." } },
+    { "slug": "miautofeo", "title": "MiAutoFeo", "year": 2026, "category": "bots", "status": "privado", "tech": ["Rust", "Telegram", "Ollama"], "post": "miautofeo-bot-mantenimiento-auto-lenguaje-natural",
+      "description": { "es": "Bot que lleva el mantenimiento del auto hablándole en lenguaje natural.", "en": "A bot that tracks car maintenance from plain-language messages." } },
+    { "slug": "btc-bot", "title": "Bot de disciplina BTC", "year": 2026, "category": "bots", "status": "privado", "tech": ["Rust", "Telegram", "SQLite"], "post": "bot-telegram-rust-disciplina-btc",
+      "description": { "es": "Un bot que me ayuda a sostener una estrategia de ahorro sin depender de la emoción del momento.", "en": "A bot that helps me stick to a savings strategy without acting on emotion." } },
+    { "slug": "carreras-unlam", "title": "Carreras UNLaM", "year": 2026, "category": "herramientas", "status": "open-source", "tech": ["React Flow"], "repo": "https://github.com/NicoTomasin/carreras-unlam",
+      "description": { "es": "Mapa interactivo de correlativas: marcás lo aprobado y ves qué podés cursar.", "en": "Interactive prerequisite map: tick what you passed, see what you can take next." } },
+    { "slug": "carruseles", "title": "Carruseles con IA", "year": 2026, "category": "ia", "status": "privado", "tech": ["Astro", "React", "Gemini"], "post": "generador-de-carruseles-instagram-con-ia",
+      "description": { "es": "Describís el carrusel, elegís un template y la IA arma las slides para Instagram.", "en": "Describe the carousel, pick a template and AI builds the Instagram slides." } },
+    { "slug": "devsec-agent", "title": "DevSec Agent", "year": 2026, "category": "ia", "status": "privado", "tech": ["IA"],
+      "description": { "es": "Agente de seguridad automatizado impulsado por IA.", "en": "AI-powered automated security agent." } },
+    { "slug": "agentes-ia", "title": "Agentes IA", "year": 2026, "category": "ia", "status": "privado", "tech": ["Open Fang", "Hermes", "Open Claw"],
+      "description": { "es": "Suite de agentes de IA para automatizar tareas.", "en": "A suite of AI agents to automate tasks." } },
+    { "slug": "argenews", "title": "Argenews", "year": 2025, "category": "producto", "status": "live", "featured": true, "tech": ["Astro", "Hono", "Cloudflare Workers", "PostgreSQL"], "link": "https://argenews.ar/",
+      "description": { "es": "Portal de noticias inspirado en Hacker News con lo principal de Argentina.", "en": "A Hacker News-style portal with Argentina's top news." } },
+    { "slug": "game-pass", "title": "Juegos en Game Pass", "year": 2025, "category": "herramientas", "status": "open-source", "tech": ["Puppeteer", "GitHub Actions", "Bun"], "repo": "https://github.com/NicoTomasin/Games-available-on-Game-Pass", "post": "juegos-de-game-pass-scraper-con-github-actions",
+      "description": { "es": "Scraper diario del catálogo de Game Pass. Alimentaba una extensión que te avisaba en Steam si el juego ya estaba en Game Pass, para no comprarlo al pedo.", "en": "Daily Game Pass catalog scraper. It fed an extension that flagged games on Steam you already had on Game Pass, so you wouldn't buy them for nothing." } },
+    { "slug": "hankook", "title": "Hankook Argentina", "year": 2025, "category": "clientes", "status": "live", "featured": true, "tech": ["WordPress", "PHP", "WooCommerce"], "link": "https://hankook.com.ar/", "post": "hankook-argentina-tema-wordpress-a-medida",
+      "description": { "es": "Tema de WordPress a medida para la marca de neumáticos, con buscador de locales.", "en": "Custom WordPress theme for the tyre brand, with a dealer locator." } },
+    { "slug": "horarios", "title": "Horarios de talleres", "year": 2025, "category": "herramientas", "status": "privado", "tech": ["Astro", "Text-to-speech", "PWA"], "post": "horarios-de-talleres-accesible-con-astro",
+      "description": { "es": "Horarios accesibles con lectura en voz alta, pensados para todos.", "en": "Accessible schedules with read-aloud, designed for everyone." } },
+    { "slug": "home-server", "title": "Home Server", "year": 2025, "category": "hardware", "status": "privado", "tech": ["Debian", "Pi-hole", "Docker"],
+      "description": { "es": "Servidor casero con bloqueo de publicidad y contenedores.", "en": "Home server with ad-blocking and containers." } },
+    { "slug": "argentiles", "title": "ArgenTiles", "year": 2025, "category": "producto", "status": "privado", "tech": ["Expo", "React Native"],
+      "description": { "es": "App móvil con mapas de Argentina.", "en": "Mobile app with maps of Argentina." } },
+    { "slug": "chatbot-pelis", "title": "Chatbot de películas", "year": 2024, "category": "bots", "status": "open-source", "tech": [".NET 6", "Bot Framework", "TMDB"], "repo": "https://github.com/NicoTomasin/ChatBotPrograWeb3",
+      "description": { "es": "Te recomienda películas según tu estado de ánimo, con menús y sin NLP.", "en": "Recommends movies based on your mood, with menus and no NLP." } },
+    { "slug": "primer-bot", "title": "Mi primer bot", "year": 2024, "category": "bots", "status": "archivado", "tech": ["TypeScript", "Node"], "post": "mi-primer-bot-de-telegram-typescript",
+      "description": { "es": "Unas pocas líneas de TypeScript y el patrón que sigo usando en todos mis bots.", "en": "A few lines of TypeScript and the pattern I still use in every bot." } },
+    { "slug": "zero-guns", "title": "ZERO GUNS", "year": 2024, "category": "clientes", "status": "open-source", "tech": ["Next.js", "Tailwind"], "repo": "https://github.com/NicoTomasin/ZeroGuns",
+      "description": { "es": "Landings de agradecimiento post-compra para los drops de la marca.", "en": "Post-purchase thank-you landings for the brand's drops." } },
+    { "slug": "recibo-facil", "title": "Recibo Fácil", "year": 2023, "category": "herramientas", "status": "open-source", "tech": ["Svelte", "TypeScript", "Tailwind"], "repo": "https://github.com/NicoTomasin/ReciboFacil", "post": "recibo-facil-recibos-de-sueldo-con-svelte",
+      "description": { "es": "Recibos de sueldo 100% en el navegador, con exportación a PDF.", "en": "Payslips generated 100% in the browser, with PDF export." } },
+    { "slug": "cryptonotify", "title": "CryptoNotify", "year": 2023, "category": "producto", "status": "archivado", "tech": ["Next.js", "Material UI", "AWS", "FeathersJS"], "link": "https://cryptonotify.me/",
+      "description": { "es": "Bajar la barrera de entrada para crear bots de trading de alta frecuencia.", "en": "Lowering the barrier to building high-frequency trading bots." } }
+  ],
+  "about": {
+    "paragraphs": {
+      "es": [
+        "Soy de Buenos Aires y me considero, antes que nada, curioso. Siempre estoy cacharreando con algo: probando una tecnología nueva, desarmando cómo funciona una herramienta o armando otra porque la que existía no me convencía.",
+        "Sigo de cerca los lanzamientos de todo lo que tenga un chip: audio, cine, televisores, celulares, procesadores. Últimamente me tiene atrapado la inteligencia artificial, y quiero entenderla de raíz. Por eso estudio matemática por mi cuenta mientras me preparo para la Licenciatura en Informática.",
+        "Fuera de la pantalla escucho mucha música, juego videojuegos, armo puzzles tipo Rubik y estoy arrancando una colección de consolas."
+      ],
+      "en": [
+        "I'm from Buenos Aires and, above all, curious. I'm always tinkering with something: trying a new technology, taking a tool apart to see how it works, or building another one because the existing one didn't convince me.",
+        "I follow every launch of anything with a chip in it: audio, cinema, TVs, phones, processors. Lately I'm hooked on artificial intelligence and want to understand it from the ground up. That's why I'm self-studying math while I prepare for a CS degree.",
+        "Away from the screen I listen to a lot of music, play video games, solve Rubik-style puzzles and I'm starting a console collection."
+      ]
+    },
+    "facts": [
+      { "es": "Buenos Aires, Argentina", "en": "Buenos Aires, Argentina" },
+      { "es": "Música todo el día", "en": "Music all day" },
+      { "es": "Puzzles tipo Rubik", "en": "Rubik-style puzzles" },
+      { "es": "Fan de lanzamientos de hardware", "en": "Hardware launch nerd" },
+      { "es": "Redes neuronales", "en": "Neural networks" },
+      { "es": "Scrapear la web", "en": "Scraping the web" }
+    ],
+    "collection": [
+      { "name": "PS1", "owned": true },
+      { "name": "PS2", "owned": false },
+      { "name": "PS3", "owned": true },
+      { "name": "PS4", "owned": true },
+      { "name": "Arcade", "owned": true },
+      { "name": "PC gamer", "owned": true }
+    ]
+  },
+  "stack": [
+    { "group": { "es": "Lenguajes", "en": "Languages" }, "items": ["TypeScript", "Rust", "Go", "Kotlin", "PHP", "C#"] },
+    { "group": { "es": "Web", "en": "Web" }, "items": ["Astro", "React", "Svelte", "Preact", "Lit", "Next.js"] },
+    { "group": { "es": "Backend", "en": "Backend" }, "items": ["Bun", "Node", "Hono", "Fastify", "PostgreSQL", "MySQL", "SQLite"] },
+    { "group": { "es": "Infra", "en": "Infra" }, "items": ["Cloudflare Workers", "Vercel", "Docker", "GitHub Actions", "Debian + Pi-hole"] },
+    { "group": { "es": "Hardware", "en": "Hardware" }, "items": ["ESP32", "ESP-IDF", "BLE"] },
+    { "group": { "es": "IA", "en": "AI" }, "items": ["Ollama", "Gemini", "Agentes", "Remotion"] },
+    { "group": { "es": "Producto", "en": "Product" }, "items": ["Discovery", "MVPs", "Roadmaps", "Build in public"] }
+  ],
+  "contact": {
+    "email": "hola@nicotomasin.com.ar",
+    "pipiLabs": "mailto:hola@nicotomasin.com.ar?subject=Pipi%20Labs%20%E2%80%94%20Proyecto"
+  },
   "footer": {
     "email": "hola@nicotomasin.com.ar",
     "copyright": "Nico Tomasin",
     "socials": [
-      {
-        "name": "Email",
-        "url": "mailto:hola@nicotomasin.com.ar",
-        "icon": "mail"
-      },
-      {
-        "name": "Instagram",
-        "url": "https://www.instagram.com/nicotomasin_",
-        "icon": "instagram"
-      },
-      {
-        "name": "X",
-        "url": "https://x.com/NicoTomasin_",
-        "icon": "x"
-      },
-      {
-        "name": "YouTube",
-        "url": "https://www.youtube.com/@NicoTomasin",
-        "icon": "youtube"
-      },
-      {
-        "name": "LinkedIn",
-        "url": "https://www.linkedin.com/in/nicotomasin",
-        "icon": "linkedin"
-      },
-      {
-        "name": "Platzi",
-        "url": "https://platzi.com/p/NicoTomasin/",
-        "icon": "platzi"
-      },
-      {
-        "name": "freeCodeCamp",
-        "url": "https://www.freecodecamp.org/NicoTomasin",
-        "icon": "freecodecamp"
-      },
-      {
-        "name": "GitHub",
-        "url": "https://github.com/NicoTomasin",
-        "icon": "github"
-      },
-      {
-        "name": "GitLab",
-        "url": "https://gitlab.com/NicoTomasin",
-        "icon": "gitlab"
-      }
+      { "name": "Email", "url": "mailto:hola@nicotomasin.com.ar", "icon": "mail" },
+      { "name": "Instagram", "url": "https://www.instagram.com/nicotomasin_", "icon": "instagram" },
+      { "name": "X", "url": "https://x.com/NicoTomasin_", "icon": "x" },
+      { "name": "YouTube", "url": "https://www.youtube.com/@NicoTomasin", "icon": "youtube" },
+      { "name": "LinkedIn", "url": "https://www.linkedin.com/in/nicotomasin", "icon": "linkedin" },
+      { "name": "Platzi", "url": "https://platzi.com/p/NicoTomasin/", "icon": "platzi" },
+      { "name": "freeCodeCamp", "url": "https://www.freecodecamp.org/NicoTomasin", "icon": "freecodecamp" },
+      { "name": "GitHub", "url": "https://github.com/NicoTomasin", "icon": "github" },
+      { "name": "GitLab", "url": "https://gitlab.com/NicoTomasin", "icon": "gitlab" }
     ]
   }
 }

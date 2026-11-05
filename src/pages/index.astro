@@ -1,29 +1,5 @@
 ---
-import '@fontsource/syne/700.css';
-import '@fontsource/syne/800.css';
-import '@fontsource/instrument-serif/400.css';
-import '@fontsource/instrument-serif/400-italic.css';
-import Layout from '../layouts/Layout.astro';
-import Motion from '../components/Motion.astro';
-import Hero from '../components/Hero.astro';
-import Marquee from '../components/Marquee.astro';
-import Projects from '../components/Projects.astro';
-import Experience from '../components/Experience.astro';
-import LatestPosts from '../components/LatestPosts.astro';
-import Contact from '../components/Contact.astro';
-import Footer from '../components/Footer.astro';
+import Landing from '../components/Landing.astro';
 ---
 
-<Layout title="Nico Tomasin | Full Stack Developer">
-  <Motion />
-  <main class="landing">
-    <Hero />
-    <Marquee items={['Full Stack', 'Product', 'Build in public']} />
-    <Projects />
-    <Experience />
-    <LatestPosts />
-    <Marquee items={['Astro', 'Rust', 'TypeScript', 'React', 'Hono', 'PostgreSQL']} reverse outline />
-    <Contact />
-  </main>
-  <Footer />
-</Layout>
+<Landing lang="es" />

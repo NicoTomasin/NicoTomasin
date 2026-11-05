@@ -1,22 +1,37 @@
 ---
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/inter/700.css';
+import '@fontsource/share-tech-mono/400.css';
+import '@fontsource/syne/700.css';
+import '@fontsource/syne/800.css';
+import '@fontsource/instrument-serif/400.css';
+import '@fontsource/instrument-serif/400-italic.css';
 import '../styles/global.css';
 import Navbar from '../components/Navbar.astro';
+import { type Lang } from '../i18n/ui';
 
 interface Props {
   title?: string;
   description?: string;
   image?: string;
+  lang?: Lang;
+  /** Rutas equivalentes en otros idiomas (solo la landing las tiene) */
+  alternates?: Partial<Record<Lang, string>>;
 }
 
 const siteUrl = "https://nicotomasin.com.ar";
-const defaultTitle = "Nico Tomasin | Full Stack Developer";
-const defaultDescription = "Construyendo aplicaciones web modernas y escalables con un enfoque en performance y experiencia de usuario.";
+const defaultTitle = "Nico Tomasin | Builder · Product Manager en G2M";
+const defaultDescription = "Nico Tomasin: Product Manager en G2M y builder. Construyo lo que me da curiosidad: bots en Rust, hardware con ESP32, productos web y herramientas con IA.";
 const defaultImage = "/og.png";
 
 const { 
   title = defaultTitle, 
   description = defaultDescription,
-  image = defaultImage 
+  image = defaultImage,
+  lang = 'es',
+  alternates,
 } = Astro.props;
 
 const ogImageUrl = image.startsWith('http') ? image : `${siteUrl}${image}`;
@@ -24,7 +39,7 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -35,6 +50,13 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
     <meta name="author" content="Nico Tomasin" />
     <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#0a0a0f" />
+    <meta name="color-scheme" content="dark" />
+    <title>{title}</title>
+    {alternates && Object.entries(alternates).map(([code, path]) => (
+      <link rel="alternate" hreflang={code} href={new URL(path!, siteUrl).toString()} />
+    ))}
+    {alternates?.es && <link rel="alternate" hreflang="x-default" href={new URL(alternates.es, siteUrl).toString()} />}
+    <link rel="alternate" type="application/rss+xml" title="Nico Tomasin — Blog" href="/blog/rss.xml" />
     
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalUrl} />
@@ -44,7 +66,7 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:site_name" content="Nico Tomasin" />
-    <meta property="og:locale" content="es_AR" />
+    <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'es_AR'} />
     
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content={canonicalUrl} />
@@ -52,10 +74,6 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
     <meta name="twitter:creator" content="@NicoTomasin_" />
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     
     <script type="module">
       // Scripts externos pesados: solo se cargan si la página los usa
@@ -73,18 +91,24 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
         look: 'classic',
         theme: 'dark',
         themeVariables: {
-          primaryColor: '#6366f1',
-          primaryTextColor: '#fff',
-          primaryBorderColor: '#7c3aed',
+          fontFamily: 'Inter, system-ui, sans-serif',
+          primaryColor: '#12121a',
+          primaryTextColor: '#e4e4e7',
+          primaryBorderColor: '#00ff88',
           lineColor: '#a1a1aa',
           secondaryColor: '#1e1e2e',
-          tertiaryColor: '#2d2d3f',
+          tertiaryColor: '#12121a',
           background: '#0a0a0f',
-          mainBkg: '#1e1e2e',
-          nodeBorder: '#6366f1',
-          clusterBkg: '#2d2d3f',
-          titleColor: '#ffffff',
-          edgeLabelBackground: '#1e1e2e',
+          mainBkg: '#12121a',
+          nodeBorder: '#00cc6a',
+          clusterBkg: '#0a0a0f',
+          clusterBorder: '#1e1e2e',
+          titleColor: '#e4e4e7',
+          edgeLabelBackground: '#0a0a0f',
+          actorBkg: '#12121a',
+          actorBorder: '#00cc6a',
+          noteBkgColor: '#1e1e2e',
+          noteTextColor: '#e4e4e7',
         }
         });
         await mermaid.run({ querySelector: 'pre.mermaid' });
@@ -92,7 +116,7 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
     </script>
   </head>
   <body>
-    <Navbar />
+    <Navbar lang={lang} alternates={alternates} />
     <slot />
   </body>
 </html>
