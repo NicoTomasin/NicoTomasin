@@ -29,7 +29,8 @@ const nameLines = ['Nico', 'Tomasin'];
       </span>
     </div>
 
-    <h1 class="hero-name" aria-label="Nico Tomasin">
+    <h1 class="hero-name">
+      <span class="sr-only">Nico Tomasin — {l(hero.role, lang)}</span>
       {nameLines.map((line, li) => (
         <span class={`hero-line hero-line-${li}`} aria-hidden="true" data-hero-line>
           {line.split('').map((ch) => (

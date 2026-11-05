@@ -7,6 +7,7 @@ import ReadingCat from '../components/blog/ReadingCat.astro';
 import Prose from '../components/blog/Prose.astro';
 import Footer from '../components/Footer.astro';
 import { getBuildForPost, getBuilds } from '../lib/builds';
+import { postSchema } from '../lib/schema';
 
 interface Props {
   title: string;
@@ -17,9 +18,18 @@ interface Props {
   headings: { slug: string; text: string; depth: number }[];
   slug: string;
   author?: string;
+  tags?: string[];
+  wordCount?: number;
+  seoTitle?: string;
+  seoDescription?: string;
 }
 
-const { title, description, date, category, readingTime, headings, slug, author } = Astro.props;
+const { title, description, date, category, readingTime, headings, slug, tags = [], wordCount = 0, seoTitle, seoDescription } = Astro.props;
+
+// En buscadores el título se corta cerca de los 60-65 caracteres: el sufijo solo va si entra
+const baseTitle = seoTitle ?? title;
+const pageTitle = baseTitle.length + 16 <= 65 ? `${baseTitle} | Nico Tomasin` : baseTitle;
+const metaDescription = seoDescription ?? description;
 
 // El post sabe a qué build pertenece: link al Builder log y "otros builds" al final
 const build = await getBuildForPost(slug);
@@ -38,60 +48,18 @@ const formattedDate = date.toLocaleDateString('es-AR', {
   timeZone: 'UTC',
 });
 
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Article',
-  headline: title,
-  description: description,
-  image: ogImage,
-  datePublished: date.toISOString(),
-  dateModified: date.toISOString(),
-  author: {
-    '@type': 'Person',
-    name: author || 'Nico Tomasin',
-    url: siteUrl,
-  },
-  publisher: {
-    '@type': 'Organization',
-    name: 'Nico Tomasin',
-    logo: {
-      '@type': 'ImageObject',
-      url: `${siteUrl}/favicon.svg`,
-    },
-  },
-  mainEntityOfPage: {
-    '@type': 'WebPage',
-    '@id': postUrl,
-  },
-};
-
-const breadcrumbJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  itemListElement: [
-    {
-      '@type': 'ListItem',
-      position: 1,
-      name: 'Inicio',
-      item: siteUrl,
-    },
-    {
-      '@type': 'ListItem',
-      position: 2,
-      name: 'Blog',
-      item: `${siteUrl}/blog`,
-    },
-    {
-      '@type': 'ListItem',
-      position: 3,
-      name: title,
-      item: postUrl,
-    },
-  ],
-};
+const jsonLd = postSchema({ slug, title, description, date, category, tags, wordCount, build });
 ---
 
-<Layout title={`${title} | Nico Tomasin`} description={description} image={ogImage}>
+<Layout
+  title={pageTitle}
+  description={metaDescription}
+  image={ogImage}
+  imageAlt={title}
+  type="article"
+  article={{ published: date, section: category, tags }}
+  jsonLd={jsonLd}
+>
   <ReadingProgressBar />
 
   <article class="blog-post">
@@ -176,8 +144,6 @@ const breadcrumbJsonLd = {
   <Footer />
   <ReadingCat />
 
-  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
 </Layout>
 
 <style>

@@ -14,6 +14,8 @@ import Contact from './Contact.astro';
 import Footer from './Footer.astro';
 import EasterEggs from './EasterEggs.astro';
 import { type Lang, useTranslations } from '../i18n/ui';
+import { getBuilds } from '../lib/builds';
+import { landingSchema } from '../lib/schema';
 
 interface Props {
   lang: Lang;
@@ -21,9 +23,18 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
+const jsonLd = landingSchema(lang, await getBuilds());
 ---
 
-<Layout title={t('meta.title')} description={t('meta.description')} lang={lang} alternates={{ es: '/', en: '/en/' }}>
+<Layout
+  title={t('meta.title')}
+  description={t('meta.description')}
+  lang={lang}
+  alternates={{ es: '/', en: '/en/' }}
+  type="profile"
+  imageAlt={lang === 'en' ? 'Nico Tomasin — Builder & Product Manager at G2M' : 'Nico Tomasin — Builder y Product Manager en G2M'}
+  jsonLd={jsonLd}
+>
   <Motion />
   <main class="landing">
     <Hero lang={lang} />

@@ -11,6 +11,9 @@ const blogCollection = defineCollection({
     tags: z.array(z.string()).optional().default([]),
     author: z.string().optional().default('Nico Tomasin'),
     draft: z.boolean().optional().default(false),
+    /** Título y descripción solo para buscadores (opcionales; si faltan se usan title y description) */
+    seoTitle: z.string().optional(),
+    seoDescription: z.string().optional(),
   }),
 });
 

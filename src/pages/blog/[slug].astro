@@ -38,6 +38,10 @@ const filteredHeadings = headings
   headings={filteredHeadings}
   slug={entry.id}
   author={entry.data.author}
+  tags={entry.data.tags}
+  seoTitle={entry.data.seoTitle}
+  seoDescription={entry.data.seoDescription}
+  wordCount={(entry.body || '').trim().split(/\s+/).length}
 >
   <Content />
 </BlogLayout>

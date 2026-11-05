@@ -6,6 +6,7 @@ import Footer from '../../components/Footer.astro';
 import ShaderBackground from '../../components/ShaderBackground.astro';
 import { getCollection } from 'astro:content';
 import { calculateReadingTime } from '../../lib/reading-time';
+import { blogSchema } from '../../lib/schema';
 
 const blogEntries = await getCollection('blog', ({ data }) => !data.draft);
 
@@ -21,6 +22,7 @@ const allPosts = blogEntries
   .sort((a, b) => b.date.valueOf() - a.date.valueOf());
 
 const [featuredPost, ...restPosts] = allPosts;
+const jsonLd = blogSchema(allPosts);
 
 const searchIndexData = allPosts.map((post) => ({
   slug: post.slug,
@@ -38,8 +40,11 @@ const searchIndexData = allPosts.map((post) => ({
 ---
 
 <Layout
-  title="Blog | Nico Tomasin"
-  description="Artículos sobre desarrollo web, DevOps, seguridad y reflexiones sobre programación."
+  title="Blog de Nico Tomasin | Build in public"
+  description="Cómo armé cada proyecto por dentro: bots en Rust, hardware con ESP32, productos web e IA local. Decisiones, arquitectura y aprendizajes."
+  image="/og/blog.png"
+  imageAlt="Blog de Nico Tomasin: lo que construyo, por dentro"
+  jsonLd={jsonLd}
 >
   <main class="blog-page">
     <header class="blog-header">

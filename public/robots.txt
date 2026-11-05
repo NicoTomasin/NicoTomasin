@@ -1,0 +1,42 @@
+# nicotomasin.com.ar
+# Portfolio y blog público. Buscadores y asistentes de IA son bienvenidos:
+# la idea es que se sepa quién soy, dónde trabajo y qué construyo.
+
+User-agent: *
+Allow: /
+
+# Asistentes y motores de respuesta (AEO / GEO)
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+Sitemap: https://nicotomasin.com.ar/sitemap-index.xml

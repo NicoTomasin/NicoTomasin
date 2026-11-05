@@ -1,3 +1,5 @@
+// Generador de OG images (1200x630) con la identidad del sitio:
+// agujero negro del hero de fondo, Syne para títulos, Instrument Serif para el nombre y mono para etiquetas.
 import satori from 'satori';
 import { Resvg } from '@resvg/resvg-js';
 import fs from 'node:fs/promises';
@@ -5,337 +7,216 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const root = path.join(__dirname, '../..');
 
-const siteUrl = 'https://nicotomasin.com.ar';
+export const OG_WIDTH = 1200;
+export const OG_HEIGHT = 630;
 
-export interface OgImageOptions {
+const C = {
+  bg: '#0a0a0f',
+  surface: '#12121a',
+  border: '#1e1e2e',
+  text: '#e4e4e7',
+  muted: '#a1a1aa',
+  accent: '#00ff88',
+};
+
+type Node = { type: string; props: Record<string, unknown> };
+const h = (type: string, style: Record<string, unknown>, children?: unknown, extra: Record<string, unknown> = {}): Node => ({
+  type,
+  props: { style: { display: 'flex', ...style }, children, ...extra },
+});
+
+let assets: Awaited<ReturnType<typeof loadAssets>> | undefined;
+
+async function loadAssets() {
+  const font = (pkg: string, file: string) => fs.readFile(path.join(root, 'node_modules/@fontsource', pkg, 'files', file));
+  const [syne700, syne800, serif, serifItalic, mono, inter400, inter600, bg] = await Promise.all([
+    font('syne', 'syne-latin-700-normal.woff'),
+    font('syne', 'syne-latin-800-normal.woff'),
+    font('instrument-serif', 'instrument-serif-latin-400-normal.woff'),
+    font('instrument-serif', 'instrument-serif-latin-400-italic.woff'),
+    font('share-tech-mono', 'share-tech-mono-latin-400-normal.woff'),
+    font('inter', 'inter-latin-400-normal.woff'),
+    font('inter', 'inter-latin-600-normal.woff'),
+    fs.readFile(path.join(root, 'src/assets/og/blackhole.jpg')),
+  ]);
+  return {
+    fonts: [
+      { name: 'Syne', data: syne700, weight: 700 as const, style: 'normal' as const },
+      { name: 'Syne', data: syne800, weight: 800 as const, style: 'normal' as const },
+      { name: 'Instrument Serif', data: serif, weight: 400 as const, style: 'normal' as const },
+      { name: 'Instrument Serif', data: serifItalic, weight: 400 as const, style: 'italic' as const },
+      { name: 'Share Tech Mono', data: mono, weight: 400 as const, style: 'normal' as const },
+      { name: 'Inter', data: inter400, weight: 400 as const, style: 'normal' as const },
+      { name: 'Inter', data: inter600, weight: 600 as const, style: 'normal' as const },
+    ],
+    background: `data:image/jpeg;base64,${bg.toString('base64')}`,
+  };
+}
+
+async function render(tree: Node) {
+  assets ??= await loadAssets();
+  const svg = await satori(tree as never, { width: OG_WIDTH, height: OG_HEIGHT, fonts: assets.fonts });
+  return new Resvg(svg, { fitTo: { mode: 'width', value: OG_WIDTH } }).render().asPng();
+}
+
+/** Fondo: el agujero negro desplazado (x) + un velo para que el texto lea bien */
+function backdrop(offsetX: number, veil: string) {
+  return [
+    h('img', { position: 'absolute', left: offsetX, top: 0, width: OG_WIDTH, height: OG_HEIGHT }, undefined, {
+      src: assets!.background,
+      width: OG_WIDTH,
+      height: OG_HEIGHT,
+    }),
+    h('div', { position: 'absolute', inset: 0, backgroundImage: veil }),
+  ];
+}
+
+const mono = (text: string, style: Record<string, unknown> = {}) =>
+  h('span', { fontFamily: 'Share Tech Mono', fontSize: 22, letterSpacing: 3, textTransform: 'uppercase', color: C.muted, ...style }, text);
+
+const logo = h('div', { alignItems: 'center', gap: 18 }, [
+  h('div', { fontFamily: 'Syne', fontWeight: 800, fontSize: 40, letterSpacing: -2 }, [
+    h('span', { color: C.accent }, 'N'),
+    h('span', { color: C.text }, 'T'),
+  ]),
+]);
+
+/** Ajuste del tamaño del título según su largo */
+function titleSize(title: string) {
+  if (title.length > 90) return 52;
+  if (title.length > 70) return 58;
+  if (title.length > 50) return 64;
+  return 72;
+}
+
+export interface PostOgOptions {
   title: string;
   description?: string;
   category?: string;
+  date?: string;
+  readingTime?: string;
 }
 
-let inter400: ArrayBuffer | null = null;
-let inter700: ArrayBuffer | null = null;
+/** OG de un post del blog */
+export async function generateOgImage(options: PostOgOptions): Promise<Buffer> {
+  assets ??= await loadAssets();
+  const { title, description, category, date, readingTime } = options;
+  // Recorte en límite de palabra (y sin puntuación colgando) para que entre en 2-3 líneas
+  const desc =
+    description && description.length > 118
+      ? `${description.slice(0, 118).replace(/\s+\S*$/, '').replace(/[\s,.;:—-]+$/, '')}…`
+      : description;
+  const meta = [date, readingTime].filter(Boolean).join('  ·  ');
 
-async function loadFonts() {
-  if (!inter400 || !inter700) {
-    const fontDir = path.join(__dirname, '../../node_modules/@fontsource/inter/files');
-
-    const [font400, font700] = await Promise.all([
-      fs.readFile(path.join(fontDir, 'inter-latin-400-normal.woff')),
-      fs.readFile(path.join(fontDir, 'inter-latin-700-normal.woff')),
-    ]);
-
-    inter400 = font400.buffer.slice(font400.byteOffset, font400.byteOffset + font400.byteLength);
-    inter700 = font700.buffer.slice(font700.byteOffset, font700.byteOffset + font700.byteLength);
-  }
-
-  return { inter400, inter700 };
-}
-
-export async function generateOgImage(options: OgImageOptions): Promise<Buffer> {
-  const { title, description, category } = options;
-  const fonts = await loadFonts();
-
-  const svg = await satori(
-    {
-      type: 'div',
-      props: {
-        style: {
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          backgroundColor: '#0a0a0f',
-          padding: '64px',
-        },
-        children: [
-          {
-            type: 'div',
-            props: {
-              style: {
-                display: 'flex',
-                flexDirection: 'column',
-                flex: 1,
-                justifyContent: 'space-between',
-              },
-              children: [
-                {
-                  type: 'div',
-                  props: {
-                    style: {
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                    },
-                    children: [
-                      {
-                        type: 'div',
-                        props: {
-                          style: {
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '12px',
-                          },
-                          children: [
-                            {
-                              type: 'span',
-                              props: {
-                                style: {
-                                  fontSize: '48px',
-                                  fontWeight: 700,
-                                  color: '#00ff88',
-                                },
-                                children: 'N',
-                              },
-                            },
-                            {
-                              type: 'span',
-                              props: {
-                                style: {
-                                  fontSize: '48px',
-                                  fontWeight: 700,
-                                  color: '#e4e4e7',
-                                },
-                                children: 'T',
-                              },
-                            },
-                            {
-                              type: 'div',
-                              props: {
-                                style: {
-                                  width: '2px',
-                                  height: '32px',
-                                  backgroundColor: '#1e1e2e',
-                                  marginLeft: '16px',
-                                  marginRight: '16px',
-                                },
-                              },
-                            },
-                            {
-                              type: 'span',
-                              props: {
-                                style: {
-                                  fontSize: '20px',
-                                  color: '#a1a1aa',
-                                  fontFamily: 'monospace',
-                                },
-                                children: 'Blog',
-                              },
-                            },
-                          ],
-                        },
-                      },
-                      category
-                        ? {
-                            type: 'div',
-                            props: {
-                              style: {
-                                padding: '10px 20px',
-                                backgroundColor: 'rgba(0, 255, 136, 0.1)',
-                                border: '1px solid rgba(0, 255, 136, 0.3)',
-                                borderRadius: '10px',
-                                display: 'flex',
-                              },
-                              children: {
-                                type: 'span',
-                                props: {
-                                  style: {
-                                    fontSize: '18px',
-                                    color: '#00ff88',
-                                    fontFamily: 'monospace',
-                                    textTransform: 'uppercase',
-                                    letterSpacing: '0.05em',
-                                  },
-                                  children: category,
-                                },
-                              },
-                            },
-                          }
-                        : {
-                            type: 'div',
-                            props: {
-                              style: {
-                                display: 'none',
-                              },
-                            },
-                          },
-                    ],
-                  },
-                },
-                {
-                  type: 'div',
-                  props: {
-                    style: {
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '24px',
-                      marginTop: '48px',
-                    },
-                    children: [
-                      {
-                        type: 'div',
-                        props: {
-                          style: {
-                            display: 'flex',
-                            flexDirection: 'column',
-                          },
-                          children: {
-                            type: 'span',
-                            props: {
-                              style: {
-                                fontSize: title.length > 60 ? '64px' : '72px',
-                                fontWeight: 700,
-                                color: '#e4e4e7',
-                                lineHeight: 1.1,
-                                letterSpacing: '-0.02em',
-                                maxWidth: '900px',
-                              },
-                              children: title,
-                            },
-                          },
-                        },
-                      },
-                      description
-                        ? {
-                            type: 'div',
-                            props: {
-                              style: {
-                                display: 'flex',
-                              },
-                              children: {
-                                type: 'span',
-                                props: {
-                                  style: {
-                                    fontSize: '28px',
-                                    color: '#a1a1aa',
-                                    lineHeight: 1.5,
-                                    maxWidth: '800px',
-                                  },
-                                  children:
-                                    description.length > 150
-                                      ? description.slice(0, 150) + '...'
-                                      : description,
-                                },
-                              },
-                            },
-                          }
-                        : {
-                            type: 'div',
-                            props: {
-                              style: {
-                                display: 'none',
-                              },
-                            },
-                          },
-                    ],
-                  },
-                },
-                {
-                  type: 'div',
-                  props: {
-                    style: {
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      marginTop: 'auto',
-                      paddingTop: '32px',
-                      borderTop: '1px solid #1e1e2e',
-                    },
-                    children: [
-                      {
-                        type: 'span',
-                        props: {
-                          style: {
-                            fontSize: '22px',
-                            color: '#a1a1aa',
-                          },
-                          children: siteUrl,
-                        },
-                      },
-                      {
-                        type: 'div',
-                        props: {
-                          style: {
-                            display: 'flex',
-                            gap: '4px',
-                          },
-                          children: [
-                            {
-                              type: 'div',
-                              props: {
-                                style: {
-                                  width: '8px',
-                                  height: '8px',
-                                  backgroundColor: '#00ff88',
-                                  borderRadius: '50%',
-                                  opacity: 0.6,
-                                },
-                              },
-                            },
-                            {
-                              type: 'div',
-                              props: {
-                                style: {
-                                  width: '8px',
-                                  height: '8px',
-                                  backgroundColor: '#00ff88',
-                                  borderRadius: '50%',
-                                  opacity: 0.6,
-                                },
-                              },
-                            },
-                            {
-                              type: 'div',
-                              props: {
-                                style: {
-                                  width: '8px',
-                                  height: '8px',
-                                  backgroundColor: '#00ff88',
-                                  borderRadius: '50%',
-                                  opacity: 0.6,
-                                },
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      width: 1200,
-      height: 630,
-      fonts: [
-        {
-          name: 'Inter',
-          data: fonts.inter400!,
-          style: 'normal',
-          weight: 400,
-        },
-        {
-          name: 'Inter',
-          data: fonts.inter700!,
-          style: 'normal',
-          weight: 700,
-        },
-      ],
-    }
+  return render(
+    h('div', { position: 'relative', width: '100%', height: '100%', backgroundColor: '#000', overflow: 'hidden' }, [
+      ...backdrop(
+        430,
+        'linear-gradient(90deg, #000 0%, rgba(0,0,0,0.96) 42%, rgba(0,0,0,0.55) 72%, rgba(0,0,0,0.2) 100%)'
+      ),
+      h('div', { position: 'relative', flexDirection: 'column', justifyContent: 'space-between', width: '100%', height: '100%', padding: '56px 64px' }, [
+        h('div', { alignItems: 'center', justifyContent: 'space-between' }, [
+          h('div', { alignItems: 'center', gap: 20 }, [
+            logo,
+            h('div', { width: 2, height: 30, backgroundColor: C.border }),
+            mono('Blog · Build in public'),
+          ]),
+          category
+            ? h(
+                'div',
+                { padding: '8px 18px', border: `1px solid ${C.accent}`, borderRadius: 999, backgroundColor: 'rgba(0,255,136,0.08)' },
+                mono(category, { color: C.accent, fontSize: 20 })
+              )
+            : h('div', {}),
+        ]),
+        h('div', { flexDirection: 'column', gap: 22, maxWidth: 860 }, [
+          h(
+            'div',
+            { fontFamily: 'Syne', fontWeight: 700, fontSize: titleSize(title), lineHeight: 1.04, letterSpacing: -2, color: C.text },
+            title
+          ),
+          desc ? h('div', { fontFamily: 'Inter', fontSize: 26, lineHeight: 1.45, color: C.muted, maxWidth: 780 }, desc) : h('div', {}),
+        ]),
+        h('div', { alignItems: 'center', justifyContent: 'space-between', paddingTop: 22, borderTop: `1px solid ${C.border}` }, [
+          mono('Nico Tomasin  ·  nicotomasin.com.ar', { color: C.text, fontSize: 20 }),
+          meta ? mono(meta, { fontSize: 20 }) : h('div', {}),
+        ]),
+      ]),
+    ])
   );
+}
 
-  const resvg = new Resvg(svg, {
-    fitTo: {
-      mode: 'width',
-      value: 1200,
-    },
-  });
+export interface ProfileOgOptions {
+  kicker: string;
+  tagline: string;
+  status: string;
+  footer: string;
+}
 
-  const pngData = resvg.render();
-  return pngData.asPng();
+/** OG de la landing: el nombre como en el hero, sobre el agujero negro */
+export async function generateProfileOgImage(options: ProfileOgOptions): Promise<Buffer> {
+  assets ??= await loadAssets();
+  const { kicker, tagline, status, footer } = options;
+
+  return render(
+    h('div', { position: 'relative', width: '100%', height: '100%', backgroundColor: '#000', overflow: 'hidden' }, [
+      ...backdrop(
+        300,
+        'linear-gradient(90deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.6) 45%, rgba(0,0,0,0.05) 100%), linear-gradient(0deg, rgba(0,0,0,0.85) 0%, transparent 40%)'
+      ),
+      h('div', { position: 'relative', flexDirection: 'column', justifyContent: 'space-between', width: '100%', height: '100%', padding: '56px 64px' }, [
+        h('div', { alignItems: 'center', gap: 22 }, [
+          mono(kicker, { color: C.text }),
+          h(
+            'div',
+            { alignItems: 'center', gap: 10, padding: '6px 16px', border: '1px solid rgba(0,255,136,0.45)', borderRadius: 999 },
+            [h('div', { width: 10, height: 10, borderRadius: 999, backgroundColor: C.accent }), mono(status, { color: C.accent, fontSize: 18 })]
+          ),
+        ]),
+        h('div', { flexDirection: 'column', marginTop: -10 }, [
+          h('div', { fontFamily: 'Instrument Serif', fontSize: 190, lineHeight: 0.86, letterSpacing: -5, color: C.text }, 'Nico'),
+          h(
+            'div',
+            { fontFamily: 'Instrument Serif', fontStyle: 'italic', fontSize: 190, lineHeight: 0.86, letterSpacing: -5, color: C.accent, paddingLeft: 120 },
+            'Tomasin'
+          ),
+        ]),
+        h('div', { alignItems: 'flex-end', justifyContent: 'space-between', gap: 40 }, [
+          h('div', { fontFamily: 'Inter', fontSize: 27, lineHeight: 1.4, color: C.text, maxWidth: 700 }, tagline),
+          mono(footer, { fontSize: 20 }),
+        ]),
+      ]),
+    ])
+  );
+}
+
+export interface PageOgOptions {
+  kicker: string;
+  title: string;
+  accent: string;
+  description: string;
+}
+
+/** OG genérica de página (índice del blog) */
+export async function generatePageOgImage(options: PageOgOptions): Promise<Buffer> {
+  assets ??= await loadAssets();
+  const { kicker, title, accent, description } = options;
+  return render(
+    h('div', { position: 'relative', width: '100%', height: '100%', backgroundColor: '#000', overflow: 'hidden' }, [
+      ...backdrop(380, 'linear-gradient(90deg, #000 0%, rgba(0,0,0,0.9) 45%, rgba(0,0,0,0.2) 100%)'),
+      h('div', { position: 'relative', flexDirection: 'column', justifyContent: 'space-between', width: '100%', height: '100%', padding: '56px 64px' }, [
+        h('div', { alignItems: 'center', gap: 20 }, [logo, h('div', { width: 2, height: 30, backgroundColor: C.border }), mono(kicker)]),
+        h('div', { flexDirection: 'column', gap: 24 }, [
+          h('div', { flexDirection: 'column' }, [
+            h('div', { fontFamily: 'Syne', fontWeight: 700, fontSize: 92, lineHeight: 0.98, letterSpacing: -4, color: C.text }, title),
+            h('div', { fontFamily: 'Instrument Serif', fontStyle: 'italic', fontSize: 100, lineHeight: 1, color: C.accent }, accent),
+          ]),
+          h('div', { fontFamily: 'Inter', fontSize: 26, lineHeight: 1.45, color: C.muted, maxWidth: 720 }, description),
+        ]),
+        mono('Nico Tomasin  ·  nicotomasin.com.ar/blog', { color: C.text, fontSize: 20 }),
+      ]),
+    ])
+  );
 }
