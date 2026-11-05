@@ -1,0 +1,196 @@
+---
+import { getCollection } from 'astro:content';
+import portfolioData from '../data/portfolio.json';
+import { type Lang, l, useTranslations } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const { now } = portfolioData;
+const locale = lang === 'en' ? 'en-US' : 'es-AR';
+
+const [latest] = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+const fmt = (d: Date) => d.toLocaleDateString(locale, { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' });
+const updated = new Date(now.updated);
+---
+
+<section id="ahora" class="section now">
+  <div class="container now-grid">
+    <header class="now-header">
+      <p class="section-label" data-reveal>{t('now.label')}</p>
+      <h2 class="section-title" data-split>{t('now.title')}</h2>
+      <p class="now-updated" data-reveal>
+        <span class="now-pulse" aria-hidden="true"></span>
+        {t('now.updated')} <time datetime={now.updated}>{fmt(updated)}</time>
+      </p>
+    </header>
+
+    <div class="now-body">
+      <ol class="now-log">
+        {now.items.map((item, i) => (
+          <li class="now-item" data-batch>
+            <span class="now-index" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <span class="now-label">{l(item.label, lang)}</span>
+            <p class="now-text">{l(item.text, lang)}</p>
+          </li>
+        ))}
+      </ol>
+
+      {latest && (
+        <a href={`/blog/${latest.id}`} class="now-latest pressable" data-batch data-cursor={t('featured.read')}>
+          <span class="now-latest-label">
+            {t('now.latest')} · <time datetime={latest.data.date.toISOString()}>{fmt(latest.data.date)}</time>
+          </span>
+          <span class="now-latest-title" lang="es">{latest.data.title}</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .now {
+    background: var(--color-bg);
+  }
+
+  .now-grid {
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  @media (min-width: 960px) {
+    .now-grid {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      align-items: start;
+    }
+
+    .now-header {
+      position: sticky;
+      top: calc(var(--nav-height) + 2rem);
+    }
+  }
+
+  .now-header .section-title {
+    margin-top: 0;
+  }
+
+  .now-updated {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+  }
+
+  .now-pulse {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    box-shadow: 0 0 10px var(--color-accent);
+  }
+
+  .now-log {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .now-item {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    gap: 0.35rem 1rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  @media (min-width: 640px) {
+    .now-item {
+      grid-template-columns: 2.5rem 8.5rem 1fr;
+      align-items: baseline;
+    }
+  }
+
+  .now-index,
+  .now-label {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .now-index {
+    color: var(--text-muted);
+  }
+
+  .now-label {
+    color: var(--color-accent);
+  }
+
+  .now-text {
+    grid-column: 2 / -1;
+    font-size: var(--step-1);
+    line-height: 1.45;
+    color: var(--color-text);
+  }
+
+  @media (min-width: 640px) {
+    .now-text {
+      grid-column: auto;
+    }
+  }
+
+  .now-latest {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.5rem 1rem;
+    align-items: center;
+    margin-top: 2rem;
+    padding: 1.25rem 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    background: var(--color-surface);
+    transition: border-color var(--dur-ui) ease, transform var(--dur-press) var(--ease-out);
+  }
+
+  .now-latest-label {
+    grid-column: 1 / -1;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+  }
+
+  .now-latest-title {
+    font-weight: 600;
+    font-size: var(--step-1);
+    line-height: 1.3;
+    text-wrap: balance;
+  }
+
+  .now-latest svg {
+    color: var(--color-accent);
+    transition: transform var(--dur-ui) var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .now-latest:hover {
+      border-color: var(--accent-line);
+      color: inherit;
+    }
+
+    .now-latest:hover svg {
+      transform: translateX(3px);
+    }
+  }
+</style>

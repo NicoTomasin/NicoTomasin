@@ -23,8 +23,10 @@ const { class: className } = Astro.props;
       <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
     </svg>
     <input
-      type="text"
+      type="search"
       id="blogSearch"
+      aria-label="Buscar posts"
+      enterkeyhint="search"
       class="search-input"
       placeholder="Buscar posts..."
       autocomplete="off"
@@ -172,12 +174,24 @@ const { class: className } = Astro.props;
 <script>
   import Fuse from 'fuse.js';
 
-  const searchInput = document.getElementById('blogSearch');
+  interface SearchPost {
+    slug: string;
+    title: string;
+    description: string;
+    category: string;
+    date: string;
+    tags: string[];
+  }
+
+  const searchInput = document.getElementById('blogSearch') as HTMLInputElement | null;
   const searchClear = document.getElementById('searchClear');
   const searchResults = document.getElementById('searchResults');
 
-  let fuse = null;
-  let postsData = [];
+  let fuse: Fuse<SearchPost> | null = null;
+  let postsData: SearchPost[] = [];
+
+  const escapeHtml = (value: string) =>
+    value.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
 
   async function initSearch() {
     try {
@@ -199,7 +213,7 @@ const { class: className } = Astro.props;
     }
   }
 
-  function renderResults(results) {
+  function renderResults(results: { item: SearchPost }[]) {
     if (!searchResults) return;
 
     if (results.length === 0) {
@@ -214,9 +228,9 @@ const { class: className } = Astro.props;
         const post = result.item;
         return `
           <a href="/blog/${post.slug}" class="search-result-item">
-            <div class="search-result-title">${post.title}</div>
+            <div class="search-result-title">${escapeHtml(post.title)}</div>
             <div class="search-result-meta">
-              <span class="search-result-category">${post.category}</span>
+              <span class="search-result-category">${escapeHtml(post.category)}</span>
               <span>·</span>
               <span>${post.date}</span>
             </div>
@@ -229,8 +243,8 @@ const { class: className } = Astro.props;
     searchResults.classList.add('show');
   }
 
-  searchInput?.addEventListener('input', (e) => {
-    const query = e.target.value.trim();
+  searchInput?.addEventListener('input', () => {
+    const query = searchInput.value.trim();
 
     if (searchClear) {
       searchClear.classList.toggle('show', query.length > 0);
@@ -247,7 +261,12 @@ const { class: className } = Astro.props;
     }
   });
 
+  searchInput?.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') searchResults?.classList.remove('show');
+  });
+
   searchClear?.addEventListener('click', () => {
+    if (!searchInput) return;
     searchInput.value = '';
     searchClear.classList.remove('show');
     searchResults?.classList.remove('show');
@@ -255,7 +274,8 @@ const { class: className } = Astro.props;
   });
 
   document.addEventListener('click', (e) => {
-    if (!searchInput?.contains(e.target) && !searchResults?.contains(e.target)) {
+    const target = e.target as Node | null;
+    if (!searchInput?.contains(target) && !searchResults?.contains(target)) {
       searchResults?.classList.remove('show');
     }
   });

@@ -1,0 +1,548 @@
+---
+import portfolioData from '../data/portfolio.json';
+import { getBuilds } from '../lib/builds';
+import { type Lang, l, useTranslations } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const { categories } = portfolioData;
+const builds = await getBuilds();
+
+const usedCategories = Object.keys(categories).filter((key) => builds.some((b) => b.category === key));
+const years = [...new Set(builds.map((b) => b.year))].sort((a, b) => b - a);
+const byYear = years.map((year) => ({ year, items: builds.filter((b) => b.year === year) }));
+const statusKey = (s: string) => `status.${s}` as 'status.live';
+// Se muestran los primeros N; el resto con "ver más" (en "Todos")
+const INITIAL = 12;
+const order = new Map(byYear.flatMap(({ items }) => items).map((b, i) => [b.slug, i]));
+const hiddenCount = Math.max(0, builds.length - INITIAL);
+---
+
+<section id="builder-log" class:list={['section', 'log', { 'is-collapsed': hiddenCount > 0 }]} data-log>
+  <div class="container">
+    <header class="log-header">
+      <div>
+        <p class="section-label" data-reveal>{t('log.label')}</p>
+        <h2 class="section-title" data-split>{t('log.title')}</h2>
+      </div>
+      <p class="log-intro" data-reveal>
+        {t('log.intro')}
+        <span class="log-total"><strong data-log-count>{builds.length}</strong> {t('log.count')}</span>
+      </p>
+    </header>
+
+    <div class="log-filters" role="group" aria-label={t('log.filter')} data-reveal>
+      <button type="button" class="log-chip pressable" aria-pressed="true" data-filter="all">
+        {t('log.all')} <span class="log-chip-count">{builds.length}</span>
+      </button>
+      {usedCategories.map((key) => (
+        <button type="button" class="log-chip pressable" aria-pressed="false" data-filter={key}>
+          {l(categories[key as keyof typeof categories], lang)}
+          <span class="log-chip-count">{builds.filter((b) => b.category === key).length}</span>
+        </button>
+      ))}
+    </div>
+
+    <div class="log-years">
+      {byYear.map(({ year, items }) => (
+        <section class="log-year" data-log-year aria-labelledby={`log-${year}`}>
+          <h3 class="log-year-label" id={`log-${year}`}>{year}</h3>
+          <ul class="log-list">
+            {items.map((build) => {
+              const primary = build.href;
+              const primaryExternal = build.external;
+              return (
+                <li
+                  id={`build-${build.slug}`}
+                  class="log-row"
+                  data-log-row
+                  data-category={build.category}
+                  data-extra={(order.get(build.slug) ?? 0) >= INITIAL ? '' : undefined}
+                  data-preview={build.post ? `/og/blog/${build.post}.png` : undefined}
+                >
+                  <div class="log-name">
+                    {primary ? (
+                      <a
+                        href={primary}
+                        class="log-title"
+                        target={primaryExternal ? '_blank' : undefined}
+                        rel={primaryExternal ? 'noopener noreferrer' : undefined}
+                      >
+                        {build.title}
+                      </a>
+                    ) : (
+                      <span class="log-title">{build.title}</span>
+                    )}
+                    <p class="log-desc">{l(build.description, lang)}</p>
+                  </div>
+                  <span class="log-cat">{l(categories[build.category as keyof typeof categories], lang)}</span>
+                  <span class="log-tech">{build.tech.join(' · ')}</span>
+                  <span class:list={['log-status', `is-${build.status}`]}>{t(statusKey(build.status))}</span>
+                  <span class="log-links">
+                    {build.post && <a href={`/blog/${build.post}`} class="log-link">{t('log.post')}</a>}
+                    {build.link && (
+                      <a href={build.link} class="log-link" target="_blank" rel="noopener noreferrer">{t('log.visit')} ↗</a>
+                    )}
+                    {build.repo && (
+                      <a href={build.repo} class="log-link" target="_blank" rel="noopener noreferrer">{t('log.repo')} ↗</a>
+                    )}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      ))}
+    </div>
+
+    {hiddenCount > 0 && (
+      <button type="button" class="log-more pressable" data-log-more>
+        {t('log.more').replace('{n}', String(hiddenCount))}
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+    )}
+  </div>
+
+  <div class="log-preview" aria-hidden="true" data-log-preview><img alt="" /></div>
+</section>
+
+<style>
+  .log {
+    background: var(--color-surface);
+    position: relative;
+  }
+
+  .log-header {
+    display: grid;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  @media (min-width: 960px) {
+    .log-header {
+      grid-template-columns: 1fr minmax(0, 26rem);
+      align-items: end;
+    }
+  }
+
+  .log-intro {
+    color: var(--color-text-secondary);
+    font-size: var(--step-0);
+    line-height: 1.6;
+  }
+
+  .log-total {
+    display: block;
+    margin-top: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .log-total strong {
+    color: var(--color-accent);
+    font-weight: 400;
+  }
+
+  /* ---------- Filtros ---------- */
+  .log-filters {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2.5rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    /* Que los chips puedan llegar al borde en mobile sin cortar el foco */
+    margin-inline: calc(var(--gutter) * -1);
+    padding: 0.25rem var(--gutter);
+    overscroll-behavior-x: contain;
+  }
+
+  .log-filters::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .log-filters {
+      flex-wrap: wrap;
+      overflow: visible;
+      margin-inline: 0;
+      padding-inline: 0;
+    }
+  }
+
+  .log-chip {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 0.95rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: 100px;
+    cursor: pointer;
+    transition: color var(--dur-ui) ease, border-color var(--dur-ui) ease, background-color var(--dur-ui) ease,
+      transform var(--dur-press) var(--ease-out);
+  }
+
+  .log-chip-count {
+    font-size: 0.7rem;
+    opacity: 0.6;
+  }
+
+  .log-chip[aria-pressed='true'] {
+    color: var(--color-bg);
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .log-chip[aria-pressed='false']:hover {
+      color: var(--color-text);
+      border-color: var(--accent-line);
+    }
+  }
+
+  /* ---------- Años ---------- */
+  .log-year {
+    display: grid;
+    gap: 0.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .log-year + .log-year {
+    margin-top: 2.5rem;
+  }
+
+  .log-year[hidden] {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .log-year {
+      grid-template-columns: 7rem 1fr;
+      gap: 2rem;
+    }
+  }
+
+  .log-year-label {
+    font-family: var(--font-display);
+    font-size: var(--step-3);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    color: var(--color-text);
+  }
+
+  @media (min-width: 1024px) {
+    .log-year-label {
+      position: sticky;
+      top: calc(var(--nav-height) + 1.5rem);
+      align-self: start;
+    }
+  }
+
+  /* ---------- Filas ---------- */
+  .log-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.4rem 1rem;
+    padding: 1.1rem 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-border) 70%, transparent);
+  }
+
+  .log-row[hidden],
+  .log.is-collapsed .log-row[data-extra],
+  .log.is-collapsed .log-year[data-all-extra] {
+    display: none;
+  }
+
+  .log-more {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    margin-top: 2rem;
+    padding: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text);
+    background: transparent;
+    border: 1px dashed var(--color-border);
+    border-radius: 14px;
+    cursor: pointer;
+    transition: border-color var(--dur-ui) ease, color var(--dur-ui) ease, transform var(--dur-press) var(--ease-out);
+  }
+
+  .log:not(.is-collapsed) .log-more {
+    display: none;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .log-more:hover {
+      border-color: var(--accent-line);
+      color: var(--color-accent);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .log-row {
+      grid-template-columns: minmax(0, 1fr) 7.5rem 12rem 6.5rem 7.5rem;
+      align-items: baseline;
+      padding: 1.25rem 0;
+    }
+  }
+
+  .log-name {
+    min-width: 0;
+  }
+
+  .log-title {
+    font-weight: 600;
+    font-size: var(--step-1);
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+    color: var(--color-text);
+  }
+
+  /* Toda la fila es clickeable a través del título */
+  a.log-title::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .log-desc {
+    margin-top: 0.3rem;
+    font-size: 0.925rem;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+    max-width: 60ch;
+  }
+
+  .log-cat,
+  .log-tech,
+  .log-status,
+  .log-link {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+  }
+
+  .log-cat {
+    grid-row: 1;
+    grid-column: 2;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+  }
+
+  .log-tech {
+    grid-column: 1 / -1;
+    color: var(--text-muted);
+  }
+
+  .log-status {
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .log-status.is-live,
+  .log-status.is-open-source {
+    color: var(--color-accent);
+  }
+
+  .log-status.is-live::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin-right: 0.45rem;
+    border-radius: 50%;
+    background: currentColor;
+    vertical-align: 0.1em;
+  }
+
+  .log-links {
+    display: flex;
+    gap: 0.9rem;
+    justify-content: flex-end;
+  }
+
+  .log-link {
+    position: relative;
+    z-index: 1;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    padding: 0.25rem 0;
+  }
+
+  @media (min-width: 1024px) {
+    .log-cat,
+    .log-tech {
+      grid-row: auto;
+      grid-column: auto;
+    }
+  }
+
+  @media (max-width: 1023px) {
+    .log-status {
+      grid-column: 1;
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .log-title {
+      transition: color var(--dur-ui) ease;
+    }
+
+    .log-row:hover .log-title {
+      color: var(--color-accent);
+    }
+
+    .log-link:hover {
+      color: var(--color-accent);
+    }
+  }
+
+  /* ---------- Preview flotante (solo puntero fino) ---------- */
+  .log-preview {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    aspect-ratio: 40 / 21;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    z-index: 50;
+    opacity: 0;
+    scale: 0.94;
+    transition: opacity var(--dur-ui) var(--ease-out), scale var(--dur-ui) var(--ease-out);
+    display: none;
+  }
+
+  .log-preview.is-visible {
+    opacity: 1;
+    scale: 1;
+  }
+
+  .log-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media (hover: hover) and (pointer: fine) and (min-width: 1024px) {
+    .log-preview {
+      display: block;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .log-preview {
+      transition: opacity var(--dur-ui) ease;
+      scale: 1;
+    }
+  }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-log]');
+  if (root) {
+    const chips = [...root.querySelectorAll<HTMLButtonElement>('[data-filter]')];
+    const rows = [...root.querySelectorAll<HTMLElement>('[data-log-row]')];
+    const years = [...root.querySelectorAll<HTMLElement>('[data-log-year]')];
+    const count = root.querySelector<HTMLElement>('[data-log-count]');
+    const more = root.querySelector<HTMLButtonElement>('[data-log-more]');
+
+    // Años donde todas las filas quedan ocultas al estar colapsado
+    years.forEach((year) => {
+      const yearRows = year.querySelectorAll('[data-log-row]');
+      if ([...yearRows].every((row) => row.hasAttribute('data-extra'))) year.setAttribute('data-all-extra', '');
+    });
+
+    const expand = () => {
+      root.classList.remove('is-collapsed');
+      window.dispatchEvent(new Event('layout:changed'));
+    };
+
+    more?.addEventListener('click', () => {
+      expand();
+      // El foco va a la primera fila que estaba oculta
+      root.querySelector<HTMLElement>('[data-log-row][data-extra] a')?.focus({ preventScroll: true });
+    });
+
+    chips.forEach((chip) =>
+      chip.addEventListener('click', () => {
+        const filter = chip.dataset.filter!;
+        // Filtrar por categoría muestra todo lo de esa categoría
+        if (filter !== 'all') expand();
+        chips.forEach((c) => c.setAttribute('aria-pressed', String(c === chip)));
+        let shown = 0;
+        rows.forEach((row) => {
+          const match = filter === 'all' || row.dataset.category === filter;
+          row.hidden = !match;
+          if (match) shown++;
+        });
+        years.forEach((year) => {
+          year.hidden = !year.querySelector('[data-log-row]:not([hidden])');
+        });
+        if (count) count.textContent = String(shown);
+        window.dispatchEvent(new Event('layout:changed'));
+      })
+    );
+
+    // Preview con la OG image del post, sigue al cursor con un lerp suave
+    const preview = root.querySelector<HTMLElement>('[data-log-preview]');
+    const img = preview?.querySelector('img');
+    if (preview && img && window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 1024px)').matches) {
+      let x = 0;
+      let y = 0;
+      let tx = 0;
+      let ty = 0;
+      let raf = 0;
+      const tick = () => {
+        x += (tx - x) * 0.2;
+        y += (ty - y) * 0.2;
+        preview.style.transform = `translate3d(${x + 24}px, ${y - 80}px, 0)`;
+        raf = Math.abs(tx - x) + Math.abs(ty - y) > 0.5 ? requestAnimationFrame(tick) : 0;
+      };
+      rows.forEach((row) => {
+        const src = row.dataset.preview;
+        if (!src) return;
+        row.addEventListener('pointerenter', (event) => {
+          if (img.getAttribute('src') !== src) img.src = src;
+          if (!preview.classList.contains('is-visible')) {
+            x = tx = event.clientX;
+            y = ty = event.clientY;
+            tick();
+          }
+          preview.classList.add('is-visible');
+        });
+        row.addEventListener('pointerleave', () => preview.classList.remove('is-visible'));
+      });
+      root.addEventListener('pointermove', (event) => {
+        tx = event.clientX;
+        ty = event.clientY;
+        if (!raf) raf = requestAnimationFrame(tick);
+      });
+    }
+  }
+</script>

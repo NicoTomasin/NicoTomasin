@@ -1,0 +1,93 @@
+---
+// Easter eggs de la landing:
+// 1. Un saludo en la consola para quien abra las devtools.
+// 2. Konami code (↑↑↓↓←→←→BA) → el hero pasa a "modo CRT" (scanlines + aberración).
+---
+
+<p class="crt-toast" role="status" aria-live="polite" data-crt-toast></p>
+
+<style is:global>
+  .crt-mode [data-hero-bg]::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background:
+      repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.35) 0 1px, transparent 1px 3px),
+      radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.6) 100%);
+    mix-blend-mode: multiply;
+  }
+
+  .crt-mode .hero-name {
+    text-shadow:
+      2px 0 rgba(0, 255, 136, 0.55),
+      -2px 0 rgba(228, 228, 231, 0.35);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .crt-mode [data-hero-bg] {
+      animation: crt-flicker 120ms steps(2) 3;
+    }
+  }
+
+  @keyframes crt-flicker {
+    50% {
+      opacity: 0.6;
+    }
+  }
+
+  .crt-toast {
+    position: fixed;
+    left: 50%;
+    bottom: 1.5rem;
+    z-index: 400;
+    padding: 0.6rem 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-bg);
+    background: var(--color-accent);
+    border-radius: 100px;
+    pointer-events: none;
+    opacity: 0;
+    translate: -50% 12px;
+    transition: opacity var(--dur-ui) var(--ease-out), translate var(--dur-ui) var(--ease-out);
+  }
+
+  .crt-toast.is-visible {
+    opacity: 1;
+    translate: -50% 0;
+  }
+
+  .crt-toast:empty {
+    display: none;
+  }
+</style>
+
+<script>
+  console.log(
+    '%c¡Hola, curioso! 👋%c\nSi llegaste hasta acá, probablemente seas de los míos.\nEl código está en github.com/NicoTomasin/NicoTomasin. Pista: ↑ ↑ ↓ ↓ ← → ← → B A',
+    'font: 700 16px system-ui; color: #00ff88',
+    'font: 13px system-ui; color: #a1a1aa'
+  );
+
+  const sequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+  const toast = document.querySelector<HTMLElement>('[data-crt-toast]');
+  let position = 0;
+  let toastTimer = 0;
+
+  window.addEventListener('keydown', (event) => {
+    const key = event.key.length === 1 ? event.key.toLowerCase() : event.key;
+    position = key === sequence[position] ? position + 1 : key === sequence[0] ? 1 : 0;
+    if (position < sequence.length) return;
+    position = 0;
+    const on = document.documentElement.classList.toggle('crt-mode');
+    if (!toast) return;
+    toast.textContent = on ? 'Modo CRT: ON — insert coin' : 'Modo CRT: OFF';
+    toast.classList.add('is-visible');
+    clearTimeout(toastTimer);
+    toastTimer = window.setTimeout(() => toast.classList.remove('is-visible'), 2200);
+  });
+</script>

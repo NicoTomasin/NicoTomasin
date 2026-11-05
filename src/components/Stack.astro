@@ -1,0 +1,90 @@
+---
+import portfolioData from '../data/portfolio.json';
+import { type Lang, l, useTranslations } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const { stack } = portfolioData;
+---
+
+<section id="stack" class="section stack">
+  <div class="container">
+    <header class="section-header">
+      <p class="section-label" data-reveal>{t('stack.label')}</p>
+      <h2 class="section-title" data-split>{t('stack.title')}</h2>
+    </header>
+
+    <dl class="spec">
+      {stack.map((group) => (
+        <div class="spec-row" data-batch>
+          <dt class="spec-key">{l(group.group, lang)}</dt>
+          <dd class="spec-values">
+            {group.items.map((item) => (
+              <span class="spec-item">{item}</span>
+            ))}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
+
+<style>
+  .stack {
+    background: var(--color-bg);
+  }
+
+  .spec {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .spec-row {
+    display: grid;
+    gap: 0.6rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  @media (min-width: 768px) {
+    .spec-row {
+      grid-template-columns: 12rem 1fr;
+      gap: 2rem;
+      align-items: baseline;
+    }
+  }
+
+  .spec-key {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .spec-values {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 1.5rem;
+  }
+
+  .spec-item {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--step-2);
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    color: var(--color-text);
+  }
+
+  /* El separador va en CSS para no ensuciar el texto que leen los lectores de pantalla */
+  .spec-item:not(:last-child)::after {
+    content: '/';
+    margin-left: 1.5rem;
+    color: var(--color-border);
+    font-weight: 400;
+  }
+</style>
