@@ -186,10 +186,12 @@ const nameLines = ['Nico', 'Tomasin'];
     padding-bottom: 0.04em;
   }
 
-  /* Margen extra para que la itálica no se corte dentro de la máscara */
+  /* La máscara solo tiene que recortar abajo (las letras suben desde ahí).
+     Con overflow: hidden también cortaba los costados y la itálica (la "T") quedaba con un corte vertical */
   .hero-name .char-mask {
-    padding: 0 0.06em 0.08em;
-    margin: 0 -0.06em;
+    overflow: visible;
+    clip-path: inset(-0.5em -0.5em 0 -0.5em);
+    padding-bottom: 0.08em;
   }
 
   .char {

@@ -6,8 +6,8 @@
   "hero": {
     "kicker": { "es": "PM @ G2M · Buenos Aires", "en": "PM @ G2M · Buenos Aires, AR" },
     "description": {
-      "es": "Construyo lo que me da curiosidad: de bots en Rust a un tamagotchi con ESP32. De día lidero producto en G2M; el resto del tiempo, cacharreo.",
-      "en": "I build whatever makes me curious: from Rust bots to an ESP32 tamagotchi. By day I lead product at G2M; the rest of the time, I tinker."
+      "es": "Construyo lo que me da curiosidad: de bots en Rust a un tamagotchi con ESP32. De día lidero producto en G2M; de noche soy batman.",
+      "en": "I build whatever makes me curious: from Rust bots to an ESP32 tamagotchi. By day I lead product at G2M; by night I'm Batman."
     },
     "role": { "es": "Product Manager · Full stack", "en": "Product Manager · Full stack" },
     "status": { "es": "Abierto a ideas", "en": "Open to ideas" }
