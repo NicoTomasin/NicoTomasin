@@ -1,7 +1,7 @@
 ---
 title: "Tamagotchi conectado: diseñando un compañero de escritorio con ESP32"
 description: "Un dispositivo físico con personalidad que reacciona a cuánto tiempo pasás sentado. Firmware ESP-IDF, BLE, journal append-only, OTA seguro y una app offline-first."
-date: 2026-11-03
+date: 2026-08-10
 category: "Proyectos"
 tags: ["esp32", "iot", "firmware", "ble", "flutter"]
 author: "Nico Tomasin"

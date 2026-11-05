@@ -1,7 +1,7 @@
 ---
 title: "9z Hub: cómo armé un sitio de estadísticas de CS2 parseando demos"
 description: "Un tributo fan a 9z en Counter-Strike 2: un pipeline en Go que parsea demos, una base SQLite local y un sitio estático en Astro con métricas por jugador, rivales y partidas."
-date: 2026-11-03
+date: 2026-07-21
 category: "Proyectos"
 tags: ["cs2", "go", "astro", "sqlite", "datos"]
 author: "Nico Tomasin"

@@ -1,7 +1,7 @@
 ---
 title: "CoBreak: una app Android para convertir las pausas de pantalla en hábitos"
 description: "Cómo diseñé CoBreak, una app que te recuerda cortar, te propone una micro-pausa activa y te premia por volver. Kotlin, Room, alarmas confiables y una landing en Astro."
-date: 2026-11-03
+date: 2026-09-02
 category: "Proyectos"
 tags: ["android", "kotlin", "astro", "producto", "habitos"]
 author: "Nico Tomasin"

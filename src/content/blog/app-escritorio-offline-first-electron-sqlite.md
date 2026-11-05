@@ -1,7 +1,7 @@
 ---
 title: "Una app de escritorio offline-first con Electron y SQLite: el operario nunca ve un error de red"
 description: "Las decisiones detrás de una aplicación de trazabilidad logística que funciona 100% local: arquitectura hexagonal en Electron, cola de sincronización y presupuestos de performance."
-date: 2026-11-03
+date: 2026-10-05
 category: "Proyectos"
 tags: ["electron", "sqlite", "offline-first", "arquitectura", "performance"]
 author: "Nico Tomasin"

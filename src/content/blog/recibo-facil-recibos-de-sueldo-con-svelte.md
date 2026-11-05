@@ -1,7 +1,7 @@
 ---
 title: "Recibo Fácil: aprendiendo Svelte con un generador de recibos de sueldo"
 description: "Un generador de recibos que corre 100% en el navegador: empleados, premios y deducciones configurables y exportación a PDF. El proyecto con el que aprendí los stores de Svelte."
-date: 2026-11-03
+date: 2023-09-11
 category: "Proyectos"
 tags: ["svelte", "typescript", "tailwind", "pdf", "open-source"]
 author: "Nico Tomasin"

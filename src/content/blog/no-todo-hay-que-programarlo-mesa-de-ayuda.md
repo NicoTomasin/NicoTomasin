@@ -1,7 +1,7 @@
 ---
 title: "No todo hay que programarlo: por qué adaptamos un helpdesk open source"
 description: "Como PM, una de las decisiones más útiles fue no construir un sistema de tickets propio. Adaptamos HESK con la identidad de la empresa y pusimos el esfuerzo donde importaba."
-date: 2026-11-03
+date: 2026-09-29
 category: "Proyectos"
 tags: ["product-management", "open-source", "php", "soporte", "decisiones"]
 author: "Nico Tomasin"

@@ -1,7 +1,7 @@
 ---
 title: "Una grilla de horarios accesible que lee las actividades en voz alta"
 description: "Cómo hice una web simple en Astro para mostrar los horarios de talleres culturales: un JSON como fuente, vista adaptada a celular, lectura en voz alta y exportación como imagen."
-date: 2026-11-03
+date: 2025-03-26
 category: "Proyectos"
 tags: ["astro", "accesibilidad", "text-to-speech", "json", "pwa"]
 author: "Nico Tomasin"
