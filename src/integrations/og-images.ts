@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { Resvg } from '@resvg/resvg-js';
 import { generateOgImage, generatePageOgImage, generateProfileOgImage } from '../lib/og-image.ts';
 import sharp from 'sharp';
-import { coverVariant, firstImage } from '../lib/post-cover.ts';
+import { coverKey, firstImage } from '../lib/post-cover.ts';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const publicDir = path.join(__dirname, '../../public');
@@ -47,7 +47,7 @@ async function generatePostImages() {
       const png = await generateOgImage({
         title: field(frontmatter, 'title') ?? 'Sin título',
         category: field(frontmatter, 'category'),
-        variant: coverVariant(slug),
+        variant: coverKey(slug),
         screenshot,
       });
       await fs.writeFile(path.join(outputDir, `${slug}.png`), png);
@@ -85,7 +85,7 @@ async function generateSiteImages() {
       title: 'Lo que construyo,',
       accent: 'por dentro',
       description: 'Cómo armé cada proyecto: decisiones, arquitectura, errores y lo que aprendí.',
-      variant: 3,
+      variant: '3-0',
     })
   );
   console.log('  OG: og.png, og-en.png, og/blog.png');

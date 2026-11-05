@@ -5,7 +5,7 @@ import { Resvg } from '@resvg/resvg-js';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { COVER_VARIANTS } from './post-cover.ts';
+
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.join(__dirname, '../..');
@@ -32,7 +32,7 @@ let assets: Awaited<ReturnType<typeof loadAssets>> | undefined;
 
 async function loadAssets() {
   const font = (pkg: string, file: string) => fs.readFile(path.join(root, 'node_modules/@fontsource', pkg, 'files', file));
-  const [syne700, syne800, serif, serifItalic, mono, inter400, inter600, ...backgrounds] = await Promise.all([
+  const [syne700, syne800, serif, serifItalic, mono, inter400, inter600] = await Promise.all([
     font('syne', 'syne-latin-700-normal.woff'),
     font('syne', 'syne-latin-800-normal.woff'),
     font('instrument-serif', 'instrument-serif-latin-400-normal.woff'),
@@ -40,7 +40,6 @@ async function loadAssets() {
     font('share-tech-mono', 'share-tech-mono-latin-400-normal.woff'),
     font('inter', 'inter-latin-400-normal.woff'),
     font('inter', 'inter-latin-600-normal.woff'),
-    ...Array.from({ length: COVER_VARIANTS }, (_, i) => fs.readFile(path.join(root, `public/covers/bh-${i}.jpg`))),
   ]);
   return {
     fonts: [
@@ -52,7 +51,6 @@ async function loadAssets() {
       { name: 'Inter', data: inter400, weight: 400 as const, style: 'normal' as const },
       { name: 'Inter', data: inter600, weight: 600 as const, style: 'normal' as const },
     ],
-    backgrounds: backgrounds.map((bg) => `data:image/jpeg;base64,${bg.toString('base64')}`),
   };
 }
 
@@ -63,10 +61,21 @@ async function render(tree: Node) {
 }
 
 /** Fondo: el agujero negro desplazado (x) + un velo para que el texto lea bien */
-function backdrop(offsetX: number, veil: string, variant = 0) {
+const backgrounds = new Map<string, string>();
+
+/** Fondo del agujero negro por clave `forma-paleta` (public/covers/bh-<clave>.jpg), cacheado */
+async function loadBackground(key: string) {
+  if (!backgrounds.has(key)) {
+    const file = await fs.readFile(path.join(root, `public/covers/bh-${key}.jpg`));
+    backgrounds.set(key, `data:image/jpeg;base64,${file.toString('base64')}`);
+  }
+  return backgrounds.get(key)!;
+}
+
+function backdrop(offsetX: number, veil: string, background: string) {
   return [
     h('img', { position: 'absolute', left: offsetX, top: 0, width: OG_WIDTH, height: OG_HEIGHT }, undefined, {
-      src: assets!.backgrounds[variant % assets!.backgrounds.length],
+      src: background,
       width: OG_WIDTH,
       height: OG_HEIGHT,
     }),
@@ -95,8 +104,8 @@ function titleSize(title: string) {
 export interface PostOgOptions {
   title: string;
   category?: string;
-  /** Variante del agujero negro (fija por slug) */
-  variant?: number;
+  /** Variante del agujero negro `forma-paleta` (fija por slug) */
+  variant?: string;
   /** Captura del post ya convertida a PNG/JPEG */
   screenshot?: { data: Buffer; mime: string; width: number; height: number };
 }
@@ -107,7 +116,8 @@ export interface PostOgOptions {
  */
 export async function generateOgImage(options: PostOgOptions): Promise<Buffer> {
   assets ??= await loadAssets();
-  const { title, category, variant = 0, screenshot } = options;
+  const { title, category, variant = '0-0', screenshot } = options;
+  const background = await loadBackground(variant);
   const withShot = Boolean(screenshot);
   const size = withShot ? Math.min(titleSize(title), 64) - 4 : titleSize(title) + 6;
 
@@ -121,7 +131,7 @@ export async function generateOgImage(options: PostOgOptions): Promise<Buffer> {
         withShot
           ? 'linear-gradient(90deg, #000 0%, rgba(0,0,0,0.92) 45%, rgba(0,0,0,0.55) 100%)'
           : 'linear-gradient(90deg, #000 0%, rgba(0,0,0,0.9) 40%, rgba(0,0,0,0.15) 100%)',
-        variant
+        background
       ),
       screenshot
         ? h(
@@ -181,12 +191,14 @@ export interface ProfileOgOptions {
 export async function generateProfileOgImage(options: ProfileOgOptions): Promise<Buffer> {
   assets ??= await loadAssets();
   const { kicker, tagline, status, footer } = options;
+  const background = await loadBackground('0-0');
 
   return render(
     h('div', { position: 'relative', width: '100%', height: '100%', backgroundColor: '#000', overflow: 'hidden' }, [
       ...backdrop(
         300,
-        'linear-gradient(90deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.6) 45%, rgba(0,0,0,0.05) 100%), linear-gradient(0deg, rgba(0,0,0,0.85) 0%, transparent 40%)'
+        'linear-gradient(90deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.6) 45%, rgba(0,0,0,0.05) 100%), linear-gradient(0deg, rgba(0,0,0,0.85) 0%, transparent 40%)',
+        background
       ),
       h('div', { position: 'relative', flexDirection: 'column', justifyContent: 'space-between', width: '100%', height: '100%', padding: '56px 64px' }, [
         h('div', { alignItems: 'center', gap: 22 }, [
@@ -198,7 +210,7 @@ export async function generateProfileOgImage(options: ProfileOgOptions): Promise
           ),
         ]),
         h('div', { flexDirection: 'column', marginTop: -10 }, [
-          h('div', { fontFamily: 'Instrument Serif', fontSize: 190, lineHeight: 0.86, letterSpacing: -5, color: C.text }, 'Nico'),
+          h('div', { fontFamily: 'Instrument Serif', fontStyle: 'italic', fontSize: 190, lineHeight: 0.86, letterSpacing: -5, color: C.text }, 'Nico'),
           h(
             'div',
             { fontFamily: 'Instrument Serif', fontStyle: 'italic', fontSize: 190, lineHeight: 0.86, letterSpacing: -5, color: C.accent, paddingLeft: 120 },
@@ -219,16 +231,17 @@ export interface PageOgOptions {
   title: string;
   accent: string;
   description: string;
-  variant?: number;
+  variant?: string;
 }
 
 /** OG genérica de página (índice del blog) */
 export async function generatePageOgImage(options: PageOgOptions): Promise<Buffer> {
   assets ??= await loadAssets();
-  const { kicker, title, accent, description, variant = 0 } = options;
+  const { kicker, title, accent, description, variant = '0-0' } = options;
+  const background = await loadBackground(variant);
   return render(
     h('div', { position: 'relative', width: '100%', height: '100%', backgroundColor: '#000', overflow: 'hidden' }, [
-      ...backdrop(380, 'linear-gradient(90deg, #000 0%, rgba(0,0,0,0.9) 45%, rgba(0,0,0,0.2) 100%)', variant),
+      ...backdrop(380, 'linear-gradient(90deg, #000 0%, rgba(0,0,0,0.9) 45%, rgba(0,0,0,0.2) 100%)', background),
       h('div', { position: 'relative', flexDirection: 'column', justifyContent: 'space-between', width: '100%', height: '100%', padding: '56px 64px' }, [
         h('div', { alignItems: 'center', gap: 20 }, [logo, h('div', { width: 2, height: 30, backgroundColor: C.border }), mono(kicker)]),
         h('div', { flexDirection: 'column', gap: 24 }, [
