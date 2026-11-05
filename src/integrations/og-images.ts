@@ -50,7 +50,7 @@ export default function ogImagesIntegration() {
               const pngBuffer = await generateOgImage({ title, description, category });
               await fs.writeFile(outputPath, pngBuffer);
             } catch (error) {
-              console.error(`  Error generating OG image for ${slug}:`, error.message);
+              console.error(`  Error generating OG image for ${slug}:`, error instanceof Error ? error.message : error);
             }
           }
 

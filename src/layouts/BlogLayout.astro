@@ -6,6 +6,7 @@ import ShareButtons from '../components/blog/ShareButtons.astro';
 import ReadingCat from '../components/blog/ReadingCat.astro';
 import Prose from '../components/blog/Prose.astro';
 import Footer from '../components/Footer.astro';
+import { getBuildForPost, getBuilds } from '../lib/builds';
 
 interface Props {
   title: string;
@@ -20,6 +21,12 @@ interface Props {
 
 const { title, description, date, category, readingTime, headings, slug, author } = Astro.props;
 
+// El post sabe a qué build pertenece: link al Builder log y "otros builds" al final
+const build = await getBuildForPost(slug);
+const allBuilds = (await getBuilds()).filter((b) => b.post && b.post !== slug);
+const sameCategory = build ? allBuilds.filter((b) => b.category === build.category) : [];
+const moreBuilds = (sameCategory.length ? sameCategory : allBuilds).slice(0, 3);
+
 const siteUrl = 'https://nicotomasin.com.ar';
 const postUrl = siteUrl + Astro.url.pathname;
 const ogImage = `${siteUrl}/og/blog/${slug}.png`;
@@ -28,6 +35,7 @@ const formattedDate = date.toLocaleDateString('es-AR', {
   day: 'numeric',
   month: 'long',
   year: 'numeric',
+  timeZone: 'UTC',
 });
 
 const jsonLd = {
@@ -89,12 +97,10 @@ const breadcrumbJsonLd = {
   <article class="blog-post">
     <header class="post-header">
       <div class="container">
-        <nav class="breadcrumb">
+        <nav class="breadcrumb" aria-label="Migas de pan">
           <a href="/">Inicio</a>
-          <span class="breadcrumb-separator">/</span>
+          <span class="breadcrumb-separator" aria-hidden="true">/</span>
           <a href="/blog">Blog</a>
-          <span class="breadcrumb-separator">/</span>
-          <span class="breadcrumb-current">{title}</span>
         </nav>
 
         <div class="post-meta">
@@ -108,6 +114,15 @@ const breadcrumbJsonLd = {
         <h1 class="post-title">{title}</h1>
 
         <p class="post-excerpt">{description}</p>
+
+        {build && (
+          <a href={`/#build-${build.slug}`} class="post-build pressable">
+            <span class="post-build-label">Build</span>
+            <span class="post-build-name">{build.title}</span>
+            {build.link && <span class="post-build-live">En vivo</span>}
+            <span class="post-build-meta">{build.year} · {build.tech.slice(0, 3).join(' · ')}</span>
+          </a>
+        )}
       </div>
     </header>
 
@@ -120,6 +135,34 @@ const breadcrumbJsonLd = {
             </Prose>
 
             <ShareButtons title={title} url={postUrl} />
+
+            <aside class="post-outro" aria-label="Seguir leyendo">
+              <div class="post-outro-follow">
+                <p class="post-outro-kicker">Build in public</p>
+                <p class="post-outro-title">Si te gustó, seguime mientras construyo lo próximo.</p>
+                <div class="post-outro-links">
+                  <a href="https://x.com/NicoTomasin_" target="_blank" rel="noopener noreferrer">X ↗</a>
+                  <a href="https://www.youtube.com/@NicoTomasin" target="_blank" rel="noopener noreferrer">YouTube ↗</a>
+                  <a href="https://github.com/NicoTomasin" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+                  <a href="/blog/rss.xml">RSS</a>
+                </div>
+              </div>
+              {moreBuilds.length > 0 && (
+                <div class="post-outro-more">
+                  <p class="post-outro-kicker">Otros builds</p>
+                  <ul>
+                    {moreBuilds.map((b) => (
+                      <li>
+                        <a href={`/blog/${b.post}`}>
+                          <span class="more-title">{b.title}</span>
+                          <span class="more-meta">{b.year} · {b.tech.slice(0, 2).join(' · ')}</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </aside>
           </div>
 
           <aside class="post-sidebar">
@@ -154,7 +197,10 @@ const breadcrumbJsonLd = {
     align-items: center;
     gap: 0.5rem;
     margin-bottom: 1.5rem;
-    font-size: 0.85rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
     flex-wrap: wrap;
   }
 
@@ -172,13 +218,6 @@ const breadcrumbJsonLd = {
     opacity: 0.5;
   }
 
-  .breadcrumb-current {
-    color: var(--color-text);
-    max-width: 200px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
 
   .post-meta {
     display: flex;
@@ -209,18 +248,143 @@ const breadcrumbJsonLd = {
   }
 
   .post-title {
-    font-size: clamp(2rem, 5vw, 3rem);
+    font-family: var(--font-display);
+    font-size: clamp(2.1rem, 1.4rem + 3.2vw, 4rem);
     font-weight: 700;
-    line-height: 1.2;
-    margin-bottom: 1rem;
+    letter-spacing: -0.04em;
+    line-height: 1.02;
+    margin-bottom: 1.25rem;
+    max-width: 22ch;
     color: var(--color-text);
+    text-wrap: balance;
   }
 
   .post-excerpt {
-    font-size: 1.15rem;
+    font-size: var(--step-1);
     color: var(--color-text-secondary);
-    line-height: 1.6;
-    max-width: 700px;
+    line-height: 1.55;
+    max-width: 60ch;
+    text-wrap: pretty;
+  }
+
+  .post-build {
+    display: inline-grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 0.25rem 0.9rem;
+    margin-top: 1.75rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    background: var(--color-surface);
+    max-width: 100%;
+    transition: border-color var(--dur-ui) ease, transform var(--dur-press) var(--ease-out);
+  }
+
+  .post-build-label,
+  .post-build-meta,
+  .post-build-live {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .post-build-label {
+    color: var(--color-accent);
+  }
+
+  .post-build-name {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .post-build-meta {
+    grid-column: 2 / -1;
+    color: var(--color-text-secondary);
+  }
+
+  .post-build-live {
+    color: var(--color-accent);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .post-build:hover {
+      border-color: var(--accent-line);
+      color: inherit;
+    }
+  }
+
+  .post-outro {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .post-outro {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .post-outro > div {
+    padding: 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    background: var(--color-surface);
+  }
+
+  .post-outro-kicker {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 0.6rem;
+  }
+
+  .post-outro-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.3rem;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  .post-outro-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    font-weight: 600;
+  }
+
+  .post-outro-more ul {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .post-outro-more a {
+    display: flex;
+    flex-direction: column;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .post-outro-more li:last-child a {
+    border-bottom: 0;
+  }
+
+  .more-title {
+    font-weight: 600;
+  }
+
+  .more-meta {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
   }
 
   .post-body {
@@ -229,43 +393,45 @@ const breadcrumbJsonLd = {
 
   .post-content-wrapper {
     display: flex;
-    gap: 3rem;
-    align-items: flex-start;
+    flex-direction: column;
   }
 
   .post-main {
-    flex: 1;
     min-width: 0;
-    max-width: 800px;
+    max-width: 72ch;
   }
 
+  /* Debajo de 1200px la TOC va arriba del contenido (colapsable) */
   .post-sidebar {
-    flex-shrink: 0;
-    width: 250px;
-    display: block;
+    order: -1;
+    max-width: 72ch;
   }
 
-  @media (max-width: 1200px) {
+  @media (min-width: 1201px) {
+    .post-content-wrapper {
+      flex-direction: row;
+      align-items: stretch;
+      gap: 4rem;
+    }
+
+    .post-main {
+      flex: 1;
+    }
+
     .post-sidebar {
-      display: none;
+      order: 0;
+      flex-shrink: 0;
+      width: 260px;
     }
   }
 
   @media (max-width: 768px) {
-    .post-hero {
-      max-height: 250px;
-    }
-
     .post-header {
       padding: 2rem 0 1.5rem;
     }
 
     .post-body {
       padding: 2rem 0;
-    }
-
-    .breadcrumb-current {
-      display: none;
     }
   }
 </style>
