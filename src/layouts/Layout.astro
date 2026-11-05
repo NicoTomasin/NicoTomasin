@@ -52,6 +52,11 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
 const locale = lang === 'en' ? 'en_US' : 'es_AR';
 const altLocales = alternates ? (Object.keys(alternates) as Lang[]).filter((code) => code !== lang) : [];
 const jsonLdList = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+// Títulos del easter egg de la pestaña
+const awayTitles =
+  lang === 'en'
+    ? ['👀 Still there?', "🛠️ Come back, I'm building something"]
+    : ['👀 ¿Seguís ahí?', '🛠️ Volvé, estoy construyendo algo'];
 ---
 
 <!doctype html>
@@ -166,5 +171,25 @@ const jsonLdList = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
   <body>
     <Navbar lang={lang} alternates={alternates} />
     <slot />
+
+    <!-- Easter egg: si cambiás de pestaña, el título te llama; al volver, vuelve el original -->
+    <script is:inline define:vars={{ awayTitles }}>
+      (function () {
+        var original = document.title;
+        var timer = 0;
+        document.addEventListener('visibilitychange', function () {
+          clearTimeout(timer);
+          if (document.hidden) {
+            original = document.title;
+            // Un pequeño delay: si solo pasaste de largo por la pestaña, no cambia nada
+            timer = setTimeout(function () {
+              document.title = awayTitles[Math.floor(Math.random() * awayTitles.length)];
+            }, 1500);
+          } else {
+            document.title = original;
+          }
+        });
+      })();
+    </script>
   </body>
 </html>

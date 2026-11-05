@@ -46,6 +46,11 @@ html {
   scroll-padding-top: var(--nav-height);
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  /* Lo que asoma al tirar más allá del borde (Mac / iOS) es el fondo del sitio, no blanco */
+  background-color: var(--color-bg);
+  /* Controles nativos (checkbox, radio, range, progress) y cursor de escritura en la paleta */
+  accent-color: var(--color-accent);
+  caret-color: var(--color-accent);
 }
 
 /* Sin Lenis (reduced motion / sin JS) el scroll nativo hace el trabajo */
@@ -123,6 +128,60 @@ img {
 ::selection {
   background: var(--color-accent);
   color: var(--color-bg);
+}
+
+/* ---------- Scrollbars ----------
+   Finas, con el "thumb" en el gris de la paleta que se enciende en verde al pasar el mouse.
+   Firefox usa las propiedades estándar; Chrome/Edge/Safari, ::-webkit-scrollbar (permite redondear).
+   En macOS con barras en "automático" el sistema igual las oculta hasta que se scrollea. */
+:root {
+  --scrollbar-thumb: #2a2a3c;
+  --scrollbar-thumb-hover: var(--color-accent);
+  --scrollbar-track: var(--color-bg);
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) transparent;
+  }
+
+  html {
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  }
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb);
+  border-radius: 100px;
+  /* El borde del mismo color que el fondo hace que el thumb se vea más fino y "flotando" */
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-thumb-hover);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background-color: var(--color-accent-hover);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
 }
 
 .container {
