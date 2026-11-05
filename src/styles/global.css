@@ -1,3 +1,24 @@
+/* Fallbacks con las métricas de la fuente web: mientras carga, el texto ocupa lo mismo
+   y el swap no mueve el layout (CLS). Valores calculados con @capsizecss/unpack. */
+@font-face {
+  font-family: 'Inter Fallback';
+  src: local('Arial'), local('ArialMT');
+  size-adjust: 107.12%;
+  ascent-override: 90.44%;
+  descent-override: 22.52%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Instrument Serif Fallback';
+  font-style: italic;
+  src: local('Times New Roman Italic'), local('TimesNewRomanPS-ItalicMT');
+  size-adjust: 87.95%;
+  ascent-override: 112.57%;
+  descent-override: 35.25%;
+  line-gap-override: 0%;
+}
+
 :root {
   --color-bg: #0a0a0f;
   --color-surface: #12121a;
@@ -6,10 +27,10 @@
   --color-text-secondary: #a1a1aa;
   --color-accent: #00ff88;
   --color-accent-hover: #00cc6a;
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Inter', 'Inter Fallback', system-ui, -apple-system, sans-serif;
   --font-mono: 'Share Tech Mono', monospace;
   --font-display: 'Syne', var(--font-sans);
-  --font-serif: 'Instrument Serif', Georgia, serif;
+  --font-serif: 'Instrument Serif', 'Instrument Serif Fallback', Georgia, serif;
   --max-width: 1200px;
   --nav-height: 64px;
   --gutter: clamp(1rem, 4vw, 1.5rem);
@@ -17,7 +38,8 @@
   /* Derivados de la paleta (sin colores nuevos) */
   --accent-soft: color-mix(in srgb, var(--color-accent) 12%, transparent);
   --accent-line: color-mix(in srgb, var(--color-accent) 45%, transparent);
-  --text-muted: color-mix(in srgb, var(--color-text-secondary) 70%, var(--color-bg));
+  /* 80%: mínimo que pasa WCAG AA (4.5:1) también sobre --color-surface */
+  --text-muted: color-mix(in srgb, var(--color-text-secondary) 80%, var(--color-bg));
 
   /* Escala tipográfica fluida (360px → 1440px) */
   --step--1: clamp(0.8rem, 0.78rem + 0.1vw, 0.875rem);

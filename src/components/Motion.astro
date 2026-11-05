@@ -24,13 +24,26 @@
   .has-motion [data-reveal],
   .has-motion [data-batch],
   .has-motion [data-post-fade],
-  .has-motion [data-job-fade],
-  .has-motion [data-hero-fade] {
+  .has-motion [data-job-fade] {
     opacity: 0;
   }
 
+  /* Intro del hero (es el LCP): en CSS, arranca con el primer paint sin esperar a GSAP.
+     Misma coreografía que antes: nombre en ola desde 0.1s, el resto acompaña desde 0.5s (expo.out). */
   .has-motion [data-hero-char] {
-    transform: translateY(110%);
+    animation: hero-char-in 1s cubic-bezier(0.16, 1, 0.3, 1) calc(0.1s + var(--c, 0) * 0.03s) both;
+  }
+
+  .has-motion [data-hero-fade] {
+    animation: hero-rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) calc(0.5s + var(--i, 0) * 0.06s) both;
+  }
+
+  @keyframes hero-char-in {
+    from { transform: translateY(110%); }
+  }
+
+  @keyframes hero-rise {
+    from { opacity: 0; transform: translateY(16px); }
   }
 
   .has-motion #shader-canvas {
@@ -159,22 +172,43 @@
 </style>
 
 <script>
-  import gsap from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  import Lenis from 'lenis';
+  import type GSAP from 'gsap';
+  import type { ScrollTrigger as ScrollTriggerType } from 'gsap/ScrollTrigger';
+  import type Lenis from 'lenis';
   import 'lenis/dist/lenis.css';
+
+  // GSAP y Lenis (~50 KB) se descargan recién en el load: el intro del hero va por CSS,
+  // así que no compiten con el CSS ni con el primer paint
+  let gsap: typeof GSAP;
+  let ScrollTrigger: typeof ScrollTriggerType;
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (!reducedMotion) {
     (window as any).__motionReady = true;
-    gsap.registerPlugin(ScrollTrigger);
-    init();
+    const start = async () => {
+      try {
+        const [gsapModule, stModule, lenisModule] = await Promise.all([
+          import('gsap'),
+          import('gsap/ScrollTrigger'),
+          import('lenis'),
+        ]);
+        gsap = gsapModule.default;
+        ScrollTrigger = stModule.ScrollTrigger;
+        gsap.registerPlugin(ScrollTrigger);
+        init(lenisModule.default);
+      } catch {
+        // Si no carga, mostrar todo sin animaciones
+        document.documentElement.classList.remove('has-motion');
+      }
+    };
+    if (document.readyState === 'complete') start();
+    else window.addEventListener('load', start, { once: true });
   }
 
-  function init() {
+  function init(LenisCtor: typeof Lenis) {
     // ---------- Smooth scroll ----------
-    const lenis = new Lenis({ lerp: 0.09, smoothWheel: true });
+    const lenis = new LenisCtor({ lerp: 0.09, smoothWheel: true });
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add((time) => lenis.raf(time * 1000));
     gsap.ticker.lagSmoothing(0);
@@ -248,9 +282,7 @@
     // Todo legible en ~1.4s; el contenido no espera a que el shader termine.
     const intro = gsap.timeline({ defaults: { ease: 'expo.out' } });
     intro
-      .fromTo('#shader-canvas', { scale: 1.2, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.6 }, 0)
-      .fromTo('[data-hero-char]', { y: 0, yPercent: 110 }, { y: 0, yPercent: 0, duration: 1, stagger: 0.03 }, 0.1)
-      .fromTo('[data-hero-fade]', { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, stagger: 0.06 }, 0.5);
+      .fromTo('#shader-canvas', { scale: 1.2, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.6 }, 0);
     // Si el usuario scrollea antes de que termine, no lo hacemos esperar
     ScrollTrigger.create({ trigger: hero, start: 'top+=40 top', once: true, onEnter: () => intro.progress(1) });
 

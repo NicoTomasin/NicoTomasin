@@ -137,7 +137,15 @@ const awayTitles =
         document.head.appendChild(s);
       }
 
-      if (document.querySelector('pre.mermaid')) {
+      // Mermaid pesa ~600ms de CPU en mobile: se carga recién cuando un diagrama se acerca al viewport
+      const firstDiagram = document.querySelector('pre.mermaid');
+      if (firstDiagram) {
+        await new Promise((resolve) => {
+          const io = new IntersectionObserver((entries) => {
+            if (entries.some((e) => e.isIntersecting)) { io.disconnect(); resolve(); }
+          }, { rootMargin: '600px 0px' });
+          io.observe(firstDiagram);
+        });
         const { default: mermaid } = await import('https://cdn.jsdelivr.net/npm/mermaid@12.2.0/dist/mermaid.esm.min.mjs');
         mermaid.initialize({
         startOnLoad: false,
