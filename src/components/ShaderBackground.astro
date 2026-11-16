@@ -19,7 +19,7 @@ const { intensity = 1, id = 'shader-canvas' } = Astro.props;
     display: block;
   }
 
-  /* Sin WebGL2: un halo con la paleta en lugar del agujero negro */
+  /* Sin canvas 2D: un halo con la paleta en lugar del agujero negro */
   .blackhole[data-fallback] {
     background:
       radial-gradient(circle at 50% 42%, #000 0 18%, transparent 19%),
@@ -29,7 +29,7 @@ const { intensity = 1, id = 'shader-canvas' } = Astro.props;
 </style>
 
 <script>
-  import { mountBlackhole } from '../lib/blackhole-shader';
+  import { mountBlackhole } from '../lib/ascii-blackhole';
 
   document.querySelectorAll<HTMLCanvasElement>('canvas[data-blackhole]').forEach((canvas) => {
     if (canvas.dataset.mounted) return;

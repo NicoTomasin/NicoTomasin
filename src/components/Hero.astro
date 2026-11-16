@@ -124,6 +124,7 @@ const nameLines = ['Nico', 'Tomasin'];
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--color-text);
+    text-shadow: 0 0 6px #000, 0 0 12px #000;
   }
 
   .hero-status {
@@ -133,7 +134,8 @@ const nameLines = ['Nico', 'Tomasin'];
     padding: 0.35rem 0.8rem 0.35rem 0.65rem;
     border: 1px solid var(--accent-line);
     border-radius: 100px;
-    background: color-mix(in srgb, var(--color-bg) 55%, transparent);
+    /* Casi opaco: el disco ASCII puede pasar por detrás y el texto tiene que leerse igual */
+    background: color-mix(in srgb, var(--color-bg) 88%, transparent);
     backdrop-filter: blur(6px);
     font-family: var(--font-mono);
     font-size: 0.75rem;
